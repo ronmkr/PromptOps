@@ -1,7 +1,8 @@
 import curses
+import curses.textpad
 import os
 import sys
-
+import re
 # Try importing promptops_core
 try:
     import promptops_core
@@ -10,16 +11,23 @@ except ImportError:
     sys.path.append(BASE_DIR)
     sys.path.append(os.path.join(BASE_DIR, "scripts"))
     import promptops_core
-
 class PromptOpsTUI:
     def __init__(self, stdscr):
         self.stdscr = stdscr
         self.prompts = promptops_core.get_prompts()
+        # Build Categories
+        all_tags = set()
+        for p in self.prompts:
+            all_tags.update(p['tags'])
+        self.categories = ["All"] + sorted(list(all_tags))
         self.filtered_prompts = self.prompts
-        self.current_row = 0
+        # State
+        self.active_pane = "categories" # 'categories', 'prompts', 'input'
+        self.cat_row = 0
+        self.prompt_row = 0
         self.search_term = ""
-        self.mode = "normal"  # normal, search
-        
+        # Final result
+        self.final_hydrated_prompt = None
         # Setup colors
         curses.start_color()
         curses.use_default_colors()
@@ -27,188 +35,208 @@ class PromptOpsTUI:
         curses.init_pair(2, curses.COLOR_CYAN, -1)                  # Header
         curses.init_pair(3, curses.COLOR_YELLOW, -1)                # Tags
         curses.init_pair(4, curses.COLOR_GREEN, -1)                 # Instructions
-
-    def safe_addstr(self, y, x, text, attr=0):
+        curses.init_pair(5, curses.COLOR_MAGENTA, -1)               # Active Pane border
+    def safe_addstr(self, window, y, x, text, attr=0):
         """Safely print to the screen, truncating to prevent wrapping/crashing."""
         try:
-            height, width = self.stdscr.getmaxyx()
+            height, width = window.getmaxyx()
             if y >= height or y < 0 or x >= width or x < 0:
                 return
-            
-            # Account for double-width characters (emojis) crudely by reducing the allowed width
-            # A safer generic approach is to slice based on available space minus a small buffer
-            max_len = width - x - 2 
+            max_len = width - x - 1
             if max_len <= 0:
                 return
-                
             safe_text = text[:max_len]
-            self.stdscr.addstr(y, x, safe_text, attr)
+            window.addstr(y, x, safe_text, attr)
         except curses.error:
             pass
-
+    def update_prompts_for_category(self):
+        cat = self.categories[self.cat_row]
+        if cat == "All":
+            self.filtered_prompts = self.prompts
+        else:
+            self.filtered_prompts = [p for p in self.prompts if cat in p['tags']]
+        self.prompt_row = 0
     def draw(self):
         self.stdscr.clear()
         height, width = self.stdscr.getmaxyx()
-
-        # Handle terminal too small
-        if height < 10 or width < 40:
-            self.safe_addstr(0, 0, "Terminal too small")
+        if height < 15 or width < 60:
+            self.safe_addstr(self.stdscr, 0, 0, "Terminal too small. Please resize.")
             self.stdscr.refresh()
             return
-
-        # Calculate panes
-        left_width = min(40, width // 3)
-        right_width = width - left_width - 1
-
+        # Pane Layout (Widths)
+        cat_width = max(15, int(width * 0.2))
+        prompt_width = max(25, int(width * 0.3))
+        preview_width = width - cat_width - prompt_width - 2
         # Draw Header
-        header = f" PromptOps | Prompts: {len(self.filtered_prompts)} "
-        self.safe_addstr(0, 0, header.ljust(width - 2), curses.color_pair(2) | curses.A_BOLD)
-
-        # Draw left pane (List)
-        max_rows = height - 4
-        
-        # Ensure current_row is bounded
-        if self.filtered_prompts:
-            self.current_row = max(0, min(self.current_row, len(self.filtered_prompts) - 1))
-        
-        start_idx = max(0, self.current_row - (max_rows // 2))
-        end_idx = min(len(self.filtered_prompts), start_idx + max_rows)
-        
-        # Adjust start if we hit the bottom
-        if end_idx - start_idx < max_rows and len(self.filtered_prompts) > max_rows:
-            start_idx = len(self.filtered_prompts) - max_rows
-
-        for i, idx in enumerate(range(start_idx, end_idx)):
+        header = f" 📚 PromptOps | Prompts: {len(self.filtered_prompts)} "
+        self.safe_addstr(self.stdscr, 0, 0, header.ljust(width), curses.color_pair(2) | curses.A_BOLD)
+        # Draw Categories Pane (Left)
+        max_rows = height - 3
+        start_cat = max(0, self.cat_row - (max_rows // 2))
+        end_cat = min(len(self.categories), start_cat + max_rows)
+        for i, idx in enumerate(range(start_cat, end_cat)):
             y = i + 2
-            p = self.filtered_prompts[idx]
-            name = p['name']
-            
-            # Truncate name if too long
-            if len(name) > left_width - 4:
-                name = name[:left_width-7] + "..."
-
-            display_str = f"  {name}".ljust(left_width - 1)
-            if idx == self.current_row:
-                display_str = f"> {name}".ljust(left_width - 1)
-                self.safe_addstr(y, 1, display_str, curses.color_pair(1))
-            else:
-                self.safe_addstr(y, 1, display_str)
-
-        # Vertical separator
-        for y in range(2, height - 2):
-            self.safe_addstr(y, left_width, "│")
-
-        # Draw right pane (Details)
+            name = self.categories[idx]
+            display_str = f" {name}".ljust(cat_width - 1)
+            attr = 0
+            if idx == self.cat_row:
+                display_str = f"> {name}".ljust(cat_width - 1)
+                if self.active_pane == "categories":
+                    attr = curses.color_pair(1)
+                else:
+                    attr = curses.A_BOLD | curses.A_UNDERLINE
+            self.safe_addstr(self.stdscr, y, 0, display_str, attr)
+        # Vertical separator 1
+        for y in range(1, height - 1):
+            color = curses.color_pair(5) if self.active_pane == "categories" else 0
+            self.safe_addstr(self.stdscr, y, cat_width, "│", color)
+        # Draw Prompts Pane (Middle)
         if self.filtered_prompts:
-            p = self.filtered_prompts[self.current_row]
-            
-            # Title
-            self.safe_addstr(2, left_width + 2, p['name'], curses.A_BOLD)
-            
-            # Description
-            self.safe_addstr(4, left_width + 2, p['description'])
-            
-            # Tags
+            self.prompt_row = max(0, min(self.prompt_row, len(self.filtered_prompts) - 1))
+            start_p = max(0, self.prompt_row - (max_rows // 2))
+            end_p = min(len(self.filtered_prompts), start_p + max_rows)
+            for i, idx in enumerate(range(start_p, end_p)):
+                y = i + 2
+                name = self.filtered_prompts[idx]['name']
+                if len(name) > prompt_width - 3:
+                    name = name[:prompt_width-6] + "..."
+                display_str = f" {name}".ljust(prompt_width - 1)
+                attr = 0
+                if idx == self.prompt_row:
+                    display_str = f"> {name}".ljust(prompt_width - 1)
+                    if self.active_pane == "prompts":
+                        attr = curses.color_pair(1)
+                    else:
+                        attr = curses.A_BOLD | curses.A_UNDERLINE
+                self.safe_addstr(self.stdscr, y, cat_width + 1, display_str, attr)
+        # Vertical separator 2
+        for y in range(1, height - 1):
+            color = curses.color_pair(5) if self.active_pane == "prompts" else 0
+            self.safe_addstr(self.stdscr, y, cat_width + prompt_width + 1, "│", color)
+        # Draw Preview Pane (Right)
+        if self.filtered_prompts:
+            p = self.filtered_prompts[self.prompt_row]
+            base_x = cat_width + prompt_width + 3
+            self.safe_addstr(self.stdscr, 2, base_x, p['name'], curses.A_BOLD | curses.color_pair(2))
+            self.safe_addstr(self.stdscr, 4, base_x, p['description'])
             tags_str = ", ".join(p['tags'])
-            self.safe_addstr(6, left_width + 2, f"Tags: {tags_str}", curses.color_pair(3))
-
-            # Preview Header
-            self.safe_addstr(8, left_width + 2, "--- Template Preview ---")
-            
-            # Preview Content
+            self.safe_addstr(self.stdscr, 6, base_x, f"Tags: {tags_str}", curses.color_pair(3))
+            self.safe_addstr(self.stdscr, 8, base_x, "--- Template ---")
             preview_lines = p['prompt'].split('\n')
             for i, line in enumerate(preview_lines):
-                # Stop if we hit the footer area
                 y_pos = 10 + i
                 if y_pos >= height - 2:
                     break
-                    
                 safe_line = line.replace('\t', '    ')
-                self.safe_addstr(y_pos, left_width + 2, safe_line)
-
+                self.safe_addstr(self.stdscr, y_pos, base_x, safe_line)
         # Draw Footer
-        if self.mode == "normal":
-            footer = " [Up/Dn] Navigate | [/] Search | [Enter] Use | [Q]uit "
-            self.safe_addstr(height - 1, 0, footer.ljust(width - 2), curses.color_pair(4))
-        elif self.mode == "search":
-            footer = f" Search: {self.search_term}█"
-            self.safe_addstr(height - 1, 0, footer.ljust(width - 2), curses.color_pair(4))
-
+        footer = " [↑/↓] Navigate | [←/→] Change Pane | [Enter] Use Prompt | [Q]uit "
+        self.safe_addstr(self.stdscr, height - 1, 0, footer.ljust(width), curses.color_pair(4))
         self.stdscr.refresh()
-
+    def run_input_modal(self, prompt_name):
+        """Creates a textbox overlay to collect variable input"""
+        try:
+            prompt_template, variables = promptops_core.use_prompt(prompt_name, return_only=True)
+        except Exception as e:
+            self.safe_addstr(self.stdscr, 0, 0, f"Error loading prompt: {e}")
+            self.stdscr.refresh()
+            curses.napms(2000)
+            return False
+        if not variables:
+            # No variables, just return the template
+            self.final_hydrated_prompt = prompt_template
+            return True
+        height, width = self.stdscr.getmaxyx()
+        for target_var in variables:
+            # Create a centered window
+            win_h = max(10, height - 6)
+            win_w = max(40, width - 20)
+            start_y = (height - win_h) // 2
+            start_x = (width - win_w) // 2
+            win = curses.newwin(win_h, win_w, start_y, start_x)
+            win.box()
+            # Title
+            title = f" ✨ Inject Variable: {{{{{target_var}}}}} "
+            self.safe_addstr(win, 0, 2, title, curses.color_pair(3) | curses.A_BOLD)
+            instructions = " Paste/type your code here. Press Ctrl+G when finished. "
+            self.safe_addstr(win, win_h - 1, 2, instructions, curses.color_pair(4))
+            win.refresh()
+            # Create the textpad inside the box
+            text_win = curses.newwin(win_h - 2, win_w - 2, start_y + 1, start_x + 1)
+            # Show cursor for typing
+            curses.curs_set(1)
+            box = curses.textpad.Textbox(text_win, insert_mode=True)
+            # Let the user type/paste. Emacs-like keybindings apply (Ctrl+G to save)
+            result = box.edit()
+            curses.curs_set(0) # Hide cursor again
+            # Clean up result
+            result = result.strip()
+            # Hydrate
+            prompt_template = prompt_template.replace(f"{{{{{target_var}}}}}", result)
+            # Re-draw the background before next variable
+            self.draw()
+        self.final_hydrated_prompt = prompt_template
+        return True
     def run(self):
         curses.curs_set(0) # Hide cursor
         self.stdscr.nodelay(False)
-
         while True:
             self.draw()
-            
+
             try:
-                char = self.stdscr.get_wch()
+                char = self.stdscr.getch()
             except curses.error:
                 continue
 
-            if self.mode == "normal":
-                if char == 'q' or char == 'Q':
-                    return None
-                elif char == '\n' or char == '\r':  # Enter
-                    if self.filtered_prompts:
-                        return self.filtered_prompts[self.current_row]['name']
-                elif char == curses.KEY_UP or char == 'k':
-                    self.current_row = max(0, self.current_row - 1)
-                elif char == curses.KEY_DOWN or char == 'j':
-                    self.current_row = min(len(self.filtered_prompts) - 1, self.current_row + 1)
-                elif char == '/':
-                    self.mode = "search"
-                    
-            elif self.mode == "search":
-                if char == '\n' or char == '\r':  # Enter finishes search
-                    self.mode = "normal"
-                elif char == '\x1b':  # Escape cancels search
-                    self.mode = "normal"
-                    self.search_term = ""
-                    self.filtered_prompts = self.prompts
-                    self.current_row = 0
-                elif char == curses.KEY_BACKSPACE or char == '\x08' or char == '\x7f':
-                    self.search_term = self.search_term[:-1]
-                    self.update_search()
-                elif isinstance(char, str) and char.isprintable():
-                    self.search_term += char
-                    self.update_search()
+            if char in (ord('q'), ord('Q')):
 
-    def update_search(self):
-        if not self.search_term:
-            self.filtered_prompts = self.prompts
-        else:
-            term = self.search_term.lower()
-            results = []
-            for p in self.prompts:
-                name = p["name"].lower()
-                desc = p["description"].lower()
-                
-                # Simple substring for fast TUI response
-                if term in name or term in desc:
-                    results.append(p)
-                    
-            self.filtered_prompts = results
-        self.current_row = 0
-
+                return
+            elif char in (curses.KEY_RIGHT, ord('l')):
+                if self.active_pane == "categories" and self.filtered_prompts:
+                    self.active_pane = "prompts"
+            elif char in (curses.KEY_LEFT, ord('h')):
+                if self.active_pane == "prompts":
+                    self.active_pane = "categories"
+            elif char in (curses.KEY_UP, ord('k')):
+                if self.active_pane == "categories":
+                    self.cat_row = max(0, self.cat_row - 1)
+                    self.update_prompts_for_category()
+                elif self.active_pane == "prompts":
+                    self.prompt_row = max(0, self.prompt_row - 1)
+            elif char in (curses.KEY_DOWN, ord('j')):
+                if self.active_pane == "categories":
+                    self.cat_row = min(len(self.categories) - 1, self.cat_row + 1)
+                    self.update_prompts_for_category()
+                elif self.active_pane == "prompts":
+                    self.prompt_row = min(len(self.filtered_prompts) - 1, self.prompt_row + 1)
+            elif char in (10, 13, curses.KEY_ENTER):
+                if self.active_pane == "categories" and self.filtered_prompts:
+                    self.active_pane = "prompts"
+                elif self.active_pane == "prompts":
+                    # Trigger Modal
+                    p = self.filtered_prompts[self.prompt_row]
+                    success = self.run_input_modal(p['prompt'])
+                    if success:
+                        return # Exit TUI to print
 def main():
     try:
-        # Run the curses application and get the selected prompt
-        selected_prompt = curses.wrapper(lambda stdscr: PromptOpsTUI(stdscr).run())
-        
-        # If user pressed enter on a prompt
-        if selected_prompt:
-            # We exit curses mode fully before asking for input
-            print(f"\n🚀 Preparing to use: {selected_prompt}\n")
-            promptops_core.use_prompt(selected_prompt)
-            
-    except KeyboardInterrupt:
+        tui = curses.wrapper(PromptOpsTUI)
+        # curses.wrapper passes stdscr to the class, but we need to instantiate it differently
+    except Exception as e:
+        pass
+def run_tui():
+    try:
+        def gui(stdscr):
+            app = PromptOpsTUI(stdscr)
+            app.run()
+            return app.final_hydrated_prompt
+        result = curses.wrapper(gui)
+        if result:
+            print(result)
+    except KeyboardInterrupt: 
         pass
     except Exception as e:
         print(f"Error in TUI: {e}", file=sys.stderr)
         sys.exit(1)
-
 if __name__ == "__main__":
-    main()
+    run_tui()
