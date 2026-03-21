@@ -1,0 +1,77 @@
+name: CI - PromptOps Workflow
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate-and-test:
+    name: Validate and Test PR
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip' # Though we have zero dependencies, good practice
+          
+      - name: Verify Makefile Functionality
+        run: make help
+          
+      - name: Validate Prompt Metadata & Structure
+        run: make validate
+
+      - name: Run CLI Helper Tests
+        run: make test
+
+      - name: Verify Prompt Catalog Synchronization
+        run: |
+          make catalog
+          if [ -n "$(git status --porcelain CATALOG.md)" ]; then
+            echo "::error::CATALOG.md is out of sync with prompt templates!"
+            echo "::notice::Please run 'make catalog' locally and commit the changes before merging."
+            git diff CATALOG.md
+            exit 1
+          else
+            echo "✅ CATALOG.md is up to date."
+          fi
+
+  generate-catalog-on-push:
+    name: Auto-Generate Catalog on Main
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate System Integrity
+        run: make validate && make test
+
+      - name: Generate Updated Catalog
+        run: make catalog
+
+      - name: Commit and Push Catalog Changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add CATALOG.md
+          if git diff --cached --quiet; then
+            echo "✅ No changes to CATALOG.md"
+          else
+            git commit -m "docs: auto-generate prompt catalog [skip ci]"
+            git push
+            echo "🚀 Pushed updated CATALOG.md to main"
+          fi

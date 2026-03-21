@@ -1,0 +1,30 @@
+description = "Draft a SECURITY.md or vulnerability disclosure policy."
+version     = "1.0.0"
+last_updated = "2026-03-21"
+tags         = ["docs", "security"]
+prompt      = """
+  # Security Policy Generator
+
+Please generate a professional, standard `SECURITY.md` file (Vulnerability Disclosure Policy) for the following project/organization:
+
+```
+{{args}}
+```
+
+Ensure the policy includes:
+
+  ## 1. Supported Versions
+A clear table indicating which versions of the project are currently supported with security updates.
+
+  ## 2. Reporting a Vulnerability
+- Step-by-step instructions on how a security researcher should privately report a vulnerability (e.g., specific email address, PGP key, or HackerOne link).
+- Explicitly state *not* to open a public GitHub issue.
+
+  ## 3. Response Process
+- A timeline/SLA for when the researcher can expect an initial response, triage, and resolution.
+- Expectations regarding embargo periods before public disclosure.
+
+  ## 4. Out of Scope
+- A clear list of attack types or issues that are considered out-of-scope for the vulnerability program (e.g., volumetric DDoS, social engineering, physical attacks).
+
+"""

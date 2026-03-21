@@ -1,0 +1,46 @@
+description = "Guide for managing and versioning prompt templates."
+version     = "1.0.0"
+last_updated = "2026-03-21"
+tags         = ["learning", "prompt-engineering"]
+
+prompt      = """
+  # Prompt Versioning & Lifecycle Management
+
+Please provide a comprehensive guide and strategy for versioning and managing the lifecycle of the following prompt template or set of prompts:
+
+```
+{{args}}
+```
+
+Provide your response in the following structured format:
+
+  ## 1. Prompt Semantic Versioning (PSemVer)
+Explain how to apply Semantic Versioning to this prompt:
+- **Major (X.0.0)**: When to increment (e.g., changing the core task, switching models, or altering mandatory output structure).
+- **Minor (0.X.0)**: When to increment (e.g., adding new optional instructions, significantly refining existing guidance, or adding new variables).
+- **Patch (0.0.X)**: When to increment (e.g., fixing typos, minor wording tweaks that don't change intent, or formatting updates).
+
+  ## 2. Change Tracking & Documentation
+- Suggest a format for an internal `CHANGELOG` within the prompt file or a separate repository.
+- How to document the "Why" behind a prompt update (e.g., "Improved response length", "Fixed hallucinations in edge cases").
+
+  ## 3. Testing & Validation Strategy
+- **Golden Sets**: How to maintain a set of "ideal" inputs and outputs to test new prompt versions against.
+- **A/B Testing**: How to run parallel tests between two prompt versions to measure performance improvements.
+- **Regression Testing**: Ensuring a new version doesn't break previously working cases.
+
+  ## 4. Environment & Deployment States
+Suggest how to manage prompt states across different environments:
+- **Draft**: Initial creation and internal testing.
+- **Staging**: Testing with real-world data in a safe environment.
+- **Production**: The current "live" version.
+- **Deprecated**: Older versions that are no longer recommended but might still be in use.
+
+  ## 5. Automation & Tooling
+Suggest tools or scripts to automate:
+- Version tagging in Git.
+- Automated testing of prompts using LLM-as-a-judge.
+- Deployment of updated prompts to production APIs.
+
+Provide a clear, actionable roadmap for implementing this versioning strategy.
+"""

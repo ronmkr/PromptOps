@@ -1,0 +1,37 @@
+description = "Detailed code explanation."
+version     = "1.0.0"
+last_updated = "2026-03-21"
+tags         = ["code-review"]
+
+prompt      = """
+  # Comprehensive Code Explanation
+
+Please provide a detailed, structured explanation of the following code:
+
+```
+{{args}}
+```
+
+Provide your analysis in the following format:
+
+  ## 1. High-Level Summary
+- What is the primary purpose of this code? (1-2 sentences)
+- What problem does it solve?
+
+  ## 2. Logic & Control Flow
+- Break down the logic step-by-step.
+- Explain the key algorithms or data structures used.
+- How does data flow into and out of this component?
+
+  ## 3. Dependencies & Context
+- What external libraries, APIs, or internal modules does this code seem to rely on?
+- What assumptions does this code make about its environment or inputs?
+
+  ## 4. Edge Cases & Potential Pitfalls
+- Are there any non-obvious edge cases this code handles (or fails to handle)?
+- What happens with null, undefined, or unexpected inputs?
+- Are there any potential performance bottlenecks or memory leaks?
+
+  ## 5. Key Takeaways
+- Summarize the most important things a developer should remember when working with or modifying this code.
+"""

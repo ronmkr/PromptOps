@@ -1,0 +1,36 @@
+description = "Generate a Pull Request template for a repository."
+version     = "1.0.0"
+last_updated = "2026-03-21"
+tags         = ["agile", "docs"]
+prompt      = """
+  # Pull Request Template Generator
+
+Please generate a comprehensive, professional Markdown Pull Request (PR) Template for a repository based on the following project context or requirements:
+
+```
+{{args}}
+```
+
+Ensure the template includes the following sections, formatted nicely with markdown comments `<!-- -->` to guide the developer:
+
+  ## 1. PR Description
+A section prompting the developer to describe the *why* and the *what* of the changes.
+
+  ## 2. Type of Change
+A checklist for the developer to categorize the PR (e.g., Bug fix, New feature, Breaking change, Refactoring, Documentation update).
+
+  ## 3. Ticket / Issue Reference
+A place to link the Jira ticket, Linear issue, or GitHub Issue (e.g., `Fixes #123`).
+
+  ## 4. Testing & Verification
+A section asking the developer to explain how they tested their changes, and a checklist ensuring tests were added/updated.
+
+  ## 5. Deployment / Rollback Plan (If applicable)
+A section for DevOps/Backend projects asking about migration scripts, feature flags, or rollback procedures.
+
+  ## 6. Pre-Merge Checklist
+A final checklist for the author (e.g., Self-review completed, CI passing, Documentation updated).
+
+Output ONLY the raw markdown template, ready to be saved as `.github/PULL_REQUEST_TEMPLATE.md`.
+
+"""

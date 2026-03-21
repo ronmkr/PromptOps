@@ -1,0 +1,31 @@
+description = "Analyze slow queries and suggest indexes or rewrites."
+version     = "1.0.0"
+last_updated = "2026-03-21"
+tags         = ["db"]
+prompt      = """
+  # SQL Query Optimizer
+
+Please analyze the following SQL query and underlying schema context (if provided). Identify performance bottlenecks and suggest optimizations:
+
+```
+{{args}}
+```
+
+Provide your analysis in the following format:
+
+  ## 1. Query Analysis
+- Identify the likely bottlenecks (e.g., full table scans, correlated subqueries, missing `JOIN` conditions, inefficient `OR` clauses).
+- Explain *why* the current query is slow.
+
+  ## 2. Optimized Query
+- Rewrite the query using best practices (e.g., replacing `IN` with `EXISTS`, using CTEs (Common Table Expressions), avoiding `SELECT *`).
+- Ensure the logical output remains identical to the original query.
+
+  ## 3. Indexing Recommendations
+- Suggest specific indexes (e.g., B-Tree, composite, covering indexes) that would speed up the `WHERE`, `JOIN`, and `ORDER BY` clauses.
+- Provide the exact `CREATE INDEX` SQL statements.
+
+  ## 4. Execution Plan Advice
+- Explain what to look for in the database's `EXPLAIN` or `EXPLAIN ANALYZE` output to verify the optimization worked.
+
+"""
