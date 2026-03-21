@@ -38,13 +38,7 @@ chmod +x promptops
 sudo ln -s $(pwd)/promptops /usr/local/bin/pop
 ```
 
-**Interactive TUI (New!)**
-Simply run `pop` with no arguments to launch the Terminal User Interface!
-- Navigate with Arrow Keys `↑/↓`.
-- Press `/` to live-search through prompts.
-- Press `Enter` to use a prompt and automatically inject variables.
-
-**Using the CLI Commands:**
+**Using the CLI:**
 - **Search & Discover:**
   - `pop list` - List all available prompts.
   - `pop search "docker"` - Fuzzy search for prompts related to Docker.
@@ -58,8 +52,10 @@ Simply run `pop` with no arguments to launch the Terminal User Interface!
 ### 2. Using with Gemini CLI
 PromptOps acts as a native extension for Gemini CLI.
 ```bash
-gemini extensions install ronmkr/PromptOps
+gemini extensions install https://github.com/ronmkr/PromptOps.git
 ```
+*(Or clone the repository and run `gemini extensions link .`)*
+
 Once installed, all prompts are available via the `/prompts:` namespace. 
 *Example: `/prompts:suggest-fixes "print('hello')"`*
 
@@ -153,6 +149,7 @@ make catalog
 
 Run Golden AI Tests (requires Google Gemini API Key):
 ```bash
+pip install -r requirements.txt
 export GEMINI_API_KEY="your-api-key"
 make evaluate
 ```

@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 import sys
 import os
-
 # Add scripts to path so we can import core
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts"))
-
 try:
     from promptops_core import main
 except ImportError:
@@ -13,6 +11,5 @@ except ImportError:
     real_path = os.path.realpath(__file__)
     sys.path.append(os.path.join(os.path.dirname(real_path), "scripts"))
     from promptops_core import main
-
 if __name__ == "__main__":
     main()
