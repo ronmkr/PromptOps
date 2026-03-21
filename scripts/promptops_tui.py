@@ -230,13 +230,21 @@ def run_tui():
             app = PromptOpsTUI(stdscr)
             app.run()
             return app.final_hydrated_prompt
+
         result = curses.wrapper(gui)
+
         if result:
             print(result)
-    except KeyboardInterrupt: 
-        pass
+
+        return True
+    except curses.error:
+        # Ignore silent curses tear-down errors like nocbreak
+        return False
+    except KeyboardInterrupt:
+        return True
     except Exception as e:
-        print(f"Error in TUI: {e}", file=sys.stderr)
-        sys.exit(1)
+        return False
+
 if __name__ == "__main__":
     run_tui()
+

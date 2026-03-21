@@ -149,14 +149,21 @@ def use_prompt(name, provided_vars=None, prompts_dir=None, return_only=False):
         print(f"Error reading prompt: {e}", file=sys.stderr)
         sys.exit(1)
 def main():
-    if len(sys.argv) == 1:
+    # Only launch TUI if no args are provided AND we are attached to a real terminal
+    if len(sys.argv) == 1 and sys.stdout.isatty():
         try:
             import promptops_tui
-            promptops_tui.main()
-            return
-        except ImportError as e:
-            print(f"Warning: Could not load TUI ({e}). Falling back to CLI mode.", file=sys.stderr)
-            sys.argv.append("-h")
+            success = promptops_tui.run_tui()
+            if success:
+                return
+        except Exception as e:
+            # Fall back silently or with a debug warning if we want
+            pass
+
+    # If not a tty, or TUI failed, or no args provided, show help
+    if len(sys.argv) == 1:
+        sys.argv.append("-h")
+
     parser = argparse.ArgumentParser(description="PromptOps CLI Helper")
     subparsers = parser.add_subparsers(dest="command")
     # list
