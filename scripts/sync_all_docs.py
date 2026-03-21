@@ -52,9 +52,9 @@ def generate_domain_notebook(tag_name, display_name, prompts):
             f"> **Version**: `{p['version']}` | **Last Updated**: `{p['last_updated']}`\n",
             f"> **Tags**: {', '.join([f'`{t}`' for t in p['tags']])}\n\n",
             "#### Template Content:\n",
-            "```markdown\n",
+            "````markdown\n",
             p["prompt"] + "\n",
-            "```\n"
+            "````\n"
         ]
         cells.append({
             "cell_type": "markdown",
@@ -64,8 +64,18 @@ def generate_domain_notebook(tag_name, display_name, prompts):
 
     notebook = {
         "cells": cells,
-        "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"}, "language_info": {"name": "python"}},
-        "nbformat": 4, "nbformat_minor": 5
+        "metadata": {
+            "kernelspec": {
+                "display_name": "Python 3",
+                "language": "python",
+                "name": "python3"
+            },
+            "language_info": {
+                "name": "python"
+            }
+        },
+        "nbformat": 4,
+        "nbformat_minor": 5
     }
 
     os.makedirs(CATALOG_DIR, exist_ok=True)

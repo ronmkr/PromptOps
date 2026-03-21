@@ -1,4 +1,5 @@
 # PromptOps - AI CLI Prompt Template Library
+
 ```text
   _____                            _    ____              
  |  __ \                          | |  / __ \             
@@ -9,38 +10,30 @@
                            | |               | |          
                            |_|               |_|          
 ```
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![GitHub Star](https://img.shields.io/github/stars/ronmkr/PromptOps?style=social)](https://github.com/ronmkr/PromptOps)
-> **Overview**: A library of prompt templates for AI CLI tools. Includes a terminal helper for fuzzy searching, file injection, piped input, and automated clipboard copying. Compatible with Claude Code, Gemini CLI, Aider, and web-based LLMs.
-## Table of Contents
-- [PromptOps - AI CLI Prompt Template Library](#promptops---ai-cli-prompt-template-library)
-  - [Table of Contents](#table-of-contents)
-  - [Core Features](#core-features)
-  - [Usage Instructions](#usage-instructions)
-    - [1. Terminal Helper](#1-terminal-helper)
-    - [2. Gemini CLI Integration](#2-gemini-cli-integration)
-  - [`/prompts:suggest-fixes "code snippet"`](#promptssuggest-fixes-code-snippet)
-    - [3. Claude Code and Aider](#3-claude-code-and-aider)
-  - [Available Templates](#available-templates)
-    - [Code Review \& Analysis](#code-review--analysis)
-    - [DevOps \& Infrastructure](#devops--infrastructure)
-    - [Security \& Compliance](#security--compliance)
-    - [Database \& Data](#database--data)
-    - [Testing \& Debugging](#testing--debugging)
-    - [Frontend \& UI/UX](#frontend--uiux)
-    - [Architecture \& Design](#architecture--design)
-    - [Shell \& Scripting](#shell--scripting)
-    - [Project Management](#project-management)
-    - [Documentation \& Learning](#documentation--learning)
-  - [Extending the Library](#extending-the-library)
-    - [Supported Variables](#supported-variables)
-    - [Creating a New Template](#creating-a-new-template)
-  - [Contributing and Quality Control](#contributing-and-quality-control)
-  - [Consult CONTRIBUTING.md for detailed guidelines.](#consult-contributingmd-for-detailed-guidelines)
-  - [License](#license)
-  - [Distributed under the MIT License. See LICENSE file for details.](#distributed-under-the-mit-license-see-license-file-for-details)
+
+> **Overview**: A library of over 55 prompt templates for AI CLI tools. Includes a terminal helper for fuzzy searching, file injection, piped input, and automated clipboard copying. Compatible with Claude Code, Gemini CLI, Aider, and web-based LLMs.
+
 ---
+
+## Table of Contents
+
+- [Core Features](#core-features)
+- [Usage Instructions](#usage-instructions)
+  - [Terminal Helper](#1-terminal-helper)
+  - [Gemini CLI Integration](#2-gemini-cli-integration)
+  - [Claude Code and Aider](#3-claude-code-and-aider)
+- [Available Templates](#available-templates)
+- [Extending the Library](#extending-the-library)
+- [Contributing and Quality Control](#contributing-and-quality-control)
+- [License](#license)
+
+---
+
 ## Core Features
+
 - **Standardized Templates**: Over 50 templates for development, architecture, DevOps, and security.
 - **Tool-Agnostic**: Compatible with AI CLI tools and standard LLM interfaces.
 - **Categorized Library**: Organized by domain (Frontend, Backend, Security, Operations).
@@ -48,11 +41,17 @@
 - **Tagging System**: Metadata-based discovery and filtering.
 - **Clipboard Integration**: Output is automatically copied to the system clipboard.
 - **Extensible**: TOML-based structure for adding or modifying templates.
+
 ---
+
 ## Usage Instructions
+
 ### 1. Terminal Helper
+
 The `promptops` (aliased as `pop`) utility provides access to the template library.
+
 **Installation:**
+
 ```bash
 git clone https://github.com/ronmkr/PromptOps.git
 cd PromptOps
@@ -60,35 +59,54 @@ chmod +x promptops
 # Optional: link to /usr/local/bin
 sudo ln -s $(pwd)/promptops /usr/local/bin/pop
 ```
+
 **Shell Auto-Completion:**
+
 - **Zsh**: `source <(pop completion zsh)`
 - **Bash**: `source <(pop completion bash)`
 - **Fish**: `pop completion fish | source`
+
 **Basic Commands:**
+
 - `pop list`: List all templates.
 - `pop list --tag <tag>`: Filter by category.
 - `pop search <term>`: Search by name or description.
 - `pop use <tool>`: Run a template interactively.
 - `pop use <tool> --args @file.py`: Inject file content directly.
 - `cat file.py | pop use <tool>`: Use piped input.
+
 ---
+
 ### 2. Gemini CLI Integration
+
 PromptOps functions as a native extension for the Gemini CLI.
+
 ```bash
 gemini extensions install https://github.com/ronmkr/PromptOps.git
 ```
+
 Once installed, use the `/prompts:` namespace:
-` /prompts:suggest-fixes "code snippet" `
+
+```bash
+/prompts:suggest-fixes "code snippet"
+```
+
 ---
+
 ### 3. Claude Code and Aider
+
 For tools without native extension support, templates can be provided as context.
+
 ```bash
 # Claude Code
 claude "Read commands/prompts/design-api.toml and design a REST API"
+
 # Aider
 /read commands/prompts/security-policy.toml
 ```
+
 ---
+
 ## Available Templates
 
 Templates are categorized by domain. Click a category to view its full reference notebook.
@@ -180,35 +198,67 @@ Templates are categorized by domain. Click a category to view its full reference
 - `/prompts:write-technical-blog` - Write technical blog posts
 
 ## Extending the Library
+
 PromptOps templates are defined in TOML and support dynamic data injection.
+
 ### Supported Variables
+
+Templates utilize the following placeholders for context injection:
+
 - `{{args}}`: Primary input placeholder.
 - `{{code}}`: Snippet-specific placeholder.
 - `{{file}}`: Complete file content placeholder.
 - `{{language}}`: Contextual language placeholder.
+
 ### Creating a New Template
+
 1. Create a `.toml` file in `commands/prompts/` (e.g., `my-tool.toml`).
 2. Use the following structure:
+
 ````toml
 description      = "A concise description ending with a period."
 args_description = "A label for the input (e.g., 'Source Code')."
 version          = "1.0.0"
 last_updated     = "2026-03-21"
 tags             = ["category"]
+
 prompt           = """
 # Template Title
 Your detailed instructions for the AI model...
+
 ```
 {{args}}
 ```
 """
 ````
+
 3. Validate the template by running `make validate`.
+
 ---
+
 ## Contributing and Quality Control
+
 Consult [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+
+**Automated Checks:**
+
+- **Metadata Validation**: Ensures TOML syntax and required fields are present.
+- **Logic Tests**: Verifies CLI helper functionality.
+- **Catalog Sync**: Ensures domain notebooks remain updated.
+
+**Run Tests Locally:**
+
+```bash
+make validate
+make test
+```
+
 ---
+
 ## License
+
 Distributed under the MIT License. See [LICENSE](LICENSE) file for details.
+
 ---
-Inspired by the gemini-cli-prompt-library by Harish Garg.
+
+Inspired by the [gemini-cli-prompt-library](https://github.com/harish-garg/gemini-cli-prompt-library) by Harish Garg.
