@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["architecture"]
 
 prompt      = """
-  # Design RESTful API
+# Design RESTful API
 
 Please design a comprehensive RESTful API for the following requirements:
 

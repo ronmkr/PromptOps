@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["shell"]
 prompt      = """
-  # CLI Command Explainer
+# CLI Command Explainer
 
 Please provide a deep, easy-to-understand explanation of the following terminal command, pipeline, or script:
 

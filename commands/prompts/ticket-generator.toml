@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["agile"]
 prompt      = """
-  # Ticket / Issue Generator
+# Ticket / Issue Generator
 
 Please convert the following loose idea, bug report, or feature request into a highly structured, professional engineering ticket (e.g., for Jira, Linear, or GitHub Issues):
 

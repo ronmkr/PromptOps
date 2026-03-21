@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["code-review"]
 
 prompt      = """
-  # Code Refactoring Suggestions
+# Code Refactoring Suggestions
 
 Please analyze the following code and provide refactoring recommendations:
 

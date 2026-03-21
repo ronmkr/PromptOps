@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["security"]
 prompt      = """
-  # Dependency Security Audit
+# Dependency Security Audit
 
 Please analyze the following dependency manifest (e.g., `package.json`, `requirements.txt`, `Gemfile`, or `Cargo.toml`) for security risks, vulnerable patterns, and maintenance issues:
 

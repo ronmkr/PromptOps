@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["learning"]
 
 prompt      = """
-  # Explain Like I'm 5 (ELI5)
+# Explain Like I'm 5 (ELI5)
 
 Please explain the following concept in the simplest possible terms:
 

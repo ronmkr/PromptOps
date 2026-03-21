@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["agile"]
 prompt      = """
-  # Sprint Retrospective Analyzer
+# Sprint Retrospective Analyzer
 
 Please analyze the following sprint data, team feedback, or bullet points from our recent sprint:
 

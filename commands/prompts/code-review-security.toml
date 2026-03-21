@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["code-review", "security"]
 
 prompt      = """
-  # Security Code Review
+# Security Code Review
 
 Please perform a comprehensive security analysis of the following code:
 

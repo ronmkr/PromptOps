@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["db"]
 prompt      = """
-  # SQL Query Optimizer
+# SQL Query Optimizer
 
 Please analyze the following SQL query and underlying schema context (if provided). Identify performance bottlenecks and suggest optimizations:
 

@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["devops", "infra"]
 prompt      = """
-  # Kubernetes Manifest Generator
+# Kubernetes Manifest Generator
 
 Please generate production-ready Kubernetes YAML manifests (Deployment and Service) for the following application:
 

@@ -32,14 +32,14 @@ jobs:
 
       - name: Verify Prompt Catalog Synchronization
         run: |
-          make catalog
-          if [ -n "$(git status --porcelain CATALOG.md)" ]; then
-            echo "::error::CATALOG.md is out of sync with prompt templates!"
-            echo "::notice::Please run 'make catalog' locally and commit the changes before merging."
-            git diff CATALOG.md
+          make docs
+          if [ -n "$(git status --porcelain CATALOG.ipynb)" ]; then
+            echo "::error::CATALOG.ipynb is out of sync with prompt templates!"
+            echo "::notice::Please run 'make docs' locally and commit the changes before merging."
+            git diff CATALOG.ipynb
             exit 1
           else
-            echo "✅ CATALOG.md is up to date."
+            echo "✅ CATALOG.ipynb is up to date."
           fi
 
   generate-catalog-on-push:
@@ -61,17 +61,17 @@ jobs:
         run: make validate && make test
 
       - name: Generate Updated Catalog
-        run: make catalog
+        run: make docs
 
       - name: Commit and Push Catalog Changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add CATALOG.md
+          git add CATALOG.ipynb
           if git diff --cached --quiet; then
-            echo "✅ No changes to CATALOG.md"
+            echo "✅ No changes to CATALOG.ipynb"
           else
             git commit -m "docs: auto-generate prompt catalog [skip ci]"
             git push
-            echo "🚀 Pushed updated CATALOG.md to main"
+            echo "🚀 Pushed updated CATALOG.ipynb to main"
           fi

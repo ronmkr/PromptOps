@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["frontend"]
 prompt      = """
-  # Storybook Story Generator
+# Storybook Story Generator
 
 Please generate a comprehensive Storybook file (Component Story Format 3.0 / CSF3) for the following React/Vue/UI component:
 

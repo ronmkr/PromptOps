@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["db"]
 prompt      = """
-  # Mock Data Generator
+# Mock Data Generator
 
 Please generate realistic, diverse mock data for testing purposes based on the following schema or requirements:
 

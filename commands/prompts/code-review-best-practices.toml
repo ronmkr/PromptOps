@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["code-review"]
 
 prompt      = """
-  # Best Practices Code Review
+# Best Practices Code Review
 
 Please perform a comprehensive best practices review of the following code:
 

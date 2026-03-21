@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["devops", "shell"]
 prompt      = """
-  # Robust Bash Script Generator
+# Robust Bash Script Generator
 
 Please write a robust, production-ready bash script to accomplish the following task:
 

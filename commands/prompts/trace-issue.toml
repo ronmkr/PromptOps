@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["debug"]
 
 prompt      = """
-  # Root Cause Analysis - Trace Issue
+# Root Cause Analysis - Trace Issue
 
 Please perform a comprehensive root cause analysis for the following issue:
 

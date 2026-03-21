@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["docs"]
 
 prompt      = """
-  # Generate Changelog
+# Generate Changelog
 
 Please create a comprehensive changelog for the following changes:
 

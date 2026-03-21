@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["docs"]
 
 prompt      = """
-  # Generate API Documentation
+# Generate API Documentation
 
 Please create comprehensive API documentation for the following code:
 

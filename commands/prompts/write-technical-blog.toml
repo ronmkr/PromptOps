@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["writing"]
 
 prompt      = """
-  # Write Technical Blog Post
+# Write Technical Blog Post
 
 Please write a comprehensive technical blog post about:
 

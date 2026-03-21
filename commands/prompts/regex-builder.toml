@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["shell", "db"]
 prompt      = """
-  # Regex Builder & Explainer
+# Regex Builder & Explainer
 
 Please analyze the following text-matching requirement and generate an optimized Regular Expression:
 

@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["security", "infra"]
 prompt      = """
-  # IAM Policy Generator
+# IAM Policy Generator
 
 Please generate a secure, least-privilege Identity and Access Management (IAM) policy (AWS JSON or GCP YAML/JSON) for the following use case:
 

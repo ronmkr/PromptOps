@@ -165,7 +165,7 @@ def copy_to_clipboard(text):
                 process = subprocess.Popen(['xclip', '-selection', 'clipboard'], stdin=subprocess.PIPE)
                 process.communicate(input=text.encode('utf-8'))
             except FileNotFoundError:
-                process = subprocess.Popen(['sel', '--clipboard', '--input'], stdin=subprocess.PIPE)
+                process = subprocess.Popen(['xsel', '--clipboard', '--input'], stdin=subprocess.PIPE)
                 process.communicate(input=text.encode('utf-8'))
         elif os_name == "Windows":
             process = subprocess.Popen(['clip.exe'], stdin=subprocess.PIPE)

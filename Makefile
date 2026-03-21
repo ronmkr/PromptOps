@@ -19,6 +19,8 @@ validate:
 test:
 	@echo "Running CLI helper tests..."
 	@python3 scripts/test_promptops.py
+	@echo "Running validation unit tests..."
+	@python3 scripts/test_validation.py
 
 docs:
 	@echo "Syncing all documentation..."

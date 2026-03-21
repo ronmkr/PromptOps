@@ -157,6 +157,32 @@ class TestPromptOps(unittest.TestCase):
             output = fake_out.getvalue()
             self.assertIn("No prompts found with tag 'empty-tag'", output)
 
+    def test_list_tags_raw(self):
+        with patch('sys.stdout', new=io.StringIO()) as fake_out:
+            promptops_core.list_tags(prompts_dir=self.test_dir, raw=True)
+            output = fake_out.getvalue()
+            # Raw output should be one tag per line, sorted
+            self.assertEqual(output, "common\ntag1\ntag2\ntag3\n")
+
+    def test_list_names(self):
+        with patch('sys.stdout', new=io.StringIO()) as fake_out:
+            promptops_core.list_names(prompts_dir=self.test_dir)
+            output = fake_out.getvalue()
+            # Should list prompt names, sorted
+            self.assertEqual(output, "alpha-prompt\nbeta-tool\ngamma-helper\n")
+
+    def test_hydrate_prompt_escaped_backslash(self):
+        # Test that we can't easily escape the escape char yet, 
+        # but let's see how it behaves with double backslash
+        template = "\\\\{{name}}"
+        vars = {"name": "Alice"}
+        result = promptops_core.hydrate_prompt(template, vars)
+        # Current logic: group 1 matches the first \, then we return {{name}}
+        # The first \ remains. So \{{name}} -> \Alice? No, let's check.
+        # Actually our logic: if escape_char == '\', return '{{var}}'.
+        # So \\{{name}} -> \ + {{name}} -> \{{name}}
+        self.assertEqual(result, "\\{{name}}")
+
     def test_get_prompts_non_existent_dir(self):
         prompts = promptops_core.get_prompts("/non/existent/path")
         self.assertEqual(len(prompts), 0)

@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["docs", "security"]
 prompt      = """
-  # Security Policy Generator
+# Security Policy Generator
 
 Please generate a professional, standard `SECURITY.md` file (Vulnerability Disclosure Policy) for the following project/organization:
 

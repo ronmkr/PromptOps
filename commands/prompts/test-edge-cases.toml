@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["test"]
 
 prompt      = """
-  # Identify Edge Cases
+# Identify Edge Cases
 
 Please identify comprehensive edge cases for the following code or feature:
 

@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["test"]
 
 prompt      = """
-  # Generate End-to-End Tests
+# Generate End-to-End Tests
 
 Please create comprehensive end-to-end tests for the following application/feature:
 

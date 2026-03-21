@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["test"]
 
 prompt      = """
-  # Test Coverage Analysis
+# Test Coverage Analysis
 
 Please analyze test coverage for the following code and identify gaps:
 

@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["learning"]
 
 prompt      = """
-  # Explain Technical Concept
+# Explain Technical Concept
 
 Please provide a comprehensive explanation of the following technical concept:
 

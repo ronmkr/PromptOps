@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["agile", "docs"]
 prompt      = """
-  # Pull Request Template Generator
+# Pull Request Template Generator
 
 Please generate a comprehensive, professional Markdown Pull Request (PR) Template for a repository based on the following project context or requirements:
 

@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["writing"]
 
 prompt      = """
-  # Create Presentation Outline
+# Create Presentation Outline
 
 Please create a comprehensive presentation outline for:
 

@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["learning", "prompt-engineering"]
 
 prompt      = """
-  # Prompt Engineering Best Practices
+# Prompt Engineering Best Practices
 
 Please provide best practices and tips for prompt engineering related to:
 

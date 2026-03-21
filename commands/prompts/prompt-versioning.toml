@@ -5,7 +5,7 @@ last_updated = "2026-03-21"
 tags         = ["learning", "prompt-engineering"]
 
 prompt      = """
-  # Prompt Versioning & Lifecycle Management
+# Prompt Versioning & Lifecycle Management
 
 Please provide a comprehensive guide and strategy for versioning and managing the lifecycle of the following prompt template or set of prompts:
 

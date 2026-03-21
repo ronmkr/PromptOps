@@ -4,7 +4,7 @@ version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["db"]
 prompt      = """
-  # Database Migration Generator
+# Database Migration Generator
 
 Please generate safe, idempotent UP and DOWN database migration scripts for the following schema changes:
 
