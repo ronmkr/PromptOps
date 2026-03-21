@@ -1,4 +1,5 @@
 description = "Write Infrastructure-as-Code Terraform modules."
+args_description = "Source Code"
 version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["devops", "infra"]

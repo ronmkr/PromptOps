@@ -1,4 +1,5 @@
 description = "Design database schemas."
+args_description = "SQL Query or Schema"
 version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["architecture", "db"]

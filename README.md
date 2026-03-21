@@ -14,6 +14,7 @@ A curated, tool-agnostic library of high-quality, professionally crafted prompts
 - 🎨 **Domain Specific**: Categorized libraries for Frontend, Backend, Security, and Project Management.
 - 📦 **Prompt Versioning**: Every prompt is versioned and tracked for better maintenance.
 - 🏷️ **Tagging System**: Robust metadata and tagging for easy discovery and filtering.
+- 📋 **Auto-Copy to Clipboard**: Generated prompts are automatically copied to your clipboard for instant pasting into web/chat apps.
 - 🔧 **Customizable**: Simple TOML-based structure for easy modification and expansion.
 
 ---
@@ -45,6 +46,9 @@ sudo ln -s $(pwd)/promptops /usr/local/bin/pop
   - `pop tags` - View all available categories (e.g., `security`, `frontend`).
 - **Interactive Injection:**
   - `pop use suggest-fixes` - The CLI will detect variables like `{{args}}` and ask you to paste your code interactively.
+- **Native File Injection (New!):**
+  - Use the `@` prefix to inject file contents directly into a prompt variable.
+  - `pop use suggest-fixes --args @main.py | claude`
 - **Piping to AI (The Magic Workflow):**
   - `pop use dockerfile-generator --args "Python FastAPI app" | claude`
   - `pop use code-review-security --args "$(cat main.py)" | aider`

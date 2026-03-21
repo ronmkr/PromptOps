@@ -1,4 +1,5 @@
 description = "Draft professional emails."
+args_description = "Email Content or Goal"
 version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["writing"]

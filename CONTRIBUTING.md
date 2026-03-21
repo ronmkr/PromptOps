@@ -13,10 +13,12 @@ To add a new prompt:
 3. Follow the required structure below:
 
 ```toml
-description  = "A short, one-sentence description ending with a period."
-version      = "1.0.0"
-last_updated = "2026-03-21"
-tags         = ["category1", "category2"]
+description      = "A short, one-sentence description ending with a period."
+args_description = "A friendly label for the main input (e.g. 'Source Code')."
+version          = "1.0.0"
+last_updated     = "2026-03-21"
+tags             = ["category1", "category2"]
+```
 
 prompt       = """
   # Your Tool Heading

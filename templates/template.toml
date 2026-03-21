@@ -1,7 +1,8 @@
-description  = "A concise, one-sentence description of the prompt's purpose."
-version      = "1.0.0"
-last_updated = "2026-03-21"
-tags         = ["example-tag", "category"]
+description      = "A concise, one-sentence description of the prompt's purpose."
+args_description = "A friendly label for the input (e.g. 'Source Code')"
+version          = "1.0.0"
+last_updated     = "2026-03-21"
+tags             = ["example-tag", "category"]
 
 prompt       = """
   # Expert Tool Name

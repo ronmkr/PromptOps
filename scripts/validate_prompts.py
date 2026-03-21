@@ -44,7 +44,7 @@ class PromptValidator:
             return False
 
     def _check_required_fields(self):
-        required = ["description", "version", "last_updated", "prompt", "tags"]
+        required = ["description", "args_description", "version", "last_updated", "prompt", "tags"]
         for field in required:
             if field not in self.data:
                 self.errors.append(f"Missing required field: '{field}'")

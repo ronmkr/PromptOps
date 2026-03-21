@@ -1,4 +1,5 @@
 description = "Explain like I'm 5 (simple explanations)."
+args_description = "Technical Concept"
 version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["learning"]

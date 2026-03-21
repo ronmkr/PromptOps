@@ -1,4 +1,5 @@
 description = "Create end-to-end tests."
+args_description = "Code to Test"
 version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["test"]

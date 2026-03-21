@@ -1,4 +1,5 @@
 description = "Generate Storybook stories for UI components."
+args_description = "Input Content"
 version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["frontend"]

@@ -1,4 +1,5 @@
 description = "Deep security analysis of code."
+args_description = "Source Code"
 version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["code-review", "security"]

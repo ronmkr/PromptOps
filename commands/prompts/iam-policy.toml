@@ -1,4 +1,5 @@
 description = "Generate AWS IAM or GCP resource policies with least privilege."
+args_description = "Source Code"
 version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["security", "infra"]

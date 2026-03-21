@@ -1,4 +1,5 @@
 description = "Write technical blog posts."
+args_description = "Blog Topic or Outline"
 version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["writing"]

@@ -1,4 +1,5 @@
 description = "Generate comprehensive README files."
+args_description = "Project/App Description"
 version     = "1.0.0"
 last_updated = "2026-03-21"
 tags         = ["docs"]
