@@ -1,73 +1,85 @@
-# 📚 PromptOps - Universal AI CLI Prompt Library
+# PromptOps - AI CLI Prompt Template Library
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+```text
+  _____                            _    ____              
+ |  __ \                          | |  / __ \             
+ | |__) | __ ___  _ __ ___  _ __  | |_| |  | |_ __  ___   
+ |  ___/ '__/ _ \| '_ ` _ \| '_ \ | __| |  | | '_ \/ __|  
+ | |   | | | (_) | | | | | | |_) || |_| |__| | |_) \__ \  
+ |_|   |_|  \___/|_| |_| |_| .__/  \__|\____/| .__/|___/  
+                           | |               | |          
+                           |_|               |_|          
+```
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![GitHub Star](https://img.shields.io/github/stars/ronmkr/PromptOps?style=social)](https://github.com/ronmkr/PromptOps)
 
-A curated, tool-agnostic library of high-quality, professionally crafted prompts for modern development workflows. Works seamlessly with **Gemini CLI**, **Claude Code**, **Aider**, and other AI coding assistants.
+> **Overview**: A library of over 55 prompt templates for AI CLI tools. Includes a terminal helper for fuzzy searching, file injection, piped input, and automated clipboard copying. Compatible with Claude Code, Gemini CLI, Aider, and web-based LLMs.
 
 ---
 
-## ✨ Key Features
+## Core Features
 
-- 🎯 **50+ Expert Prompts**: Battle-tested templates for coding, architecture, DevOps, and security.
-- 🚀 **Tool-Agnostic**: Use with any AI CLI or LLM interface (Claude, Gemini, Aider, etc.).
-- 🎨 **Domain Specific**: Categorized libraries for Frontend, Backend, Security, and Project Management.
-- 📦 **Prompt Versioning**: Every prompt is versioned and tracked for better maintenance.
-- 🏷️ **Tagging System**: Robust metadata and tagging for easy discovery and filtering.
-- 📋 **Auto-Copy to Clipboard**: Generated prompts are automatically copied to your clipboard for instant pasting into web/chat apps.
-- 🔧 **Customizable**: Simple TOML-based structure for easy modification and expansion.
+- **Standardized Templates**: Over 50 templates for development, architecture, DevOps, and security.
+- **Tool-Agnostic**: Compatible with AI CLI tools and standard LLM interfaces.
+- **Categorized Library**: Organized by domain (Frontend, Backend, Security, Operations).
+- **Version Control**: Templates include version and date metadata for maintenance.
+- **Tagging System**: Metadata-based discovery and filtering.
+- **Clipboard Integration**: Output is automatically copied to the system clipboard.
+- **Extensible**: TOML-based structure for adding or modifying templates.
 
 ---
 
-## 📦 How to Use PromptOps
+## Usage Instructions
 
-PromptOps is designed to work wherever you do. You can use it as a standalone terminal utility or integrate it directly into your favorite AI tool.
+### 1. Terminal Helper
 
-### 1. The PromptOps CLI Helper (Recommended)
-We provide a zero-dependency Python script (`promptops`) that makes finding and using prompts incredibly fast.
+The `promptops` (aliased as `pop`) utility provides access to the template library.
 
-**Setup the CLI:**
+**Installation:**
 ```bash
-# Clone the repository
 git clone https://github.com/ronmkr/PromptOps.git
 cd PromptOps
-
-# Make it executable
 chmod +x promptops
-
-# (Optional) Add it to your PATH for global access
+# Optional: link to /usr/local/bin
 sudo ln -s $(pwd)/promptops /usr/local/bin/pop
 ```
 
-**Using the CLI:**
-- **Search & Discover:**
-  - `pop list` - List all available prompts.
-  - `pop search "docker"` - Fuzzy search for prompts related to Docker.
-  - `pop tags` - View all available categories (e.g., `security`, `frontend`).
-- **Interactive Injection:**
-  - `pop use suggest-fixes` - The CLI will detect variables like `{{args}}` and ask you to paste your code interactively.
-- **Native File Injection (New!):**
-  - Use the `@` prefix to inject file contents directly into a prompt variable.
-  - `pop use suggest-fixes --args @main.py | claude`
-- **Piping to AI (The Magic Workflow):**
-  - `pop use dockerfile-generator --args "Python FastAPI app" | claude`
-  - `pop use code-review-security --args "$(cat main.py)" | aider`
+**Shell Auto-Completion:**
+- **Zsh**: `source <(pop completion zsh)`
+- **Bash**: `source <(pop completion bash)`
+- **Fish**: `pop completion fish | source`
 
-### 2. Using with Gemini CLI
-PromptOps acts as a native extension for Gemini CLI.
+**Basic Commands:**
+- `pop list`: List all templates.
+- `pop list --tag <tag>`: Filter by category.
+- `pop search <term>`: Search by name or description.
+- `pop use <tool>`: Run a template interactively.
+- `pop use <tool> --args @file.py`: Inject file content directly.
+- `cat file.py | pop use <tool>`: Use piped input.
+
+---
+
+### 2. Gemini CLI Integration
+
+PromptOps functions as a native extension for the Gemini CLI.
+
 ```bash
 gemini extensions install https://github.com/ronmkr/PromptOps.git
 ```
-*(Or clone the repository and run `gemini extensions link .`)*
 
-Once installed, all prompts are available via the `/prompts:` namespace. 
-*Example: `/prompts:suggest-fixes "print('hello')"`*
+Once installed, use the `/prompts:` namespace:
+` /prompts:suggest-fixes "code snippet" `
 
-### 3. Using with Claude Code & Aider
-If you don't use the CLI helper, you can pass the `.toml` templates directly to your AI as context.
+---
+
+### 3. Claude Code and Aider
+
+For tools without native extension support, templates can be provided as context.
+
 ```bash
 # Claude Code
-claude "Read commands/prompts/design-api.toml and design an API for a blog"
+claude "Read commands/prompts/design-api.toml and design a REST API"
 
 # Aider
 /read commands/prompts/security-policy.toml
@@ -75,102 +87,146 @@ claude "Read commands/prompts/design-api.toml and design an API for a blog"
 
 ---
 
-## 📋 Available Prompts
+## Available Templates
 
-Prompts are stored as `.toml` files in `commands/prompts/`. 
+Templates are located in `commands/prompts/`. See the [Prompt Catalog](CATALOG.md) for full template details.
 
-**For a full reference of all prompt templates and their content, see our [Prompt Catalog](CATALOG.md).**
+### Code Review & Analysis
+- `/prompts:code-review-best-practices` - General best practices review
+- `/prompts:code-review-performance` - Performance optimization suggestions
+- `/prompts:code-review-security` - Deep security analysis of code
+- `/prompts:debug-error` - Help diagnose and fix errors
+- `/prompts:explain-code` - Detailed code explanation
+- `/prompts:performance-profile` - Analyze performance profiles
+- `/prompts:refactor-suggestions` - Code refactoring recommendations
+- `/prompts:suggest-fixes` - Suggest potential bug fixes and improvements for code
+- `/prompts:trace-issue` - Trace the root cause of issues
 
-### 🔍 Highlights:
-- **Code Review**: `code-review-security`, `suggest-fixes`, `explain-code`.
-- **DevOps**: `dockerfile-generator`, `kubernetes-manifest`, `ci-cd-pipeline`.
-- **Security**: `threat-modeling`, `security-policy`, `iam-policy`.
-- **Database**: `sql-optimizer`, `migration-script`, `design-database`.
-- **Frontend**: `css-tailwind-converter`, `accessibility-audit`, `component-story`.
-- **Prompt Engineering**: `improve-prompt`, `prompt-versioning`, `create-prompt-template`.
+### DevOps & Infrastructure
+- `/prompts:bash-script-generator` - Write robust, POSIX-compliant bash scripts
+- `/prompts:ci-cd-pipeline` - Generate CI/CD pipelines (GitHub Actions, GitLab CI, etc.)
+- `/prompts:dockerfile-generator` - Generate optimized, production-ready Dockerfiles
+- `/prompts:iam-policy` - Generate AWS IAM or GCP resource policies with least privilege
+- `/prompts:kubernetes-manifest` - Create Kubernetes Deployment and Service YAML manifests
+- `/prompts:terraform-module` - Write Infrastructure-as-Code Terraform modules
 
----
+### Security & Compliance
+- `/prompts:accessibility-audit` - Review HTML/React code for WCAG compliance
+- `/prompts:code-review-security` - Deep security analysis of code
+- `/prompts:dependency-audit` - Analyze a package.json or requirements.txt for known vulnerable patterns
+- `/prompts:iam-policy` - Generate AWS IAM or GCP resource policies with least privilege
+- `/prompts:security-policy` - Draft a SECURITY.md or vulnerability disclosure policy
+- `/prompts:threat-modeling` - Generate a STRIDE threat model for a proposed architecture
 
-## 🛠️ How to Add New Prompts (Customization)
+### Database & Data
+- `/prompts:design-database` - Design database schemas
+- `/prompts:migration-script` - Generate safe up/down database migration scripts
+- `/prompts:mock-data-gen` - Create realistic JSON/CSV mock data schemas for testing
+- `/prompts:regex-builder` - Generate and explain complex Regular Expressions
+- `/prompts:sql-optimizer` - Analyze slow queries and suggest indexes or rewrites
 
-PromptOps is designed to be easily extensible. All prompts are stored as simple `.toml` files in the `commands/prompts/` directory.
+### Testing & Debugging
+- `/prompts:debug-error` - Help diagnose and fix errors
+- `/prompts:generate-e2e-tests` - Create end-to-end tests
+- `/prompts:generate-unit-tests` - Create unit tests for code
+- `/prompts:performance-profile` - Analyze performance profiles
+- `/prompts:review-test-coverage` - Analyze test coverage gaps
+- `/prompts:suggest-fixes` - Suggest potential bug fixes and improvements for code
+- `/prompts:test-edge-cases` - Identify and test edge cases
+- `/prompts:trace-issue` - Trace the root cause of issues
 
-### 📋 Supported Variables
-You can inject dynamic user input into your templates using these standard variables:
-- `{{args}}` (Primary): The user's direct input or argument.
-- `{{code}}`: Specifically for code snippets.
-- `{{file}}`: The full content of a file.
-- `{{language}}`: The target programming language.
-- `{{context}}`: Any additional metadata.
+### Frontend & UI/UX
+- `/prompts:accessibility-audit` - Review HTML/React code for WCAG compliance
+- `/prompts:component-story` - Generate Storybook stories for UI components
+- `/prompts:css-tailwind-converter` - Convert standard CSS to Tailwind utility classes
 
-### Step-by-Step: Creating a Prompt
-1. **Create the file**: Create a new file like `commands/prompts/my-new-tool.toml`.
-2. **Use the Template**: Copy the structure from our [starter template](templates/template.toml).
-3. **Fill in the Metadata & Prompt**:
+### Architecture & Design
+- `/prompts:design-api` - Design RESTful APIs
+- `/prompts:design-database` - Design database schemas
+- `/prompts:design-patterns` - Suggest appropriate design patterns
+- `/prompts:system-architecture` - Design system architecture
+- `/prompts:threat-modeling` - Generate a STRIDE threat model for a proposed architecture
+
+### Shell & Scripting
+- `/prompts:bash-script-generator` - Write robust, POSIX-compliant bash scripts
+- `/prompts:cli-command-explainer` - Deeply explain obscure terminal commands/flags
+- `/prompts:git-workflow` - Suggest Git commands to recover from complex merge/rebase states
+- `/prompts:regex-builder` - Generate and explain complex Regular Expressions
+
+### Project Management
+- `/prompts:pr-template` - Generate a Pull Request template for a repository
+- `/prompts:sprint-retrospective` - Analyze sprint data and generate a summary
+- `/prompts:ticket-generator` - Convert a loose idea into a structured Jira/Linear ticket
+
+### Documentation & Learning
+- `/prompts:compare-technologies` - Compare different technologies
+- `/prompts:eli5` - Explain like I'm 5 (simple explanations)
+- `/prompts:explain-concept` - Explain technical concepts clearly
+- `/prompts:learning-path` - Create learning roadmaps
+- `/prompts:pr-template` - Generate a Pull Request template for a repository
+- `/prompts:prompt-best-practices` - Learn prompt engineering tips
+- `/prompts:prompt-versioning` - Guide for managing and versioning prompt templates
+- `/prompts:security-policy` - Draft a SECURITY.md or vulnerability disclosure policy
+- `/prompts:simplify-jargon` - Simplify technical jargon
+- `/prompts:write-api-docs` - Create API documentation
+- `/prompts:write-changelog` - Generate changelog from changes
+- `/prompts:write-contributing` - Create CONTRIBUTING.md guidelines
+- `/prompts:write-email` - Draft professional emails
+- `/prompts:write-inline-comments` - Add helpful code comments
+- `/prompts:write-presentation` - Create presentation outlines
+- `/prompts:write-readme` - Generate comprehensive README files
+- `/prompts:write-technical-blog` - Write technical blog posts
+
+## Customization
+
+Templates use standardized variables for data injection:
+- `{{args}}`: Primary input.
+- `{{code}}`: Code snippets.
+- `{{file}}`: Full file content.
+- `{{language}}`: Target language context.
+
+### Adding a New Template
+1. Create a `.toml` file in `commands/prompts/`.
+2. Follow the metadata structure:
 ```toml
-description  = "A short, one-sentence description ending in a period."
-version      = "1.0.0"
-last_updated = "2026-03-21"
-tags         = ["custom", "development"]
+description      = "Brief description ending with a period."
+args_description = "Label for the input (e.g. 'Source Code')"
+version          = "1.0.0"
+last_updated     = "2026-03-21"
+tags             = ["category"]
 
-prompt       = """
-  # Your Expert Prompt Title
-  
-  Act as a senior engineer. Please analyze the following input and provide feedback:
-  
+prompt           = \"\"\"
+  # Template Title
+  Instructions...
   ```
   {{args}}
   ```
-  
-  Please format your output with Markdown headers.
-"""
+\"\"\"
 ```
-4. **Validate**: Run `make validate` to ensure your new prompt meets the PromptOps syntax and metadata standards.
-5. **Use it**: It is immediately available via `pop use my-new-tool` or `/prompts:my-new-tool`.
+3. Run `make validate` to check metadata and syntax.
 
 ---
 
-## 🤝 Contributing
+## Contributing and Quality Control
 
-Contributions are welcome! Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) guide for detailed instructions on adding new prompt templates and categories.
+Consult [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
----
+**Automated Checks:**
+- **Metadata Validation**: Ensures TOML syntax and required fields are present.
+- **Logic Tests**: Verifies CLI helper functionality.
+- **Catalog Sync**: Ensures `CATALOG.md` remains updated.
 
-## 🤖 CI/CD & Quality Control
-
-PromptOps includes automated quality checks to ensure consistency:
-- **Metadata Validation**: Every PR is checked for valid TOML, versioning, and required fields.
-- **CLI Logic Tests**: Automated tests for fuzzy search, filtering, and variable injection.
-- **Catalog Auto-Sync**: The `CATALOG.md` is automatically verified to be in sync with templates.
-- **Golden Tests**: A local `LLM-as-a-judge` framework using the Gemini API to verify the logical quality of prompts against known inputs.
-
-Run basic tests locally:
+**Run Tests Locally:**
 ```bash
 make validate
 make test
-make catalog
-```
-
-Run Golden AI Tests (requires Google Gemini API Key):
-```bash
-pip install -r requirements.txt
-export GEMINI_API_KEY="your-api-key"
-make evaluate
 ```
 
 ---
 
-## 🙏 Acknowledgments
+## License
 
-- Inspired by the [gemini-cli-prompt-library](https://github.com/harish-garg/gemini-cli-prompt-library) by Harish Garg.
-- Built on modern prompt engineering best practices.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
-**Made with ❤️ for the AI CLI community**
-[![GitHub Star](https://img.shields.io/github/stars/ronmkr/PromptOps?style=social)](https://github.com/ronmkr/PromptOps)
+Inspired by the gemini-cli-prompt-library by Harish Garg.

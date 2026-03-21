@@ -1,8 +1,8 @@
-# 📖 PromptOps - Prompt Catalog
+# PromptOps - Prompt Template Catalog
 
-This catalog is auto-generated on 2026-03-21. It contains the full reference for all 55 prompts available in the PromptOps library.
+This catalog is auto-generated on 2026-03-22. It contains the reference for all 55 templates available in the PromptOps library.
 
-## 🗂️ Table of Contents
+## Table of Contents
 
 - [Agile](#agile)
 - [Architecture](#architecture)
@@ -27,10 +27,11 @@ This catalog is auto-generated on 2026-03-21. It contains the full reference for
 ### pr-template
 
 > **Description**: Generate a Pull Request template for a repository.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `agile`, `docs`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Pull Request Template Generator
 
@@ -68,10 +69,11 @@ Output ONLY the raw markdown template, ready to be saved as `.github/PULL_REQUES
 ### sprint-retrospective
 
 > **Description**: Analyze sprint data and generate a summary.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `agile`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Sprint Retrospective Analyzer
 
@@ -104,10 +106,11 @@ Generate a clear, numbered list of concrete Action Items to assign to team membe
 ### ticket-generator
 
 > **Description**: Convert a loose idea into a structured Jira/Linear ticket.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `agile`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Ticket / Issue Generator
 
@@ -150,10 +153,11 @@ Does this ticket block others? Is it blocked by design, product, or another engi
 ### design-api
 
 > **Description**: Design RESTful APIs.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `architecture`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Design RESTful API
 
@@ -538,10 +542,11 @@ Generate complete, production-ready API documentation following REST best practi
 ### design-database
 
 > **Description**: Design database schemas.
+> **Input Format**: `SQL Query or Schema`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `architecture`, `db`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Design Database Schema
 
@@ -1056,10 +1061,11 @@ Generate complete, production-ready database schema following best practices.
 ### design-patterns
 
 > **Description**: Suggest appropriate design patterns.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `architecture`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Suggest Design Patterns
 
@@ -1701,10 +1707,11 @@ Generate comprehensive design pattern recommendations following this structure.
 ### system-architecture
 
 > **Description**: Design system architecture.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `architecture`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # System Architecture Design
 
@@ -2100,10 +2107,11 @@ Generate a complete, production-ready system architecture following best practic
 ### threat-modeling
 
 > **Description**: Generate a STRIDE threat model for a proposed architecture.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `architecture`, `security`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Threat Modeling (STRIDE)
 
@@ -2143,10 +2151,11 @@ Summarize the top 3-5 security priorities the development team must focus on bef
 ### code-review-best-practices
 
 > **Description**: General best practices review.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `code-review`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Best Practices Code Review
 
@@ -2231,10 +2240,11 @@ For each issue, explain:
 ### code-review-performance
 
 > **Description**: Performance optimization suggestions.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `code-review`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Performance Code Review
 
@@ -2307,10 +2317,11 @@ For each issue, explain:
 ### code-review-security
 
 > **Description**: Deep security analysis of code.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `code-review`, `security`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Security Code Review
 
@@ -2373,10 +2384,11 @@ For each issue, explain:
 ### explain-code
 
 > **Description**: Detailed code explanation.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `code-review`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Comprehensive Code Explanation
 
@@ -2415,10 +2427,11 @@ Provide your analysis in the following format:
 ### refactor-suggestions
 
 > **Description**: Code refactoring recommendations.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `code-review`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Code Refactoring Suggestions
 
@@ -2510,10 +2523,11 @@ For each refactoring, explain:
 ### suggest-fixes
 
 > **Description**: Suggest potential bug fixes and improvements for code.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `code-review`, `debug`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Suggest Bug Fixes
 Please analyze the following code and suggest potential fixes and improvements: 
@@ -2555,10 +2569,11 @@ Provide a comprehensive and actionable set of recommendations that will help imp
 ### design-database
 
 > **Description**: Design database schemas.
+> **Input Format**: `SQL Query or Schema`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `architecture`, `db`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Design Database Schema
 
@@ -3073,10 +3088,11 @@ Generate complete, production-ready database schema following best practices.
 ### migration-script
 
 > **Description**: Generate safe up/down database migration scripts.
+> **Input Format**: `SQL Query or Schema`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `db`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Database Migration Generator
 
@@ -3109,10 +3125,11 @@ Please provide the `Up` and `Down` scripts clearly separated.
 ### mock-data-gen
 
 > **Description**: Create realistic JSON/CSV mock data schemas for testing.
+> **Input Format**: `Code to Test`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `db`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Mock Data Generator
 
@@ -3144,10 +3161,11 @@ Provide the output in valid, well-formatted JSON (an array of objects) unless CS
 ### regex-builder
 
 > **Description**: Generate and explain complex Regular Expressions.
+> **Input Format**: `Technical Concept`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `shell`, `db`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Regex Builder & Explainer
 
@@ -3179,10 +3197,11 @@ Provide examples of similar strings that this regex will correctly **Fail to mat
 ### sql-optimizer
 
 > **Description**: Analyze slow queries and suggest indexes or rewrites.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `db`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # SQL Query Optimizer
 
@@ -3217,10 +3236,11 @@ Provide your analysis in the following format:
 ### debug-error
 
 > **Description**: Help diagnose and fix errors.
+> **Input Format**: `Error Log or Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `debug`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Debug Error
 
@@ -3505,10 +3525,11 @@ Generate a complete error analysis and solution following this structure.
 ### performance-profile
 
 > **Description**: Analyze performance profiles.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `debug`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Performance Profiling & Optimization
 
@@ -3962,10 +3983,11 @@ Generate a complete performance analysis and optimization plan following this fr
 ### suggest-fixes
 
 > **Description**: Suggest potential bug fixes and improvements for code.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `code-review`, `debug`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Suggest Bug Fixes
 Please analyze the following code and suggest potential fixes and improvements: 
@@ -4005,10 +4027,11 @@ Provide a comprehensive and actionable set of recommendations that will help imp
 ### trace-issue
 
 > **Description**: Trace the root cause of issues.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `debug`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Root Cause Analysis - Trace Issue
 
@@ -4340,10 +4363,11 @@ Generate a complete root cause analysis following this framework.
 ### bash-script-generator
 
 > **Description**: Write robust, POSIX-compliant bash scripts.
+> **Input Format**: `Task to Script`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `devops`, `shell`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Robust Bash Script Generator
 
@@ -4387,10 +4411,11 @@ For your response, provide:
 ### ci-cd-pipeline
 
 > **Description**: Generate CI/CD pipelines (GitHub Actions, GitLab CI, etc.).
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `devops`, `infra`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # CI/CD Pipeline Generator
 
@@ -4432,10 +4457,11 @@ For your response, provide:
 ### dockerfile-generator
 
 > **Description**: Generate optimized, production-ready Dockerfiles.
+> **Input Format**: `App Stack or Requirements`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `devops`, `infra`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Dockerfile Generator
 
@@ -4479,10 +4505,11 @@ For your response, provide:
 ### kubernetes-manifest
 
 > **Description**: Create Kubernetes Deployment and Service YAML manifests.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `devops`, `infra`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Kubernetes Manifest Generator
 
@@ -4526,10 +4553,11 @@ For your response, provide:
 ### terraform-module
 
 > **Description**: Write Infrastructure-as-Code Terraform modules.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `devops`, `infra`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Terraform Module Generator
 
@@ -4577,10 +4605,11 @@ For your response, provide:
 ### pr-template
 
 > **Description**: Generate a Pull Request template for a repository.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `agile`, `docs`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Pull Request Template Generator
 
@@ -4618,10 +4647,11 @@ Output ONLY the raw markdown template, ready to be saved as `.github/PULL_REQUES
 ### security-policy
 
 > **Description**: Draft a SECURITY.md or vulnerability disclosure policy.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `docs`, `security`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Security Policy Generator
 
@@ -4653,10 +4683,11 @@ A clear table indicating which versions of the project are currently supported w
 ### write-api-docs
 
 > **Description**: Create API documentation.
+> **Input Format**: `Project/App Description`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `docs`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Generate API Documentation
 
@@ -4815,10 +4846,11 @@ Generate complete, professional API documentation following these guidelines.
 ### write-changelog
 
 > **Description**: Generate changelog from changes.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `docs`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Generate Changelog
 
@@ -4977,10 +5009,11 @@ Generate a complete, well-organized changelog following these standards.
 ### write-contributing
 
 > **Description**: Create CONTRIBUTING.md guidelines.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `docs`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Generate CONTRIBUTING.md
 
@@ -5241,10 +5274,11 @@ Generate complete, beginner-friendly contribution guidelines following these sta
 ### write-inline-comments
 
 > **Description**: Add helpful code comments.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `docs`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Intelligent Code Commenting
 
@@ -5272,10 +5306,11 @@ Please provide the fully commented code below:
 ### write-readme
 
 > **Description**: Generate comprehensive README files.
+> **Input Format**: `Project/App Description`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `docs`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Generate Comprehensive README
 
@@ -5389,10 +5424,11 @@ Generate a complete, production-ready README following these guidelines.
 ### accessibility-audit
 
 > **Description**: Review HTML/React code for WCAG compliance.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `frontend`, `security`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Frontend Accessibility (a11y) Audit
 
@@ -5429,10 +5465,11 @@ For every issue found, provide a description of why it's an accessibility barrie
 ### component-story
 
 > **Description**: Generate Storybook stories for UI components.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `frontend`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Storybook Story Generator
 
@@ -5465,10 +5502,11 @@ Output the complete, syntactically correct Storybook file.
 ### css-tailwind-converter
 
 > **Description**: Convert standard CSS to Tailwind utility classes.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `frontend`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # CSS to Tailwind Converter
 
@@ -5497,10 +5535,11 @@ If the CSS includes arbitrary values (like `#ff0033` or `42px`), show how to wri
 ### ci-cd-pipeline
 
 > **Description**: Generate CI/CD pipelines (GitHub Actions, GitLab CI, etc.).
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `devops`, `infra`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # CI/CD Pipeline Generator
 
@@ -5542,10 +5581,11 @@ For your response, provide:
 ### dockerfile-generator
 
 > **Description**: Generate optimized, production-ready Dockerfiles.
+> **Input Format**: `App Stack or Requirements`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `devops`, `infra`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Dockerfile Generator
 
@@ -5589,10 +5629,11 @@ For your response, provide:
 ### iam-policy
 
 > **Description**: Generate AWS IAM or GCP resource policies with least privilege.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `security`, `infra`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # IAM Policy Generator
 
@@ -5622,10 +5663,11 @@ Provide the complete JSON/YAML policy along with a brief explanation of the perm
 ### kubernetes-manifest
 
 > **Description**: Create Kubernetes Deployment and Service YAML manifests.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `devops`, `infra`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Kubernetes Manifest Generator
 
@@ -5669,10 +5711,11 @@ For your response, provide:
 ### terraform-module
 
 > **Description**: Write Infrastructure-as-Code Terraform modules.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `devops`, `infra`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Terraform Module Generator
 
@@ -5720,10 +5763,11 @@ For your response, provide:
 ### compare-technologies
 
 > **Description**: Compare different technologies.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `learning`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Compare Technologies
 
@@ -6064,10 +6108,11 @@ Generate a comprehensive, balanced comparison following this framework.
 ### eli5
 
 > **Description**: Explain like I'm 5 (simple explanations).
+> **Input Format**: `Technical Concept`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `learning`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Explain Like I'm 5 (ELI5)
 
@@ -6239,10 +6284,11 @@ Generate a comprehensive ELI5 explanation that a 5-year-old (or complete beginne
 ### explain-concept
 
 > **Description**: Explain technical concepts clearly.
+> **Input Format**: `Technical Concept`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `learning`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Explain Technical Concept
 
@@ -6448,10 +6494,11 @@ Generate a comprehensive, multi-level explanation following this structure.
 ### learning-path
 
 > **Description**: Create learning roadmaps.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `learning`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Create Learning Roadmap
 
@@ -6855,10 +6902,11 @@ Generate a detailed, actionable learning roadmap following this structure.
 ### prompt-best-practices
 
 > **Description**: Learn prompt engineering tips.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `learning`, `prompt-engineering`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Prompt Engineering Best Practices
 
@@ -7399,10 +7447,11 @@ Generate comprehensive prompt engineering guidance following these best practice
 ### prompt-versioning
 
 > **Description**: Guide for managing and versioning prompt templates.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `learning`, `prompt-engineering`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Prompt Versioning & Lifecycle Management
 
@@ -7450,10 +7499,11 @@ Provide a clear, actionable roadmap for implementing this versioning strategy.
 ### simplify-jargon
 
 > **Description**: Simplify technical jargon.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `learning`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Technical Jargon Simplification
 
@@ -7487,10 +7537,11 @@ Please structure your explanation as follows:
 ### create-prompt-template
 
 > **Description**: Create reusable prompt templates.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `prompt-engineering`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Create Prompt Template
 
@@ -7928,10 +7979,11 @@ Generate a complete, reusable prompt template following this structure.
 ### improve-prompt
 
 > **Description**: Improve existing prompts.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `prompt-engineering`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Improve This Prompt
 
@@ -7998,10 +8050,11 @@ Provide the improved prompt directly below your analysis.
 ### prompt-best-practices
 
 > **Description**: Learn prompt engineering tips.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `learning`, `prompt-engineering`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Prompt Engineering Best Practices
 
@@ -8542,10 +8595,11 @@ Generate comprehensive prompt engineering guidance following these best practice
 ### prompt-versioning
 
 > **Description**: Guide for managing and versioning prompt templates.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `learning`, `prompt-engineering`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Prompt Versioning & Lifecycle Management
 
@@ -8595,10 +8649,11 @@ Provide a clear, actionable roadmap for implementing this versioning strategy.
 ### accessibility-audit
 
 > **Description**: Review HTML/React code for WCAG compliance.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `frontend`, `security`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Frontend Accessibility (a11y) Audit
 
@@ -8635,10 +8690,11 @@ For every issue found, provide a description of why it's an accessibility barrie
 ### code-review-security
 
 > **Description**: Deep security analysis of code.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `code-review`, `security`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Security Code Review
 
@@ -8701,10 +8757,11 @@ For each issue, explain:
 ### dependency-audit
 
 > **Description**: Analyze a package.json or requirements.txt for known vulnerable patterns.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `security`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Dependency Security Audit
 
@@ -8738,10 +8795,11 @@ Recommend improvements such as:
 ### iam-policy
 
 > **Description**: Generate AWS IAM or GCP resource policies with least privilege.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `security`, `infra`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # IAM Policy Generator
 
@@ -8771,10 +8829,11 @@ Provide the complete JSON/YAML policy along with a brief explanation of the perm
 ### security-policy
 
 > **Description**: Draft a SECURITY.md or vulnerability disclosure policy.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `docs`, `security`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Security Policy Generator
 
@@ -8806,10 +8865,11 @@ A clear table indicating which versions of the project are currently supported w
 ### threat-modeling
 
 > **Description**: Generate a STRIDE threat model for a proposed architecture.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `architecture`, `security`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Threat Modeling (STRIDE)
 
@@ -8849,10 +8909,11 @@ Summarize the top 3-5 security priorities the development team must focus on bef
 ### bash-script-generator
 
 > **Description**: Write robust, POSIX-compliant bash scripts.
+> **Input Format**: `Task to Script`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `devops`, `shell`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Robust Bash Script Generator
 
@@ -8896,10 +8957,11 @@ For your response, provide:
 ### cli-command-explainer
 
 > **Description**: Deeply explain obscure terminal commands/flags.
+> **Input Format**: `Technical Concept`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `shell`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # CLI Command Explainer
 
@@ -8933,10 +8995,11 @@ If this is an archaic or complex command, is there a simpler, modern alternative
 ### git-workflow
 
 > **Description**: Suggest Git commands to recover from complex merge/rebase states.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `shell`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Git Workflow & Recovery Assistant
 
@@ -8966,10 +9029,11 @@ If the user makes a mistake applying your solution, provide the command to safel
 ### regex-builder
 
 > **Description**: Generate and explain complex Regular Expressions.
+> **Input Format**: `Technical Concept`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `shell`, `db`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Regex Builder & Explainer
 
@@ -9003,10 +9067,11 @@ Provide examples of similar strings that this regex will correctly **Fail to mat
 ### generate-e2e-tests
 
 > **Description**: Create end-to-end tests.
+> **Input Format**: `Code to Test`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `test`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Generate End-to-End Tests
 
@@ -9305,10 +9370,11 @@ Generate a complete, production-ready E2E test suite following these best practi
 ### generate-unit-tests
 
 > **Description**: Create unit tests for code.
+> **Input Format**: `Source Code`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `test`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Generate Unit Tests
 
@@ -9527,10 +9593,11 @@ Generate a complete, production-ready test suite following these best practices.
 ### review-test-coverage
 
 > **Description**: Analyze test coverage gaps.
+> **Input Format**: `Code to Test`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `test`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Test Coverage Analysis
 
@@ -9837,10 +9904,11 @@ Generate a detailed coverage analysis following this structure.
 ### test-edge-cases
 
 > **Description**: Identify and test edge cases.
+> **Input Format**: `Code to Test`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `test`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Identify Edge Cases
 
@@ -10135,10 +10203,11 @@ Generate a comprehensive list of edge cases following this structure.
 ### write-email
 
 > **Description**: Draft professional emails.
+> **Input Format**: `Email Content or Goal`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `writing`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Draft Professional Email
 
@@ -10525,10 +10594,11 @@ Generate a complete, professional email following these guidelines.
 ### write-presentation
 
 > **Description**: Create presentation outlines.
+> **Input Format**: `Input Content`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `writing`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Create Presentation Outline
 
@@ -11020,10 +11090,11 @@ Generate a complete presentation outline following this structure.
 ### write-technical-blog
 
 > **Description**: Write technical blog posts.
+> **Input Format**: `Blog Topic or Outline`
 > **Version**: `1.0.0` | **Last Updated**: `2026-03-21`
 > **Tags**: `writing`
 
-#### Prompt Template:
+#### Template Content:
 ```markdown
 # Write Technical Blog Post
 

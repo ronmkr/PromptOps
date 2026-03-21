@@ -161,5 +161,47 @@ class TestPromptOps(unittest.TestCase):
         prompts = promptops_core.get_prompts("/non/existent/path")
         self.assertEqual(len(prompts), 0)
 
+    def test_hydrate_prompt_escaping(self):
+        template = "Hello {{name}}, usage: \\{{literal}}"
+        vars = {"name": "Alice"}
+        result = promptops_core.hydrate_prompt(template, vars)
+        self.assertEqual(result, "Hello Alice, usage: {{literal}}")
+
+    def test_hydrate_prompt_whitespace(self):
+        template = "Hello {{ name }}, code: {{code}}"
+        vars = {"name": "Alice", "code": "print()"}
+        result = promptops_core.hydrate_prompt(template, vars)
+        self.assertEqual(result, "Hello Alice, code: print()")
+
+    def test_hydrate_prompt_missing_var(self):
+        template = "Hello {{name}}, {{missing}}"
+        vars = {"name": "Alice"}
+        result = promptops_core.hydrate_prompt(template, vars)
+        self.assertEqual(result, "Hello Alice, {{missing}}")
+
+    def test_hydrate_prompt_multiple_same(self):
+        template = "{{name}} and {{name}}"
+        vars = {"name": "Alice"}
+        result = promptops_core.hydrate_prompt(template, vars)
+        self.assertEqual(result, "Alice and Alice")
+
+    def test_hydrate_prompt_numeric_underscore(self):
+        template = "{{var_1}}"
+        vars = {"var_1": "success"}
+        result = promptops_core.hydrate_prompt(template, vars)
+        self.assertEqual(result, "success")
+
+    def test_hydrate_prompt_no_vars(self):
+        template = "No variables here."
+        vars = {"name": "Alice"}
+        result = promptops_core.hydrate_prompt(template, vars)
+        self.assertEqual(result, "No variables here.")
+
+    def test_hydrate_prompt_empty_value(self):
+        template = "[{{empty}}]"
+        vars = {"empty": ""}
+        result = promptops_core.hydrate_prompt(template, vars)
+        self.assertEqual(result, "[]")
+
 if __name__ == "__main__":
     unittest.main()

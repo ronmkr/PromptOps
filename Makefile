@@ -20,15 +20,11 @@ test:
 	@echo "Running CLI helper tests..."
 	@python3 scripts/test_promptops.py
 
-catalog:
-	@echo "Generating CATALOG.md..."
-	@python3 scripts/generate_catalog.py
+docs:
+	@echo "Syncing all documentation..."
+	@python3 scripts/sync_all_docs.py
 
-evaluate:
-	@echo "Running Golden Tests..."
-	@python3 scripts/evaluate_prompts.py
-
-all: validate test catalog
+all: validate test docs
 	@echo "✅ All checks passed and catalog updated."
 
 clean:
