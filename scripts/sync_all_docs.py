@@ -6,9 +6,9 @@ import re
 import json
 
 PROMPTS_DIR = "commands/prompts"
-CATALOG_FILE = "CATALOG.ipynb"
 README_FILE = "README.md"
 GEMINI_FILE = "GEMINI.md"
+CATALOG_DIR = "docs/catalog"
 
 def get_prompts():
     prompts = []
@@ -32,170 +32,119 @@ def get_prompts():
             continue
     return sorted(prompts, key=lambda x: x["name"])
 
-def generate_catalog_ipynb(prompts):
-    # Collect all unique tags
-    all_tags = set()
-    for p in prompts:
-        all_tags.update(p["tags"])
-    sorted_tags = sorted(list(all_tags))
-
+def generate_domain_notebook(tag_name, display_name, prompts):
     cells = []
-    
-    # Title Cell
     cells.append({
         "cell_type": "markdown",
         "metadata": {},
         "source": [
-            "# 📖 PromptOps - Prompt Template Catalog\n\n",
+            f"# 📖 PromptOps - {display_name} Catalog\n\n",
             f"Generated on: {datetime.date.today().isoformat()}\n\n",
-            "This notebook contains the full reference for all templates available in the library."
+            f"This notebook contains the reference for all **{display_name}** templates."
         ]
     })
 
-    # Table of Contents
-    toc_lines = ["## 🗂️ Table of Contents\n"]
-    for tag in sorted_tags:
-        clean_tag = tag.replace('-', ' ').title()
-        toc_lines.append(f"- [{clean_tag}](#{tag})\n")
-    
-    cells.append({
-        "cell_type": "markdown",
-        "metadata": {},
-        "source": toc_lines
-    })
-
-    # Content Cells
-    for tag in sorted_tags:
-        clean_tag = tag.replace('-', ' ').title()
+    for p in prompts:
+        source_lines = [
+            f"### {p['name']}\n\n",
+            f"> **Description**: {p['description']}\n",
+            f"> **Input Needed**: `{p['args_description']}`\n",
+            f"> **Version**: `{p['version']}` | **Last Updated**: `{p['last_updated']}`\n",
+            f"> **Tags**: {', '.join([f'`{t}`' for t in p['tags']])}\n\n",
+            "#### Template Content:\n",
+            "```markdown\n",
+            p["prompt"] + "\n",
+            "```\n"
+        ]
         cells.append({
             "cell_type": "markdown",
             "metadata": {},
-            "source": [f"---\n\n## {clean_tag} <a name=\"{tag}\"></a>\n"]
+            "source": source_lines
         })
-        
-        tag_prompts = [p for p in prompts if tag in p["tags"]]
-        for p in tag_prompts:
-            source_lines = [
-                f"### {p['name']}\n\n",
-                f"> **Description**: {p['description']}\n",
-                f"> **Input Needed**: `{p['args_description']}`\n",
-                f"> **Version**: `{p['version']}` | **Last Updated**: `{p['last_updated']}`\n",
-                f"> **Tags**: {', '.join([f'`{t}`' for t in p['tags']])}\n\n",
-                "#### Template Content:\n",
-                "```markdown\n",
-                p["prompt"] + "\n",
-                "```\n"
-            ]
-            cells.append({
-                "cell_type": "markdown",
-                "metadata": {},
-                "source": source_lines
-            })
 
     notebook = {
         "cells": cells,
-        "metadata": {
-            "kernelspec": {
-                "display_name": "Python 3",
-                "language": "python",
-                "name": "python3"
-            }
-        },
-        "nbformat": 4,
-        "nbformat_minor": 5
+        "metadata": {"kernelspec": {"display_name": "Python 3", "language": "python", "name": "python3"}, "language_info": {"name": "python"}},
+        "nbformat": 4, "nbformat_minor": 5
     }
 
-    with open(CATALOG_FILE, "w", encoding="utf-8") as f:
+    os.makedirs(CATALOG_DIR, exist_ok=True)
+    # Sanitize filename: replace spaces, slashes, and ampersands
+    filename = tag_name.lower().replace(" ", "-").replace("&", "and").replace("/", "-")
+    filename = re.sub(r'-+', '-', filename) # Remove double dashes
+    filename += ".ipynb"
+    filepath = os.path.join(CATALOG_DIR, filename)
+    
+    with open(filepath, "w", encoding="utf-8") as f:
         json.dump(notebook, f, indent=1)
-    
-    print(f"✅ {CATALOG_FILE} updated.")
+    return filename
 
-def update_gemini_md(prompts):
+def update_docs(prompts):
+    # Domain configuration for both README and Gemini
+    # Key: Display Name, Values: list of tags, link_filename (filled dynamically)
+    domains = {
+        "Code Review & Analysis": {"tags": ["code-review", "debug"], "links": []},
+        "DevOps & Infrastructure": {"tags": ["devops", "infra"], "links": []},
+        "Security & Compliance": {"tags": ["security"], "links": []},
+        "Database & Data Engineering": {"tags": ["db"], "links": []},
+        "Testing & Debugging": {"tags": ["test", "debug"], "links": []},
+        "UI / UX & Frontend": {"tags": ["frontend"], "links": []},
+        "Architecture & Design": {"tags": ["architecture"], "links": []},
+        "Shell & Scripting": {"tags": ["shell"], "links": []},
+        "Project Management & Agile": {"tags": ["agile"], "links": []},
+        "Documentation & Learning": {"tags": ["docs", "learning", "writing"], "links": []}
+    }
+
+    # 1. Generate Domain Notebooks
+    for domain_name, config in domains.items():
+        domain_prompts = [p for p in prompts if any(t in p['tags'] for t in config['tags'])]
+        if domain_prompts:
+            # Deduplicate
+            seen = set()
+            unique_prompts = []
+            for p in domain_prompts:
+                if p['name'] not in seen:
+                    unique_prompts.append(p)
+                    seen.add(p['name'])
+            
+            nb_filename = generate_domain_notebook(domain_name, domain_name, sorted(unique_prompts, key=lambda x: x['name']))
+            config['filename'] = nb_filename
+            config['prompts'] = sorted(unique_prompts, key=lambda x: x['name'])
+
+    # 2. Update GEMINI.md
     with open(GEMINI_FILE, "r", encoding="utf-8") as f:
-        content = f.read()
+        gemini_content = f.read()
 
-    categories = {
-        "Code Review & Analysis": ["code-review", "debug"],
-        "Documentation": ["docs"],
-        "Testing": ["test"],
-        "Architecture & Design": ["architecture"],
-        "Learning & Explanation": ["learning"],
-        "Writing & Communication": ["writing"],
-        "Prompt Engineering": ["prompt-engineering"],
-        "DevOps & Infrastructure": ["devops", "infra"],
-        "Security & Compliance": ["security"],
-        "Database & Data Engineering": ["db"],
-        "UI / UX & Frontend": ["frontend"],
-        "Shell & Scripting": ["shell"],
-        "Project Management & Agile": ["agile"]
-    }
+    gemini_list = "## Available Prompts\n"
+    for domain_name, config in domains.items():
+        if 'prompts' in config:
+            gemini_list += f"### {domain_name}\n"
+            for p in config['prompts']:
+                gemini_list += f"- `/prompts:{p['name']}`: {p['description'].rstrip('.')}\n"
 
-    new_list = "## Available Prompts\n"
-    for cat_name, tags in categories.items():
-        cat_prompts = [p for p in prompts if any(t in p['tags'] for t in tags)]
-        if cat_prompts:
-            seen = set()
-            unique_cat_prompts = []
-            for p in cat_prompts:
-                if p['name'] not in seen:
-                    unique_cat_prompts.append(p)
-                    seen.add(p['name'])
-            
-            new_list += f"### {cat_name}\n"
-            for p in sorted(unique_cat_prompts, key=lambda x: x['name']):
-                new_list += f"- `/prompts:{p['name']}`: {p['description'].rstrip('.')}\n"
-
-    pattern = r"## Available Prompts.*?(?=## How to Use Prompts)"
-    new_content = re.sub(pattern, new_list, content, flags=re.DOTALL)
-    
+    gemini_pattern = r"## Available Prompts.*?(?=## How to Use Prompts)"
+    gemini_content = re.sub(gemini_pattern, gemini_list, gemini_content, flags=re.DOTALL)
     with open(GEMINI_FILE, "w", encoding="utf-8") as f:
-        f.write(new_content)
-    print(f"Update: {GEMINI_FILE} completed.")
+        f.write(gemini_content)
 
-def update_readme_md(prompts):
+    # 3. Update README.md
     with open(README_FILE, "r", encoding="utf-8") as f:
-        content = f.read()
+        readme_content = f.read()
 
-    new_list = "## Available Templates\n\nTemplates are located in `commands/prompts/`. See the [Prompt Catalog](CATALOG.ipynb) for full template details.\n\n"
-    
-    categories = {
-        "Code Review & Analysis": ["code-review", "debug"],
-        "DevOps & Infrastructure": ["devops", "infra"],
-        "Security & Compliance": ["security"],
-        "Database & Data": ["db"],
-        "Testing & Debugging": ["test", "debug"],
-        "Frontend & UI/UX": ["frontend"],
-        "Architecture & Design": ["architecture"],
-        "Shell & Scripting": ["shell"],
-        "Project Management": ["agile"],
-        "Documentation & Learning": ["docs", "learning", "writing"]
-    }
+    readme_list = "## Available Templates\n\nTemplates are categorized by domain. Click a category to view its full reference notebook.\n\n"
+    for domain_name, config in domains.items():
+        if 'prompts' in config:
+            readme_list += f"### [{domain_name}]({CATALOG_DIR}/{config['filename']})\n"
+            for p in config['prompts']:
+                readme_list += f"- `/prompts:{p['name']}` - {p['description'].rstrip('.')}\n"
+            readme_list += "\n"
 
-    for cat_name, tags in categories.items():
-        cat_prompts = [p for p in prompts if any(t in p['tags'] for t in tags)]
-        if cat_prompts:
-            seen = set()
-            unique_cat_prompts = []
-            for p in cat_prompts:
-                if p['name'] not in seen:
-                    unique_cat_prompts.append(p)
-                    seen.add(p['name'])
-            
-            new_list += f"### {cat_name}\n"
-            for p in sorted(unique_cat_prompts, key=lambda x: x['name']):
-                new_list += f"- `/prompts:{p['name']}` - {p['description'].rstrip('.')}\n"
-            new_list += "\n"
-
-    pattern = r"## Available Templates.*?(?=## Extending the Library)"
-    new_content = re.sub(pattern, new_list, content, flags=re.DOTALL)
-
+    readme_pattern = r"## Available Templates.*?(?=## Extending the Library)"
+    readme_content = re.sub(readme_pattern, readme_list, readme_content, flags=re.DOTALL)
     with open(README_FILE, "w", encoding="utf-8") as f:
-        f.write(new_content)
-    print(f"✅ {README_FILE} updated.")
+        f.write(readme_content)
 
 if __name__ == "__main__":
     prompts = get_prompts()
-    generate_catalog_ipynb(prompts)
-    update_gemini_md(prompts)
-    update_readme_md(prompts)
-    print("\n🚀 Documentation synchronized (Notebook format generated).")
+    update_docs(prompts)
+    print(f"\n🚀 Distributed documentation synchronized in {CATALOG_DIR}/")

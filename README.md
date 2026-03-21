@@ -91,9 +91,9 @@ claude "Read commands/prompts/design-api.toml and design a REST API"
 ---
 ## Available Templates
 
-Templates are located in `commands/prompts/`. See the [Prompt Catalog](CATALOG.ipynb) for full template details.
+Templates are categorized by domain. Click a category to view its full reference notebook.
 
-### Code Review & Analysis
+### [Code Review & Analysis](docs/catalog/code-review-and-analysis.ipynb)
 - `/prompts:code-review-best-practices` - General best practices review
 - `/prompts:code-review-performance` - Performance optimization suggestions
 - `/prompts:code-review-security` - Deep security analysis of code
@@ -104,7 +104,7 @@ Templates are located in `commands/prompts/`. See the [Prompt Catalog](CATALOG.i
 - `/prompts:suggest-fixes` - Suggest potential bug fixes and improvements for code
 - `/prompts:trace-issue` - Trace the root cause of issues
 
-### DevOps & Infrastructure
+### [DevOps & Infrastructure](docs/catalog/devops-and-infrastructure.ipynb)
 - `/prompts:bash-script-generator` - Write robust, POSIX-compliant bash scripts
 - `/prompts:ci-cd-pipeline` - Generate CI/CD pipelines (GitHub Actions, GitLab CI, etc.)
 - `/prompts:dockerfile-generator` - Generate optimized, production-ready Dockerfiles
@@ -112,7 +112,7 @@ Templates are located in `commands/prompts/`. See the [Prompt Catalog](CATALOG.i
 - `/prompts:kubernetes-manifest` - Create Kubernetes Deployment and Service YAML manifests
 - `/prompts:terraform-module` - Write Infrastructure-as-Code Terraform modules
 
-### Security & Compliance
+### [Security & Compliance](docs/catalog/security-and-compliance.ipynb)
 - `/prompts:accessibility-audit` - Review HTML/React code for WCAG compliance
 - `/prompts:code-review-security` - Deep security analysis of code
 - `/prompts:dependency-audit` - Analyze a package.json or requirements.txt for known vulnerable patterns
@@ -120,14 +120,14 @@ Templates are located in `commands/prompts/`. See the [Prompt Catalog](CATALOG.i
 - `/prompts:security-policy` - Draft a SECURITY.md or vulnerability disclosure policy
 - `/prompts:threat-modeling` - Generate a STRIDE threat model for a proposed architecture
 
-### Database & Data
+### [Database & Data Engineering](docs/catalog/database-and-data-engineering.ipynb)
 - `/prompts:design-database` - Design database schemas
 - `/prompts:migration-script` - Generate safe up/down database migration scripts
 - `/prompts:mock-data-gen` - Create realistic JSON/CSV mock data schemas for testing
 - `/prompts:regex-builder` - Generate and explain complex Regular Expressions
 - `/prompts:sql-optimizer` - Analyze slow queries and suggest indexes or rewrites
 
-### Testing & Debugging
+### [Testing & Debugging](docs/catalog/testing-and-debugging.ipynb)
 - `/prompts:debug-error` - Help diagnose and fix errors
 - `/prompts:generate-e2e-tests` - Create end-to-end tests
 - `/prompts:generate-unit-tests` - Create unit tests for code
@@ -137,30 +137,30 @@ Templates are located in `commands/prompts/`. See the [Prompt Catalog](CATALOG.i
 - `/prompts:test-edge-cases` - Identify and test edge cases
 - `/prompts:trace-issue` - Trace the root cause of issues
 
-### Frontend & UI/UX
+### [UI / UX & Frontend](docs/catalog/ui-ux-and-frontend.ipynb)
 - `/prompts:accessibility-audit` - Review HTML/React code for WCAG compliance
 - `/prompts:component-story` - Generate Storybook stories for UI components
 - `/prompts:css-tailwind-converter` - Convert standard CSS to Tailwind utility classes
 
-### Architecture & Design
+### [Architecture & Design](docs/catalog/architecture-and-design.ipynb)
 - `/prompts:design-api` - Design RESTful APIs
 - `/prompts:design-database` - Design database schemas
 - `/prompts:design-patterns` - Suggest appropriate design patterns
 - `/prompts:system-architecture` - Design system architecture
 - `/prompts:threat-modeling` - Generate a STRIDE threat model for a proposed architecture
 
-### Shell & Scripting
+### [Shell & Scripting](docs/catalog/shell-and-scripting.ipynb)
 - `/prompts:bash-script-generator` - Write robust, POSIX-compliant bash scripts
 - `/prompts:cli-command-explainer` - Deeply explain obscure terminal commands/flags
 - `/prompts:git-workflow` - Suggest Git commands to recover from complex merge/rebase states
 - `/prompts:regex-builder` - Generate and explain complex Regular Expressions
 
-### Project Management
+### [Project Management & Agile](docs/catalog/project-management-and-agile.ipynb)
 - `/prompts:pr-template` - Generate a Pull Request template for a repository
 - `/prompts:sprint-retrospective` - Analyze sprint data and generate a summary
 - `/prompts:ticket-generator` - Convert a loose idea into a structured Jira/Linear ticket
 
-### Documentation & Learning
+### [Documentation & Learning](docs/catalog/documentation-and-learning.ipynb)
 - `/prompts:compare-technologies` - Compare different technologies
 - `/prompts:eli5` - Explain like I'm 5 (simple explanations)
 - `/prompts:explain-concept` - Explain technical concepts clearly

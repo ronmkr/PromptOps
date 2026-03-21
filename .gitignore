@@ -24,11 +24,6 @@ wheels/
 venv/
 ENV/
 
-# Project Specific
-# Temporary creation scripts
-scripts/tmp_*
-*_tmp.py
-
 # IDEs / Editors
 .vscode/
 .idea/
@@ -50,8 +45,5 @@ tmp/
 temp/
 *.tmp
 
-# AI / Tool specific
-.claude/
-.aider/
-.gemini/
-.geminiignore
+# Project Specific
+# (Add any specific ignore patterns here)

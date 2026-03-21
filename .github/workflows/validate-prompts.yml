@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: write
+
 jobs:
   validate-and-test:
     name: Validate and Test PR
@@ -33,17 +36,17 @@ jobs:
       - name: Verify Prompt Catalog Synchronization
         run: |
           make docs
-          if [ -n "$(git status --porcelain CATALOG.ipynb)" ]; then
-            echo "::error::CATALOG.ipynb is out of sync with prompt templates!"
+          if [ -n "$(git status --porcelain docs/catalog/)" ]; then
+            echo "::error::Domain catalogs in docs/catalog/ are out of sync with prompt templates!"
             echo "::notice::Please run 'make docs' locally and commit the changes before merging."
-            git diff CATALOG.ipynb
+            git diff docs/catalog/
             exit 1
           else
-            echo "✅ CATALOG.ipynb is up to date."
+            echo "✅ Domain catalogs are up to date."
           fi
 
   generate-catalog-on-push:
-    name: Auto-Generate Catalog on Main
+    name: Auto-Generate Catalogs on Main
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -60,18 +63,18 @@ jobs:
       - name: Validate System Integrity
         run: make validate && make test
 
-      - name: Generate Updated Catalog
+      - name: Generate Updated Catalogs
         run: make docs
 
       - name: Commit and Push Catalog Changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add CATALOG.ipynb
+          git add docs/catalog/ README.md GEMINI.md
           if git diff --cached --quiet; then
-            echo "✅ No changes to CATALOG.ipynb"
+            echo "✅ No changes to documentation"
           else
-            git commit -m "docs: auto-generate prompt catalog [skip ci]"
+            git commit -m "docs: auto-generate domain prompt catalogs [skip ci]"
             git push
-            echo "🚀 Pushed updated CATALOG.ipynb to main"
+            echo "🚀 Pushed updated catalogs to main"
           fi
