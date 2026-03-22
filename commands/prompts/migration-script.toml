@@ -3,6 +3,7 @@ args_description = "SQL Query or Schema"
 version = "0.0.3"
 last_updated = "2026-03-21"
 tags         = ["db"]
+sensitive    = true
 prompt      = """
 # Database Migration Generator
 

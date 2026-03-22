@@ -1,6 +1,6 @@
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use std::collections::HashMap;
-use crate::model::{AppState, Focus, InputModal, Prompt};
+use crate::model::{AppState, Focus, InputModal, Prompt, Action, ConfirmationModal};
 use crate::{hydrate, clipboard};
 
 pub fn handle_navigation_input(app: &mut AppState, code: KeyCode) {
@@ -95,11 +95,20 @@ pub fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
                             p.name == modal.prompt_name && p.version_id == modal.version_id
                         }) {
                             let hydrated = hydrate::hydrate_prompt(&prompt.prompt, &modal.values);
-                            let _ = clipboard::copy_to_clipboard(&hydrated);
-                            app.set_status(format!("Success: '{}' copied!", prompt.name), 4);
+                            if prompt.sensitive {
+                                app.confirmation_modal = Some(ConfirmationModal {
+                                    title: " Security Confirmation ".to_string(),
+                                    message: format!("⚠️  SECURITY WARNING: '{}' is sensitive. Copy?", prompt.name),
+                                    action: Action::CopyPrompt(hydrated),
+                                });
+                                app.focus = Focus::ConfirmationModal;
+                            } else {
+                                let _ = clipboard::copy_to_clipboard(&hydrated);
+                                app.set_status(format!("Success: '{}' copied!", prompt.name), 4);
+                                app.focus = Focus::Prompts;
+                            }
                         }
                         app.input_modal = None;
-                        app.focus = Focus::Prompts;
                     }
                 }
             }
@@ -114,13 +123,45 @@ pub fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
     }
 }
 
+pub fn handle_confirmation_modal(app: &mut AppState, code: KeyCode) {
+    match code {
+        KeyCode::Enter | KeyCode::Char('y') | KeyCode::Char('Y') => {
+            if let Some(modal) = &app.confirmation_modal {
+                match &modal.action {
+                    Action::CopyPrompt(content) => {
+                        let _ = clipboard::copy_to_clipboard(content);
+                        app.set_status("Success: Copied to clipboard!".to_string(), 3);
+                    }
+                }
+            }
+            app.confirmation_modal = None;
+            app.focus = Focus::Prompts;
+        }
+        KeyCode::Esc | KeyCode::Char('n') | KeyCode::Char('N') => {
+            app.confirmation_modal = None;
+            app.focus = Focus::Prompts;
+            app.set_status("Action cancelled.".to_string(), 2);
+        }
+        _ => {}
+    }
+}
+
 fn start_hydration(app: &mut AppState, prompt: Prompt) {
     let vars = hydrate::get_variables(&prompt.prompt);
     if vars.is_empty() {
         let content = prompt.prompt.clone();
-        let _ = clipboard::copy_to_clipboard(&content);
-        app.set_status(format!("Success: '{}' copied!", prompt.name), 3);
-        app.focus = Focus::Prompts;
+        if prompt.sensitive {
+            app.confirmation_modal = Some(ConfirmationModal {
+                title: " Security Confirmation ".to_string(),
+                message: format!("⚠️  SECURITY WARNING: '{}' is sensitive. Copy?", prompt.name),
+                action: Action::CopyPrompt(content),
+            });
+            app.focus = Focus::ConfirmationModal;
+        } else {
+            let _ = clipboard::copy_to_clipboard(&content);
+            app.set_status(format!("Success: '{}' copied!", prompt.name), 3);
+            app.focus = Focus::Prompts;
+        }
     } else {
         app.input_modal = Some(InputModal {
             prompt_name: prompt.name.clone(),

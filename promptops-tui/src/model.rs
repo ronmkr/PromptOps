@@ -19,6 +19,8 @@ pub struct Prompt {
     #[serde(default)]
     pub tags: Vec<String>,
     #[serde(default)]
+    pub sensitive: bool,
+    #[serde(default)]
     pub prompt: String,
     #[serde(flatten)]
     pub metadata: HashMap<String, toml::Value>,
@@ -38,6 +40,18 @@ pub enum Focus {
     VersionSelection,
     InputModal,
     Search,
+    ConfirmationModal,
+}
+
+#[derive(Debug, Clone)]
+pub enum Action {
+    CopyPrompt(String),
+}
+
+pub struct ConfirmationModal {
+    pub title: String,
+    pub message: String,
+    pub action: Action,
 }
 
 pub struct InputModal {
@@ -61,6 +75,7 @@ pub struct AppState {
     pub last_focus: Focus,
     pub should_quit: bool,
     pub input_modal: Option<InputModal>,
+    pub confirmation_modal: Option<ConfirmationModal>,
     pub status_message: Option<String>,
     pub status_timeout: Option<Instant>,
     pub search_query: String,
@@ -118,6 +133,7 @@ impl AppState {
             last_focus: Focus::Categories,
             should_quit: false,
             input_modal: None,
+            confirmation_modal: None,
             status_message: None,
             status_timeout: None,
             search_query: String::new(),

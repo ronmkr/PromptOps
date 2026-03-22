@@ -40,6 +40,7 @@
 - **Version Control**: Templates include version and date metadata for maintenance.
 - **Tagging System**: Metadata-based discovery and filtering.
 - **Clipboard Integration**: Output is automatically copied to the system clipboard.
+- **Sensitive Data Protection**: Prompts marked as `sensitive` require explicit confirmation before copying.
 - **Extensible**: TOML-based structure for adding or modifying templates.
 
 ---
@@ -73,6 +74,7 @@ make tui
 **Key Features:**
 - **Global Search**: Press `/` to search across all 55+ prompts instantly.
 - **Interactive Hydration**: Sequential input for template variables (e.g., `{{args}}`, `{{code}}`).
+- **Security Confirmation**: Automatic `[y/n]` confirmation modal for sensitive prompts.
 - **Live Preview**: Press `v` to toggle syntax highlighting for prompt templates.
 - **Auto-Copy**: Final hydrated prompts are automatically copied to your system clipboard.
 
@@ -104,6 +106,8 @@ sudo ln -s $(pwd)/promptops /usr/local/bin/pop
 - `pop list --tag <tag>`: Filter by category.
 - `pop search <term>`: Search by name or description.
 - `pop use <tool>`: Run a template interactively.
+- `pop use <tool> --no-copy`: Disable automatic clipboard copying.
+- `pop use <tool> -y`: Auto-confirm sensitive prompt warnings.
 - `pop use <tool> --args @file.py`: Inject file content directly.
 - `cat file.py | pop use <tool>`: Use piped input.
 
@@ -253,6 +257,7 @@ args_description = "A label for the input (e.g., 'Source Code')."
 version          = "1.0.0"
 last_updated     = "2026-03-21"
 tags             = ["category"]
+sensitive        = true  # Optional: Mark as sensitive to enable confirmation warnings
 
 prompt           = """
 # Template Title

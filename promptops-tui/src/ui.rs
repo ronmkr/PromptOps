@@ -40,6 +40,10 @@ pub fn render(f: &mut Frame, state: &mut AppState) {
     if state.focus == Focus::InputModal {
         render_modal(f, state);
     }
+
+    if state.focus == Focus::ConfirmationModal {
+        render_confirmation_modal(f, state);
+    }
 }
 
 fn render_header(f: &mut Frame, state: &AppState, area: Rect) {
@@ -81,8 +85,40 @@ fn render_footer(f: &mut Frame, state: &AppState, area: Rect) {
             Focus::VersionSelection => " [j/k/↑/↓] Change Version | [Enter] Use | [Esc] Back ",
             Focus::Search => " [Type] Search | [Enter] Confirm | [Esc] Cancel ",
             Focus::InputModal => " [Type] Input | [Enter] Next/Copy | [Alt+Enter] New Line | [Esc] Cancel ",
+            Focus::ConfirmationModal => " [y] Confirm Copy | [n/Esc] Cancel ",
         };
         f.render_widget(Paragraph::new(help).style(Style::default().fg(Color::DarkGray)), area);
+    }
+}
+
+fn render_confirmation_modal(f: &mut Frame, state: &AppState) {
+    if let Some(modal) = &state.confirmation_modal {
+        let area = centered_rect(60, 30, f.size());
+        f.render_widget(Clear, area);
+
+        let block = Block::default()
+            .borders(Borders::ALL)
+            .title(modal.title.as_str())
+            .border_style(Style::default().fg(Color::Red))
+            .padding(Padding::uniform(1));
+
+        let text = vec![
+            Line::from(vec![
+                Span::styled("⚠️  ACTION REQUIRED", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
+            ]),
+            Line::from(""),
+            Line::from(modal.message.as_str()),
+            Line::from(""),
+            Line::from(vec![
+                Span::styled(" [y] ", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
+                Span::raw("Confirm"),
+                Span::raw("  "),
+                Span::styled(" [n] ", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
+                Span::raw("Cancel"),
+            ]),
+        ];
+
+        f.render_widget(Paragraph::new(text).block(block).wrap(Wrap { trim: true }), area);
     }
 }
 

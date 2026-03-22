@@ -121,6 +121,8 @@ def main():
     
     use_p = subparsers.add_parser("use", help="Output prompt content for use in other tools")
     use_p.add_argument("name", help="Name of the prompt to use")
+    use_p.add_argument("--no-copy", action="store_true", help="Do not copy the prompt to the clipboard")
+    use_p.add_argument("-y", "--yes", action="store_true", help="Automatically confirm sensitive prompt warnings")
     
     comp_p = subparsers.add_parser("completion", help="Generate shell completion script")
     comp_p.add_argument("shell", choices=["zsh", "bash", "fish"], help="Target shell")
@@ -140,7 +142,7 @@ def main():
             if unknown[i].startswith("--") and i + 1 < len(unknown):
                 var_name = unknown[i][2:]
                 provided_vars[var_name] = resolve_file_injection(unknown[i+1])
-        use_prompt(target_name, provided_vars, version_hint=version_hint)
+        use_prompt(target_name, provided_vars, version_hint=version_hint, no_copy=args.no_copy, auto_confirm=args.yes)
     else:
         args = parser.parse_args()
         if args.command == "list":

@@ -3,6 +3,7 @@ args_description = "Source Code"
 version = "0.0.3"
 last_updated = "2026-03-21"
 tags         = ["security", "infra"]
+sensitive    = true
 prompt      = """
 # IAM Policy Generator
 

@@ -52,3 +52,6 @@ scripts/tmp_*
 
 # Project Specific
 # (Add any specific ignore patterns here)
+
+.gemini/
+gha-creds-*.json

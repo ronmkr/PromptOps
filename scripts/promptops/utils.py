@@ -2,6 +2,7 @@ import os
 import sys
 import platform
 import subprocess
+import glob
 
 # ANSI Colors for better UX
 class Colors:
@@ -14,6 +15,12 @@ class Colors:
 # Constants
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 PROMPTS_DIR = os.path.join(BASE_DIR, "commands", "prompts")
+
+class InjectionConfig:
+    """Central configuration for file injection and context limits."""
+    MAX_FILES = 100
+    MAX_CHARS = 500000 # ~125k tokens
+    TRUNCATION_MARKER = "\n... [TRUNCATED due to length limit] ..."
 
 def copy_to_clipboard(text):
     """Zero-dependency clipboard copy using native OS commands."""
@@ -36,8 +43,6 @@ def copy_to_clipboard(text):
     except Exception:
         return False
 
-import glob
-
 def resolve_file_injection(val):
     """
     Resolves file injection. Supports:
@@ -58,20 +63,40 @@ def resolve_file_injection(val):
             print(f"{Colors.YELLOW}Warning: File {pattern} not found. Using raw string.{Colors.RESET}", file=sys.stderr)
         return val
 
-    contents = []
     files = sorted([m for m in matches if os.path.isfile(m)])
-    
     if not files:
         return val
 
+    # Safety check for large number of files
+    if len(files) > InjectionConfig.MAX_FILES:
+        print(f"{Colors.YELLOW}⚠️  Warning: Glob pattern '{pattern}' matched {len(files)} files.{Colors.RESET}", file=sys.stderr)
+        print(f"{Colors.YELLOW}Truncating to first {InjectionConfig.MAX_FILES} files to prevent context overflow.{Colors.RESET}", file=sys.stderr)
+        files = files[:InjectionConfig.MAX_FILES]
+
+    contents = []
+    total_chars = 0
+    
     for f_path in files:
         try:
+            if total_chars >= InjectionConfig.MAX_CHARS:
+                print(f"{Colors.YELLOW}⚠️  Warning: Maximum character limit reached ({InjectionConfig.MAX_CHARS}). Truncating further files.{Colors.RESET}", file=sys.stderr)
+                break
+
             with open(f_path, "r", encoding="utf-8") as f:
                 content = f.read().strip()
-                if len(files) > 1:
-                    contents.append(f"--- File: {f_path} ---\n{content}")
-                else:
-                    contents.append(content)
+                file_text = f"--- File: {f_path} ---\n{content}" if len(files) > 1 else content
+                
+                if total_chars + len(file_text) > InjectionConfig.MAX_CHARS:
+                    # Truncate this file to fit the limit
+                    remaining = InjectionConfig.MAX_CHARS - total_chars
+                    if remaining > 50:
+                        file_text = file_text[:remaining] + InjectionConfig.TRUNCATION_MARKER
+                        contents.append(file_text)
+                    print(f"{Colors.YELLOW}⚠️  Warning: Maximum character limit reached. Truncated {f_path}.{Colors.RESET}", file=sys.stderr)
+                    break
+                
+                contents.append(file_text)
+                total_chars += len(file_text)
         except Exception as e:
             print(f"{Colors.YELLOW}Warning: Could not read file {f_path} ({e}).{Colors.RESET}", file=sys.stderr)
     
