@@ -12,7 +12,7 @@ use crossterm::{
 };
 use ratatui::{backend::CrosstermBackend, Terminal};
 use std::{io, path::Path, time::Duration, collections::HashMap};
-use crate::model::{AppState, Focus, InputModal};
+use crate::model::{AppState, Focus, InputModal, Prompt};
 
 fn main() -> Result<()> {
     // 1. Setup terminal
@@ -74,6 +74,7 @@ fn run_app<B: ratatui::backend::Backend>(
                 match app.focus {
                     Focus::InputModal => handle_modal_input(app, key),
                     Focus::Search => handle_search_input(app, key.code),
+                    Focus::VersionSelection => handle_version_selection(app, key.code),
                     _ => handle_navigation_input(app, key.code),
                 }
             }
@@ -106,26 +107,52 @@ fn handle_navigation_input(app: &mut AppState, code: KeyCode) {
             app.show_preview = !app.show_preview;
         }
         KeyCode::Enter => {
-            if let Some(prompt) = app.filter_prompts.get(app.selected_prompt_index) {
-                let vars = hydrate::get_variables(&prompt.prompt);
-                if vars.is_empty() {
-                    let content = prompt.prompt.clone();
-                    let _ = clipboard::copy_to_clipboard(&content);
-                    app.set_status(format!("Success: '{}' copied!", prompt.name), 3);
+            if let Some(group) = app.filter_groups.get(app.selected_prompt_index) {
+                if group.versions.len() > 1 {
+                    app.focus = Focus::VersionSelection;
                 } else {
-                    app.input_modal = Some(InputModal {
-                        prompt_name: prompt.name.clone(),
-                        variables: vars,
-                        current_var_index: 0,
-                        values: HashMap::new(),
-                        input_buffer: String::new(),
-                        args_description: prompt.args_description.clone(),
-                    });
-                    app.focus = Focus::InputModal;
+                    start_hydration(app, group.versions[0].clone());
                 }
             }
         }
         _ => {}
+    }
+}
+
+fn handle_version_selection(app: &mut AppState, code: KeyCode) {
+    match code {
+        KeyCode::Esc => {
+            app.focus = Focus::Prompts;
+        }
+        KeyCode::Enter => {
+            let group = app.filter_groups[app.selected_prompt_index].clone();
+            let version = group.versions[group.selected_version_index].clone();
+            start_hydration(app, version);
+        }
+        KeyCode::Down | KeyCode::Char('j') => app.next(),
+        KeyCode::Up | KeyCode::Char('k') => app.previous(),
+        _ => {}
+    }
+}
+
+fn start_hydration(app: &mut AppState, prompt: Prompt) {
+    let vars = hydrate::get_variables(&prompt.prompt);
+    if vars.is_empty() {
+        let content = prompt.prompt.clone();
+        let _ = clipboard::copy_to_clipboard(&content);
+        app.set_status(format!("Success: '{}' copied!", prompt.name), 3);
+        app.focus = Focus::Prompts;
+    } else {
+        app.input_modal = Some(InputModal {
+            prompt_name: prompt.name.clone(),
+            version_id: prompt.version_id.clone(),
+            variables: vars,
+            current_var_index: 0,
+            values: HashMap::new(),
+            input_buffer: String::new(),
+            args_description: prompt.args_description.clone(),
+        });
+        app.focus = Focus::InputModal;
     }
 }
 
@@ -161,7 +188,7 @@ fn resolve_file_injection(val: &str) -> String {
 
     let pattern = &val[1..];
     let mut contents = Vec::new();
-    let mut files = Vec::new();
+    let mut files = Vec::<std::path::PathBuf>::new();
 
     if let Ok(entries) = glob(pattern) {
         for entry in entries.filter_map(Result::ok) {
@@ -217,7 +244,9 @@ fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
                     if modal.current_var_index + 1 < modal.variables.len() {
                         modal.current_var_index += 1;
                     } else {
-                        if let Some(prompt) = app.all_prompts.iter().find(|p| p.name == modal.prompt_name) {
+                        if let Some(prompt) = app.all_prompts.iter().find(|p| {
+                            p.name == modal.prompt_name && p.version_id == modal.version_id
+                        }) {
                             let hydrated = hydrate::hydrate_prompt(&prompt.prompt, &modal.values);
                             let _ = clipboard::copy_to_clipboard(&hydrated);
                             app.set_status(format!("Success: '{}' copied!", prompt.name), 4);

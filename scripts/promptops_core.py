@@ -21,37 +21,91 @@ PROMPTS_DIR = os.path.join(BASE_DIR, "commands", "prompts")
 def get_prompts(prompts_dir=None):
     if prompts_dir is None:
         prompts_dir = PROMPTS_DIR
-    prompts = []
+    
+    # Map: name -> list of versions
+    groups = {}
+    
     if not os.path.exists(prompts_dir):
-        return prompts
-    files = glob.glob(os.path.join(prompts_dir, "*.toml"))
-    for f in files:
-        name = os.path.basename(f).replace(".toml", "")
-        try:
-            with open(f, "rb") as file:
-                data = tomllib.load(file)
-                prompts.append({
-                    "name": name,
-                    "description": data.get("description", "No description provided"),
-                    "version": data.get("version", "N/A"),
-                    "tags": data.get("tags", []),
-                    "args_description": data.get("args_description", "Input Data"),
-                    "prompt": data.get("prompt", "")
-                })
-        except Exception:
-            continue
-    return sorted(prompts, key=lambda x: x["name"])
+        return []
+
+    # 1. Look for flat files at root
+    for entry in os.listdir(prompts_dir):
+        full_path = os.path.join(prompts_dir, entry)
+        if os.path.isfile(full_path) and entry.endswith(".toml"):
+            name = entry.replace(".toml", "")
+            _process_prompt_file(full_path, name, None, groups)
+        elif os.path.isdir(full_path):
+            # 2. Look for versioned files in subdirectories
+            name = entry
+            for sub_entry in sorted(os.listdir(full_path)):
+                if sub_entry.endswith(".toml"):
+                    version_id = sub_entry.replace(".toml", "")
+                    _process_prompt_file(os.path.join(full_path, sub_entry), name, version_id, groups)
+
+    # Flatten into a list of all versions
+    all_versions = []
+    for name in sorted(groups.keys()):
+        versions = groups[name]
+        # Sort versions: None (default) first, then by ID
+        versions.sort(key=lambda x: (x["version_id"] is not None, x["version_id"] or ""))
+        all_versions.extend(versions)
+        
+    return all_versions
+
+def _process_prompt_file(path, name, version_id, groups):
+    try:
+        with open(path, "rb") as file:
+            data = tomllib.load(file)
+            if name not in groups:
+                groups[name] = []
+            
+            groups[name].append({
+                "name": name,
+                "version_id": version_id, # e.g. "v1" or None
+                "description": data.get("description", "No description provided"),
+                "version": data.get("version", "N/A"),
+                "tags": data.get("tags", []),
+                "args_description": data.get("args_description", "Input Data"),
+                "prompt": data.get("prompt", ""),
+                "path": path
+            })
+    except Exception:
+        pass
+
 def list_prompts(tag_filter=None, prompts_dir=None):
     prompts = get_prompts(prompts_dir)
+    
+    # Group by name for display
+    grouped = {}
+    for p in prompts:
+        if p["name"] not in grouped:
+            grouped[p["name"]] = []
+        grouped[p["name"]].append(p)
+    
+    # Filter groups by tag
     if tag_filter:
-        prompts = [p for p in prompts if tag_filter in p["tags"]]
-        if not prompts:
-            print(f"No prompts found with tag '{tag_filter}'")
-            return
+        new_grouped = {}
+        for name, versions in grouped.items():
+            if any(tag_filter in v["tags"] for v in versions):
+                new_grouped[name] = versions
+        grouped = new_grouped
+
+    if not grouped:
+        print(f"No prompts found with criteria.")
+        return
+
     print(f"{Colors.BOLD}{Colors.CYAN}{'PROMPT NAME':<35} | {'DESCRIPTION'}{Colors.RESET}")
     print("-" * 100)
-    for p in prompts:
-        print(f"{Colors.GREEN}{p['name']:<35}{Colors.RESET} | {p['description']}")
+    for name in sorted(grouped.keys()):
+        versions = grouped[name]
+        # Collect version identifiers (v1, v2...)
+        v_ids = [v["version_id"] for v in versions if v["version_id"]]
+        v_str = f" [{', '.join(v_ids)}]" if v_ids else ""
+        
+        # Use first version's description as representative
+        desc = versions[0]["description"]
+        print(f"{Colors.GREEN}{name + v_str:<35}{Colors.RESET} | {desc}")
+
 def list_tags(prompts_dir=None, raw=False):
     prompts = get_prompts(prompts_dir)
     tags = set()
@@ -63,14 +117,27 @@ def list_tags(prompts_dir=None, raw=False):
         return
     print(f"{Colors.BOLD}{Colors.CYAN}Available Tags:{Colors.RESET}")
     print("-" * 20)
+    
+    # Unique names count per tag
+    unique_names = {}
+    for tag in tags:
+        names = {p["name"] for p in prompts if tag in p["tags"]}
+        unique_names[tag] = len(names)
+
     for tag in sorted(list(tags)):
-        count = len([p for p in prompts if tag in p["tags"]])
-        print(f"{Colors.YELLOW}{tag:<20}{Colors.RESET} ({count} prompts)")
+        print(f"{Colors.YELLOW}{tag:<20}{Colors.RESET} ({unique_names[tag]} prompts)")
+
 def list_names(prompts_dir=None):
     """Hidden helper for shell completion."""
     prompts = get_prompts(prompts_dir)
+    # Return unique prompt names + name:version shorthand
+    names = set()
     for p in prompts:
-        print(p["name"])
+        names.add(p["name"])
+        if p["version_id"]:
+            names.add(f"{p['name']}:{p['version_id']}")
+    for name in sorted(list(names)):
+        print(name)
 def generate_completion(shell):
     """Generates shell completion scripts for Zsh, Bash, and Fish."""
     if shell == "zsh":
@@ -236,15 +303,51 @@ def hydrate_prompt(template, variables_map):
     pattern = r'(\\)?\{\{\s*(\w+)\s*\}\}'
     return re.sub(pattern, substitute, template)
 
-def use_prompt(name, provided_vars=None, prompts_dir=None, return_only=False):
+def use_prompt(name, provided_vars=None, prompts_dir=None, return_only=False, version_hint=None):
     if provided_vars is None:
         provided_vars = {}
-    if prompts_dir is None:
-        prompts_dir = PROMPTS_DIR
-    filepath = os.path.join(prompts_dir, f"{name}.toml")
-    if not os.path.exists(filepath):
+    
+    # Find available versions
+    all_prompts = get_prompts(prompts_dir)
+    versions = [p for p in all_prompts if p["name"] == name]
+    
+    if not versions:
         print(f"Error: Prompt '{name}' not found.", file=sys.stderr)
         sys.exit(1)
+        
+    selected = None
+    if version_hint:
+        selected = next((v for v in versions if v["version_id"] == version_hint), None)
+        if not selected:
+            print(f"Error: Version '{version_hint}' for prompt '{name}' not found.", file=sys.stderr)
+            avail = [v["version_id"] or "default" for v in versions]
+            print(f"Available versions: {', '.join(avail)}", file=sys.stderr)
+            sys.exit(1)
+    elif len(versions) == 1:
+        selected = versions[0]
+    else:
+        if not sys.stdin.isatty():
+            # Non-interactive: default to first one
+            selected = versions[0]
+        else:
+            print(f"\n{Colors.BOLD}Multiple versions found for '{name}':{Colors.RESET}")
+            for i, v in enumerate(versions):
+                v_id = v["version_id"] or "default"
+                print(f"  {i+1}) {Colors.GREEN}{v_id:<10}{Colors.RESET} | {v['description']}")
+            
+            try:
+                choice = input(f"\nSelect version (1-{len(versions)}): ")
+                idx = int(choice) - 1
+                if 0 <= idx < len(versions):
+                    selected = versions[idx]
+                else:
+                    print("Invalid selection.", file=sys.stderr)
+                    sys.exit(1)
+            except (ValueError, KeyboardInterrupt, EOFError):
+                print("\nCancelled.", file=sys.stderr)
+                sys.exit(1)
+
+    filepath = selected["path"]
     try:
         with open(filepath, "rb") as f:
             data = tomllib.load(f)
@@ -252,6 +355,8 @@ def use_prompt(name, provided_vars=None, prompts_dir=None, return_only=False):
             if not prompt_content:
                 print(f"Error: Prompt '{name}' has no content.", file=sys.stderr)
                 sys.exit(1)
+            
+            display_name = f"{name}:{selected['version_id']}" if selected["version_id"] else name
             args_desc = data.get("args_description", "Input Data")
             variables = sorted(list(set(re.findall(r"\{\{(\w+)\}\}", prompt_content))))
             if return_only:
@@ -273,7 +378,7 @@ def use_prompt(name, provided_vars=None, prompts_dir=None, return_only=False):
                         label = args_desc if var == "args" else var.replace("_", " ").title()
 
                         print("\n" + f"{Colors.BOLD}{Colors.YELLOW}" + "╭" + "─"*68 + "╮" + f"{Colors.RESET}", file=sys.stderr)
-                        print(f"{Colors.BOLD}{Colors.YELLOW}│{Colors.RESET} {Colors.CYAN}PromptOps Interactive: {Colors.BOLD}{name}{Colors.RESET}", file=sys.stderr)
+                        print(f"{Colors.BOLD}{Colors.YELLOW}│{Colors.RESET} {Colors.CYAN}PromptOps Interactive: {Colors.BOLD}{display_name}{Colors.RESET}", file=sys.stderr)
                         print(f"{Colors.BOLD}{Colors.YELLOW}├" + "─"*68 + "┤" + f"{Colors.RESET}", file=sys.stderr)
                         print(f"{Colors.BOLD}{Colors.YELLOW}│{Colors.RESET} {Colors.BOLD}Required:{Colors.RESET} {Colors.GREEN}{label}{Colors.RESET}", file=sys.stderr)
                         print(f"{Colors.BOLD}{Colors.YELLOW}│{Colors.RESET} {Colors.BOLD}Finish:{Colors.RESET}   Press {Colors.BOLD}Ctrl+D{Colors.RESET} (Mac/Linux) or {Colors.BOLD}Ctrl+Z+Enter{Colors.RESET} (Win)", file=sys.stderr)
@@ -391,13 +496,21 @@ def main():
     subparsers.add_parser("_list_tags", add_help=False)
     if len(sys.argv) > 1 and sys.argv[1] == "use":
         args, unknown = parser.parse_known_args()
+        
+        target_name = args.name
+        version_hint = None
+        if ":" in target_name:
+            parts = target_name.split(":", 1)
+            target_name = parts[0]
+            version_hint = parts[1]
+
         provided_vars = {}
         for i in range(0, len(unknown), 2):
             if unknown[i].startswith("--") and i + 1 < len(unknown):
                 var_name = unknown[i][2:]
                 val = resolve_file_injection(unknown[i+1])
                 provided_vars[var_name] = val
-        use_prompt(args.name, provided_vars)
+        use_prompt(target_name, provided_vars, version_hint=version_hint)
     else:
         args = parser.parse_args()
         if args.command == "list":

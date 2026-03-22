@@ -155,7 +155,7 @@ class TestPromptOps(unittest.TestCase):
         with patch('sys.stdout', new=io.StringIO()) as fake_out:
             promptops_core.list_prompts(tag_filter="empty-tag", prompts_dir=self.test_dir)
             output = fake_out.getvalue()
-            self.assertIn("No prompts found with tag 'empty-tag'", output)
+            self.assertIn("No prompts found with criteria", output)
 
     def test_list_tags_raw(self):
         with patch('sys.stdout', new=io.StringIO()) as fake_out:

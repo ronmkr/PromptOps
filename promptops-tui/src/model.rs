@@ -7,6 +7,8 @@ pub struct Prompt {
     #[serde(default)]
     pub name: String,
     #[serde(default)]
+    pub version_id: Option<String>, // e.g. "v1", "v2"
+    #[serde(default)]
     pub description: String,
     #[serde(default)]
     pub args_description: String,
@@ -22,16 +24,25 @@ pub struct Prompt {
     pub metadata: HashMap<String, toml::Value>,
 }
 
+#[derive(Debug, Clone)]
+pub struct PromptGroup {
+    pub name: String,
+    pub versions: Vec<Prompt>,
+    pub selected_version_index: usize,
+}
+
 #[derive(Debug, Clone, PartialEq)]
 pub enum Focus {
     Categories,
     Prompts,
+    VersionSelection,
     InputModal,
     Search,
 }
 
 pub struct InputModal {
     pub prompt_name: String,
+    pub version_id: Option<String>,
     pub variables: Vec<String>,
     pub current_var_index: usize,
     pub values: HashMap<String, String>,
@@ -41,10 +52,11 @@ pub struct InputModal {
 
 pub struct AppState {
     pub all_prompts: Vec<Prompt>,
+    pub groups: Vec<PromptGroup>,
     pub categories: Vec<(String, usize)>, // (Category Name, Count)
     pub selected_category_index: usize,
     pub selected_prompt_index: usize,
-    pub filter_prompts: Vec<Prompt>,
+    pub filter_groups: Vec<PromptGroup>,
     pub focus: Focus,
     pub last_focus: Focus,
     pub should_quit: bool,
@@ -57,10 +69,38 @@ pub struct AppState {
 
 impl AppState {
     pub fn new(prompts: Vec<Prompt>) -> Self {
+        // Group prompts by name
+        let mut group_map: HashMap<String, Vec<Prompt>> = HashMap::new();
+        for p in prompts.iter() {
+            group_map.entry(p.name.clone()).or_default().push(p.clone());
+        }
+
+        let mut groups: Vec<PromptGroup> = group_map.into_iter()
+            .map(|(name, mut versions)| {
+                // Sort: None (default) first, then by ID
+                versions.sort_by(|a, b| {
+                    (a.version_id.is_some(), a.version_id.as_ref().unwrap_or(&String::new()))
+                    .cmp(&(b.version_id.is_some(), b.version_id.as_ref().unwrap_or(&String::new())))
+                });
+                PromptGroup {
+                    name,
+                    versions,
+                    selected_version_index: 0,
+                }
+            })
+            .collect();
+        groups.sort_by(|a, b| a.name.cmp(&b.name));
+
         let mut counts: HashMap<String, usize> = HashMap::new();
-        for p in &prompts {
-            for tag in &p.tags {
-                *counts.entry(tag.clone()).or_insert(0) += 1;
+        for g in &groups {
+            let mut tags = std::collections::HashSet::new();
+            for v in &g.versions {
+                for t in &v.tags {
+                    tags.insert(t.clone());
+                }
+            }
+            for tag in tags {
+                *counts.entry(tag).or_insert(0) += 1;
             }
         }
         
@@ -69,10 +109,11 @@ impl AppState {
         
         let mut app = Self {
             all_prompts: prompts,
+            groups,
             categories,
             selected_category_index: 0,
             selected_prompt_index: 0,
-            filter_prompts: Vec::new(),
+            filter_groups: Vec::new(),
             focus: Focus::Categories,
             last_focus: Focus::Categories,
             should_quit: false,
@@ -103,27 +144,29 @@ impl AppState {
     pub fn update_filter(&mut self) {
         if !self.search_query.is_empty() {
             let query = self.search_query.to_lowercase();
-            self.filter_prompts = self.all_prompts
+            self.filter_groups = self.groups
                 .iter()
-                .filter(|p| {
-                    p.name.to_lowercase().contains(&query) || 
-                    p.description.to_lowercase().contains(&query) ||
-                    p.tags.iter().any(|t| t.to_lowercase().contains(&query))
+                .filter(|g| {
+                    g.name.to_lowercase().contains(&query) || 
+                    g.versions.iter().any(|v| 
+                        v.description.to_lowercase().contains(&query) ||
+                        v.tags.iter().any(|t| t.to_lowercase().contains(&query))
+                    )
                 })
                 .cloned()
                 .collect();
         } else if self.categories.is_empty() {
-            self.filter_prompts = Vec::new();
+            self.filter_groups = Vec::new();
         } else {
             let category = &self.categories[self.selected_category_index].0;
-            self.filter_prompts = self.all_prompts
+            self.filter_groups = self.groups
                 .iter()
-                .filter(|p| p.tags.contains(category))
+                .filter(|g| g.versions.iter().any(|v| v.tags.contains(category)))
                 .cloned()
                 .collect();
         }
         
-        if self.selected_prompt_index >= self.filter_prompts.len() {
+        if self.selected_prompt_index >= self.filter_groups.len() {
             self.selected_prompt_index = 0;
         }
     }
@@ -137,9 +180,13 @@ impl AppState {
                 }
             }
             Focus::Prompts => {
-                if !self.filter_prompts.is_empty() {
-                    self.selected_prompt_index = (self.selected_prompt_index + 1) % self.filter_prompts.len();
+                if !self.filter_groups.is_empty() {
+                    self.selected_prompt_index = (self.selected_prompt_index + 1) % self.filter_groups.len();
                 }
+            }
+            Focus::VersionSelection => {
+                let group = &mut self.filter_groups[self.selected_prompt_index];
+                group.selected_version_index = (group.selected_version_index + 1) % group.versions.len();
             }
             _ => {}
         }
@@ -158,12 +205,20 @@ impl AppState {
                 }
             }
             Focus::Prompts => {
-                if !self.filter_prompts.is_empty() {
+                if !self.filter_groups.is_empty() {
                     if self.selected_prompt_index == 0 {
-                        self.selected_prompt_index = self.filter_prompts.len() - 1;
+                        self.selected_prompt_index = self.filter_groups.len() - 1;
                     } else {
                         self.selected_prompt_index -= 1;
                     }
+                }
+            }
+            Focus::VersionSelection => {
+                let group = &mut self.filter_groups[self.selected_prompt_index];
+                if group.selected_version_index == 0 {
+                    group.selected_version_index = group.versions.len() - 1;
+                } else {
+                    group.selected_version_index -= 1;
                 }
             }
             _ => {}

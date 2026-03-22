@@ -33,6 +33,10 @@ pub fn render(f: &mut Frame, state: &mut AppState) {
     render_details(f, state, main_chunks[2]);
     render_footer(f, state, outer_layout[2]);
 
+    if state.focus == Focus::VersionSelection {
+        render_version_modal(f, state);
+    }
+
     if state.focus == Focus::InputModal {
         render_modal(f, state);
     }
@@ -73,9 +77,10 @@ fn render_footer(f: &mut Frame, state: &AppState, area: Rect) {
     } else {
         let help = match state.focus {
             Focus::Categories => " [j/k/↑/↓] Navigate | [Tab/l/→] Select Prompts | [/] Search | [q] Quit ",
-            Focus::Prompts => " [j/k/↑/↓] Navigate | [Enter] Use | [v] Preview | [h/←] Categories | [/] Search ",
+            Focus::Prompts => " [j/k/↑/↓] Navigate | [Enter] Select | [v] Preview | [h/←] Categories | [/] Search ",
+            Focus::VersionSelection => " [j/k/↑/↓] Change Version | [Enter] Use | [Esc] Back ",
             Focus::Search => " [Type] Search | [Enter] Confirm | [Esc] Cancel ",
-            Focus::InputModal => " [Type] Input | [Enter] Next/Copy | [Esc] Cancel ",
+            Focus::InputModal => " [Type] Input | [Enter] Next/Copy | [Alt+Enter] New Line | [Esc] Cancel ",
         };
         f.render_widget(Paragraph::new(help).style(Style::default().fg(Color::DarkGray)), area);
     }
@@ -114,27 +119,35 @@ fn render_categories(f: &mut Frame, state: &AppState, area: Rect) {
 }
 
 fn render_prompts(f: &mut Frame, state: &AppState, area: Rect) {
-    let focus_style = if state.focus == Focus::Prompts {
+    let focus_style = if state.focus == Focus::Prompts || state.focus == Focus::VersionSelection {
         Style::default().fg(Color::Yellow)
     } else {
         Style::default().fg(Color::DarkGray)
     };
 
-    let items: Vec<ListItem> = state.filter_prompts
+    let items: Vec<ListItem> = state.filter_groups
         .iter()
         .enumerate()
-        .map(|(i, p)| {
+        .map(|(i, g)| {
             let style = if i == state.selected_prompt_index {
                 Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)
             } else {
                 Style::default()
             };
-            ListItem::new(format!("• {}", p.name)).style(style)
+            
+            let v_count = g.versions.len();
+            let label = if v_count > 1 {
+                format!("• {} ({} versions)", g.name, v_count)
+            } else {
+                format!("• {}", g.name)
+            };
+            
+            ListItem::new(label).style(style)
         })
         .collect();
 
     let title = if !state.search_query.is_empty() {
-        format!(" Results ({}) ", state.filter_prompts.len())
+        format!(" Results ({}) ", state.filter_groups.len())
     } else {
         " Prompts ".to_string()
     };
@@ -151,13 +164,14 @@ fn render_prompts(f: &mut Frame, state: &AppState, area: Rect) {
 }
 
 fn render_details(f: &mut Frame, state: &AppState, area: Rect) {
-    let prompt = state.filter_prompts.get(state.selected_prompt_index);
+    let group = state.filter_groups.get(state.selected_prompt_index);
     let block = Block::default()
         .borders(Borders::ALL)
         .title(" Details ")
         .padding(Padding::uniform(1));
     
-    if let Some(p) = prompt {
+    if let Some(g) = group {
+        let p = &g.versions[g.selected_version_index];
         if state.show_preview {
             render_preview(f, p, block, area);
         } else {
@@ -170,9 +184,16 @@ fn render_details(f: &mut Frame, state: &AppState, area: Rect) {
 
 fn render_metadata(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: Rect) {
     let mut text = Vec::new();
+    
+    let display_name = if let Some(v_id) = &p.version_id {
+        format!("{}:{}", p.name, v_id)
+    } else {
+        p.name.clone()
+    };
+
     text.push(Line::from(vec![
         Span::styled("Name:    ", Style::default().fg(Color::DarkGray)),
-        Span::styled(&p.name, Style::default().add_modifier(Modifier::BOLD).fg(Color::White)),
+        Span::styled(display_name, Style::default().add_modifier(Modifier::BOLD).fg(Color::White)),
     ]));
     text.push(Line::from(vec![
         Span::styled("Version: ", Style::default().fg(Color::DarkGray)),
@@ -183,16 +204,12 @@ fn render_metadata(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: 
         Span::raw(&p.last_updated),
     ]));
 
-    // Dynamically render any extra fields found in the TOML
     for (key, value) in &p.metadata {
-        // Skip keys that are handled elsewhere (like prompt content)
-        if key == "prompt" || key == "name" { continue; }
-        
+        if key == "prompt" || key == "name" || key == "version_id" { continue; }
         let val_str = match value {
             toml::Value::String(s) => s.clone(),
             _ => value.to_string(),
         };
-        
         text.push(Line::from(vec![
             Span::styled(format!("{:<8} ", format!("{}:", key)), Style::default().fg(Color::DarkGray)),
             Span::raw(val_str),
@@ -232,13 +249,10 @@ fn render_preview(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: R
     let mut spans = Vec::new();
     let content = &p.prompt;
     
-    // Simple "syntax highlighting" for variables
     let mut last_idx = 0;
     let re = regex::Regex::new(r"\{\{\s*(\w+)\s*\}\}").unwrap();
     for cap in re.find_iter(content) {
-        // Add text before the variable
         spans.push(Span::raw(&content[last_idx..cap.start()]));
-        // Add the variable itself with styling
         spans.push(Span::styled(
             &content[cap.start()..cap.end()],
             Style::default().fg(Color::Magenta).add_modifier(Modifier::BOLD)
@@ -253,24 +267,61 @@ fn render_preview(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: R
     f.render_widget(paragraph, area);
 }
 
+fn render_version_modal(f: &mut Frame, state: &AppState) {
+    let group = &state.filter_groups[state.selected_prompt_index];
+    let area = centered_rect(60, 40, f.size());
+    f.render_widget(Clear, area);
+
+    let block = Block::default()
+        .borders(Borders::ALL)
+        .title(format!(" Choose Version for: {} ", group.name))
+        .border_style(Style::default().fg(Color::Yellow))
+        .padding(Padding::uniform(1));
+
+    let items: Vec<ListItem> = group.versions
+        .iter()
+        .enumerate()
+        .map(|(i, v)| {
+            let style = if i == group.selected_version_index {
+                Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD)
+            } else {
+                Style::default()
+            };
+            let v_id = v.version_id.as_deref().unwrap_or("default");
+            ListItem::new(format!(" > {:<10} | {}", v_id, v.description)).style(style)
+        })
+        .collect();
+
+    let list = List::new(items)
+        .block(block)
+        .highlight_style(Style::default().bg(Color::Rgb(50, 50, 50)));
+    
+    f.render_widget(list, area);
+}
+
 fn render_modal(f: &mut Frame, state: &AppState) {
     if let Some(modal) = &state.input_modal {
-        let area = centered_rect(80, 50, f.size()); // Increased size for multiline
+        let area = centered_rect(80, 50, f.size());
         f.render_widget(Clear, area);
 
         let var_name = &modal.variables[modal.current_var_index];
         let progress = format!("Step {} of {}", modal.current_var_index + 1, modal.variables.len());
         
-        // Use user-friendly label
         let label = if var_name == "args" {
             &modal.args_description
         } else {
             var_name
         };
 
+        let title = if let Some(v_id) = &modal.version_id {
+            format!(" Hydrating: {}:{} ", modal.prompt_name, v_id)
+        } else {
+            format!(" Hydrating: {} ", modal.prompt_name)
+        };
+
         let block = Block::default()
             .borders(Borders::ALL)
-            .title(format!(" Hydrating: {} ", modal.prompt_name))
+            .title(title)
             .border_style(Style::default().fg(Color::Yellow))
             .padding(Padding::uniform(1));
 
@@ -283,7 +334,6 @@ fn render_modal(f: &mut Frame, state: &AppState) {
             Line::from(""),
         ];
 
-        // Split input buffer by newlines to show multiline input
         for line in modal.input_buffer.lines() {
             text.push(Line::from(vec![
                 Span::styled(" > ", Style::default().fg(Color::Yellow)),
@@ -291,14 +341,12 @@ fn render_modal(f: &mut Frame, state: &AppState) {
             ]));
         }
         
-        // If empty or ends with newline, show the cursor line
         if modal.input_buffer.is_empty() || modal.input_buffer.ends_with('\n') {
             text.push(Line::from(vec![
                 Span::styled(" > ", Style::default().fg(Color::Yellow)),
                 Span::styled("█", Style::default().fg(Color::Yellow)),
             ]));
         } else {
-            // Add a trailing cursor to the last line? (Simplified for now)
             if let Some(last) = text.last_mut() {
                 last.spans.push(Span::styled("█", Style::default().fg(Color::Yellow)));
             }
