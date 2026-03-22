@@ -326,19 +326,48 @@ def print_help():
 {Colors.BOLD}{Colors.YELLOW}{"-" * 70}{Colors.RESET}
     """
     print(help_text, file=sys.stderr)
+import glob
+
 def resolve_file_injection(val):
-    """Resolves file injection if the value starts with @."""
-    if val.startswith("@"):
-        filepath = val[1:]
-        if os.path.exists(filepath):
-            try:
-                with open(filepath, "r", encoding="utf-8") as f:
-                    return f.read().strip()
-            except Exception as e:
-                print(f"{Colors.YELLOW}Warning: Could not read file {filepath} ({e}). Using raw string.{Colors.RESET}", file=sys.stderr)
-        else:
-            print(f"{Colors.YELLOW}Warning: File {filepath} not found. Using raw string.{Colors.RESET}", file=sys.stderr)
-    return val
+    """
+    Resolves file injection. Supports:
+    - @path/to/file (Single file)
+    - @path/to/*.py (Glob pattern)
+    Concatenates multiple files with headers.
+    """
+    if not val.startswith("@"):
+        return val
+    
+    pattern = val[1:]
+    # Use glob to find matches (supports recursive if ** is used)
+    matches = glob.glob(pattern, recursive=True)
+    
+    if not matches:
+        if any(char in pattern for char in "*?[]"):
+            print(f"{Colors.YELLOW}Warning: No files matched glob '{pattern}'. Using raw string.{Colors.RESET}", file=sys.stderr)
+        elif not os.path.exists(pattern):
+            print(f"{Colors.YELLOW}Warning: File {pattern} not found. Using raw string.{Colors.RESET}", file=sys.stderr)
+        return val
+
+    contents = []
+    # Filter to only files and sort for deterministic output
+    files = sorted([m for m in matches if os.path.isfile(m)])
+    
+    if not files:
+        return val
+
+    for f_path in files:
+        try:
+            with open(f_path, "r", encoding="utf-8") as f:
+                content = f.read().strip()
+                if len(files) > 1:
+                    contents.append(f"--- File: {f_path} ---\n{content}")
+                else:
+                    contents.append(content)
+        except Exception as e:
+            print(f"{Colors.YELLOW}Warning: Could not read file {f_path} ({e}).{Colors.RESET}", file=sys.stderr)
+    
+    return "\n\n".join(contents).strip()
 
 def main():
     if len(sys.argv) == 1:

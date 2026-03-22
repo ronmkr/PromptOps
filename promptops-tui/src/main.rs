@@ -151,6 +151,50 @@ fn handle_search_input(app: &mut AppState, code: KeyCode) {
     }
 }
 
+use glob::glob;
+use std::fs;
+
+fn resolve_file_injection(val: &str) -> String {
+    if !val.starts_with('@') {
+        return val.to_string();
+    }
+
+    let pattern = &val[1..];
+    let mut contents = Vec::new();
+    let mut files = Vec::new();
+
+    if let Ok(entries) = glob(pattern) {
+        for entry in entries.filter_map(Result::ok) {
+            if entry.is_file() {
+                files.push(entry);
+            }
+        }
+    }
+
+    if files.is_empty() {
+        return val.to_string();
+    }
+
+    files.sort();
+
+    for f_path in &files {
+        if let Ok(content) = fs::read_to_string(f_path) {
+            let content = content.trim();
+            if files.len() > 1 {
+                contents.push(format!("--- File: {} ---\n{}", f_path.display(), content));
+            } else {
+                contents.push(content.to_string());
+            }
+        }
+    }
+
+    if contents.is_empty() {
+        val.to_string()
+    } else {
+        contents.join("\n\n")
+    }
+}
+
 fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
     if let Some(modal) = &mut app.input_modal {
         match event.code {
@@ -159,13 +203,15 @@ fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
                 app.focus = Focus::Prompts;
             }
             KeyCode::Enter => {
-                // Alt+Enter or Ctrl+Enter for newline (not all terminals support Ctrl+Enter)
+                // Alt+Enter or Ctrl+Enter for newline
                 if event.modifiers.contains(KeyModifiers::ALT) || event.modifiers.contains(KeyModifiers::CONTROL) {
                     modal.input_buffer.push('\n');
                 } else {
-                    // Normal Enter is Confirm/Next
+                    // Resolve file injection if needed
+                    let resolved_val = resolve_file_injection(&modal.input_buffer);
+                    
                     let var_name = modal.variables[modal.current_var_index].clone();
-                    modal.values.insert(var_name, modal.input_buffer.clone());
+                    modal.values.insert(var_name, resolved_val);
                     modal.input_buffer.clear();
                     
                     if modal.current_var_index + 1 < modal.variables.len() {

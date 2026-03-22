@@ -27,6 +27,14 @@ docs:
 	@echo "Syncing all documentation..."
 	@python3 scripts/sync_all_docs.py
 
+sync-version:
+	@if [ -z "$(VERSION)" ]; then \
+		echo "Error: VERSION is not set. Usage: make sync-version VERSION=0.0.x"; \
+		exit 1; \
+	fi
+	@echo "Syncing all versions to $(VERSION)..."
+	@python3 scripts/sync_all_versions.py $(VERSION)
+
 all: validate test docs
 	@echo "✅ All checks passed and documentation synchronized."
 

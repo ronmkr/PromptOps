@@ -1,6 +1,6 @@
 description = "Generate optimized, production-ready Dockerfiles."
 args_description = "App Stack or Requirements"
-version     = "1.0.0"
+version = "0.0.2"
 last_updated = "2026-03-21"
 tags         = ["devops", "infra"]
 prompt      = """

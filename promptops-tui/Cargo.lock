@@ -250,6 +250,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "glob"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0cc23270f6e1808e30a928bdc84dea0b9b4136a8bc82338574f23baf47bbd280"
+
+[[package]]
 name = "half"
 version = "2.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -551,6 +557,7 @@ dependencies = [
  "anyhow",
  "arboard",
  "crossterm",
+ "glob",
  "ratatui",
  "regex",
  "serde",

@@ -1,6 +1,6 @@
 description = "Explain technical concepts clearly."
 args_description = "Technical Concept"
-version     = "1.0.0"
+version = "0.0.2"
 last_updated = "2026-03-21"
 tags         = ["learning"]
 

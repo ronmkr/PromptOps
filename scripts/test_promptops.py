@@ -276,5 +276,28 @@ class TestPromptOps(unittest.TestCase):
             self.assertEqual(result, "@/non/existent/file")
             self.assertIn("not found", fake_err.getvalue())
 
+    def test_resolve_file_injection_glob(self):
+        # Create two temp files
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f1:
+            f1.write("C1")
+            p1 = f1.name
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f2:
+            f2.write("C2")
+            p2 = f2.name
+        
+        try:
+            # Match both using a glob (using the common prefix/suffix)
+            common_pattern = os.path.join(os.path.dirname(p1), "tmp*.txt")
+            val = f"@{common_pattern}"
+            result = promptops_core.resolve_file_injection(val)
+            
+            # Should contain headers and contents
+            self.assertIn("--- File:", result)
+            self.assertIn("C1", result)
+            self.assertIn("C2", result)
+        finally:
+            os.remove(p1)
+            os.remove(p2)
+
 if __name__ == "__main__":
     unittest.main()

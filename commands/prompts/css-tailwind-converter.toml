@@ -1,6 +1,6 @@
 description = "Convert standard CSS to Tailwind utility classes."
 args_description = "Input Content"
-version     = "1.0.0"
+version = "0.0.2"
 last_updated = "2026-03-21"
 tags         = ["frontend"]
 prompt      = """
