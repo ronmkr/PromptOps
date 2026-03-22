@@ -69,6 +69,7 @@ def generate_domain_notebook(tag_name, display_name, prompts):
 
     with open(filepath, "w", encoding="utf-8") as f:
         json.dump(notebook, f, indent=1)
+        f.write("\n")
     return filename
 
 
