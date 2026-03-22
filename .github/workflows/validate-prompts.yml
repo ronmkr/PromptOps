@@ -58,17 +58,17 @@ jobs:
       - name: Verify Prompt Catalog Synchronization
         run: |
           make docs
-          if [ -n "$(git status --porcelain docs/catalog/)" ]; then
-            echo "::error::Domain catalogs in docs/catalog/ are out of sync with prompt templates!"
+          if [ -n "$(git status --porcelain docs/catalog/ README.md GEMINI.md)" ]; then
+            echo "::error::Documentation catalogs or README are out of sync with prompt templates!"
             echo "::notice::Please run 'make docs' locally and commit the changes before merging."
-            git diff docs/catalog/
+            git diff docs/catalog/ README.md GEMINI.md
             exit 1
           else
             echo "✅ Domain catalogs are up to date."
           fi
 
-  generate-catalog-on-push:
-    name: Auto-Generate Catalogs & Tag Release
+  create-tag-on-push:
+    name: Tag Release
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
@@ -76,55 +76,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-          cache: 'pip'
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - name: Validate System Integrity
-        run: make validate && make test && make lint
-
-      - name: Determine Next Version
+      - name: Create Git Tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          dry_run: true
-
-      - name: Sync Project Versions
-        run: |
-          if [ "${{ steps.tag_version.outputs.new_tag }}" != "" ]; then
-            python3 scripts/sync_all_versions.py ${{ steps.tag_version.outputs.new_version }}
-          fi
-
-      - name: Generate Updated Catalogs
-        run: make docs
-
-      - name: Commit and Push Changes
-        run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add .
-          if git diff --cached --quiet; then
-            echo "✅ No changes to documentation or versions"
-          else
-            git commit -m "chore: auto-generate catalogs and sync version to ${{ steps.tag_version.outputs.new_version }} [skip ci]"
-            git push
-            echo "🚀 Pushed updated catalogs and versions to main"
-          fi
-
-      - name: Create Git Tag
-        if: steps.tag_version.outputs.new_tag != ''
-        uses: mathieudutour/github-tag-action@v6.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: ${{ steps.tag_version.outputs.new_version }}
           tag_prefix: ""

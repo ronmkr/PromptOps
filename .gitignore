@@ -25,8 +25,10 @@ wheels/
 *.egg
 
 # Rust
+target/
 promptops-tui/target/
 Cargo.lock.bak
+**/*.rs.bk
 
 # IDEs / Editors
 .vscode/
@@ -35,10 +37,16 @@ Cargo.lock.bak
 *.swo
 *~
 .DS_Store
+.project
+.pydevproject
+.settings/
 
 # OS files
 Thumbs.db
 desktop.ini
+.DS_Store?
+.Spotlight-V100
+.Trashes
 
 # Logs
 *.log
@@ -49,6 +57,10 @@ tmp/
 temp/
 *.tmp
 scripts/tmp_*
+.test_venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
 
 # Project Specific
 # (Add any specific ignore patterns here)
