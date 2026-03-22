@@ -45,5 +45,10 @@ tmp/
 temp/
 *.tmp
 
+# Rust
+promptops-tui/target/
+debug/
+release/
+
 # Project Specific
 # (Add any specific ignore patterns here)

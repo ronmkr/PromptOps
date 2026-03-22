@@ -6,10 +6,11 @@ help:
 	@echo "PromptOps Developer Tools"
 	@echo "-------------------------"
 	@echo "make validate  - Run metadata and structure validation on all prompts"
-	@echo "make test      - Run CLI helper logic tests"
-	@echo "make catalog   - Regenerate the CATALOG.md file"
+	@echo "make test      - Run logic and validation unit tests"
+	@echo "make docs      - Synchronize all documentation and catalogs"
 	@echo "make evaluate  - Run Golden Tests using LLM-as-a-judge (Requires GEMINI_API_KEY)"
-	@echo "make all       - Run validation, tests, and regenerate catalog"
+	@echo "make all       - Run validation, tests, and synchronize documentation"
+	@echo "make tui       - Build and run the Rust-based TUI browser"
 	@echo "make clean     - Remove temporary files and __pycache__"
 
 validate:
@@ -27,7 +28,11 @@ docs:
 	@python3 scripts/sync_all_docs.py
 
 all: validate test docs
-	@echo "✅ All checks passed and catalog updated."
+	@echo "✅ All checks passed and documentation synchronized."
+
+tui:
+	@echo "Building and running Rust TUI..."
+	@cd promptops-tui && cargo run --release
 
 clean:
 	@echo "Cleaning up..."

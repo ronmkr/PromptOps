@@ -1,15 +1,34 @@
 #!/usr/bin/env python3
 import sys
 import os
+import subprocess
+
 # Add scripts to path so we can import core
-sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), "scripts"))
-try:
-    from promptops_core import main
-except ImportError:
-    # Fallback for when running from a location where scripts/ isn't relative to the script
-    # This might happen if symlinked
-    real_path = os.path.realpath(__file__)
-    sys.path.append(os.path.join(os.path.dirname(real_path), "scripts"))
-    from promptops_core import main
+base_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(base_dir, "scripts"))
+
+def launch_tui():
+    """Tries to launch the Rust TUI if it exists."""
+    tui_path = os.path.join(base_dir, "promptops-tui", "target", "release", "promptops-tui")
+    if os.path.exists(tui_path):
+        try:
+            # Use os.execv to replace current process with TUI
+            os.execv(tui_path, [tui_path])
+        except Exception:
+            pass # Fallback to CLI helper if exec fails
+    return False
+
 if __name__ == "__main__":
+    # If no arguments, try to launch the interactive TUI
+    if len(sys.argv) == 1 and sys.stdin.isatty():
+        launch_tui()
+
+    # Otherwise, fallback to the standard CLI helper logic
+    try:
+        from promptops_core import main
+    except ImportError:
+        real_path = os.path.realpath(__file__)
+        sys.path.append(os.path.join(os.path.dirname(real_path), "scripts"))
+        from promptops_core import main
     main()
+

@@ -46,7 +46,25 @@
 
 ## Usage Instructions
 
-### 1. Terminal Helper
+### 1. TUI Browser (Recommended)
+
+The PromptOps TUI is a high-performance Rust-based terminal interface for browsing and using prompts with real-time fuzzy search and syntax-highlighted previews.
+
+**Launch the TUI:**
+
+```bash
+make tui
+```
+
+**Key Features:**
+- **Global Search**: Press `/` to search across all 55+ prompts instantly.
+- **Interactive Hydration**: Sequential input for template variables (e.g., `{{args}}`, `{{code}}`).
+- **Live Preview**: Press `v` to toggle syntax highlighting for prompt templates.
+- **Auto-Copy**: Final hydrated prompts are automatically copied to your system clipboard.
+
+---
+
+### 2. Terminal Helper
 
 The `promptops` (aliased as `pop`) utility provides access to the template library.
 

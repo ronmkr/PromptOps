@@ -12,6 +12,9 @@ When a user runs a prompt command (e.g., `/prompts:code-review-security`), the f
 3. **Execute the prompt** with the full context.
 4. **Return results** based on the template guidelines.
 
+### TUI Explorer
+The `make tui` command launches a high-performance Rust-based TUI for browsing and using prompts with real-time fuzzy search and syntax-highlighted previews.
+
 ### CLI Helper
 The `promptops` (aliased as `pop`) utility is available for terminal-based operations:
 - `pop list [--tag <tag>]`: Browse templates by category.
