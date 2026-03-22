@@ -1,8 +1,9 @@
 import sys
 from .utils import Colors
 
+
 def print_help():
-    header_line = "+" + "-"*68 + "+"
+    header_line = "+" + "-" * 68 + "+"
     help_text = f"""
 {Colors.BOLD}{Colors.YELLOW}{header_line}
 | [ PromptOps: Your AI Command Center ]                              |
@@ -25,8 +26,11 @@ def print_help():
     """
     print(help_text, file=sys.stderr)
 
+
 def format_prompt_list(grouped):
-    print(f"{Colors.BOLD}{Colors.CYAN}{'PROMPT NAME':<35} | {'DESCRIPTION'}{Colors.RESET}")
+    print(
+        f"{Colors.BOLD}{Colors.CYAN}{'PROMPT NAME':<35} | {'DESCRIPTION'}{Colors.RESET}"
+    )
     print("-" * 100)
     for name in sorted(grouped.keys()):
         versions = grouped[name]
@@ -35,17 +39,42 @@ def format_prompt_list(grouped):
         desc = versions[0]["description"]
         print(f"{Colors.GREEN}{name + v_str:<35}{Colors.RESET} | {desc}")
 
+
 def format_tag_list(unique_names):
     print(f"{Colors.BOLD}{Colors.CYAN}Available Tags:{Colors.RESET}")
     print("-" * 20)
     for tag in sorted(unique_names.keys()):
         print(f"{Colors.YELLOW}{tag:<20}{Colors.RESET} ({unique_names[tag]} prompts)")
 
+
 def print_interactive_header(display_name, label):
-    print("\n" + f"{Colors.BOLD}{Colors.YELLOW}" + "╭" + "─"*68 + "╮" + f"{Colors.RESET}", file=sys.stderr)
-    print(f"{Colors.BOLD}{Colors.YELLOW}│{Colors.RESET} {Colors.CYAN}PromptOps Interactive: {Colors.BOLD}{display_name}{Colors.RESET}", file=sys.stderr)
-    print(f"{Colors.BOLD}{Colors.YELLOW}├" + "─"*68 + "┤" + f"{Colors.RESET}", file=sys.stderr)
-    print(f"{Colors.BOLD}{Colors.YELLOW}│{Colors.RESET} {Colors.BOLD}Required:{Colors.RESET} {Colors.GREEN}{label}{Colors.RESET}", file=sys.stderr)
-    print(f"{Colors.BOLD}{Colors.YELLOW}│{Colors.RESET} {Colors.BOLD}Finish:{Colors.RESET}   Press {Colors.BOLD}Ctrl+D{Colors.RESET} (Mac/Linux) or {Colors.BOLD}Ctrl+Z+Enter{Colors.RESET} (Win)", file=sys.stderr)
-    print(f"{Colors.BOLD}{Colors.YELLOW}╰" + "─"*68 + "╯" + f"{Colors.RESET}", file=sys.stderr)
+    print(
+        "\n"
+        + f"{Colors.BOLD}{Colors.YELLOW}"
+        + "╭"
+        + "─" * 68
+        + "╮"
+        + f"{Colors.RESET}",
+        file=sys.stderr,
+    )
+    print(
+        f"{Colors.BOLD}{Colors.YELLOW}│{Colors.RESET} {Colors.CYAN}PromptOps Interactive: {Colors.BOLD}{display_name}{Colors.RESET}",
+        file=sys.stderr,
+    )
+    print(
+        f"{Colors.BOLD}{Colors.YELLOW}├" + "─" * 68 + "┤" + f"{Colors.RESET}",
+        file=sys.stderr,
+    )
+    print(
+        f"{Colors.BOLD}{Colors.YELLOW}│{Colors.RESET} {Colors.BOLD}Required:{Colors.RESET} {Colors.GREEN}{label}{Colors.RESET}",
+        file=sys.stderr,
+    )
+    print(
+        f"{Colors.BOLD}{Colors.YELLOW}│{Colors.RESET} {Colors.BOLD}Finish:{Colors.RESET}   Press {Colors.BOLD}Ctrl+D{Colors.RESET} (Mac/Linux) or {Colors.BOLD}Ctrl+Z+Enter{Colors.RESET} (Win)",
+        file=sys.stderr,
+    )
+    print(
+        f"{Colors.BOLD}{Colors.YELLOW}╰" + "─" * 68 + "╯" + f"{Colors.RESET}",
+        file=sys.stderr,
+    )
     print(f" {Colors.BOLD}[Paste {label} below]{Colors.RESET}\n", file=sys.stderr)

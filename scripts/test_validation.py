@@ -6,7 +6,8 @@ import shutil
 
 # Add current directory to path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-import validate_prompts
+import validate_prompts  # noqa: E402
+
 
 class TestPromptValidation(unittest.TestCase):
     def setUp(self):
@@ -141,10 +142,11 @@ prompt           = "# Title\\nNo vars here."
         path = os.path.join(sub_dir, "Invalid Version.toml")
         with open(path, "w") as f:
             f.write("")
-        
+
         validator = validate_prompts.PromptValidator(path)
         errors = validator.validate()
         self.assertIn("must be lowercase kebab-case", errors[0])
+
 
 if __name__ == "__main__":
     unittest.main()

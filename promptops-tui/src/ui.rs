@@ -1,11 +1,11 @@
+use crate::model::{AppState, Focus};
 use ratatui::{
     layout::{Constraint, Direction, Layout, Rect},
     style::{Color, Modifier, Style},
     text::{Line, Span, Text},
-    widgets::{Block, Borders, List, ListItem, Paragraph, Wrap, Clear, Padding},
+    widgets::{Block, Borders, Clear, List, ListItem, Padding, Paragraph, Wrap},
     Frame,
 };
-use crate::model::{AppState, Focus};
 
 pub fn render(f: &mut Frame, state: &mut AppState) {
     let outer_layout = Layout::default()
@@ -18,7 +18,7 @@ pub fn render(f: &mut Frame, state: &mut AppState) {
         .split(f.size());
 
     render_header(f, state, outer_layout[0]);
-    
+
     let main_chunks = Layout::default()
         .direction(Direction::Horizontal)
         .constraints([
@@ -48,7 +48,9 @@ pub fn render(f: &mut Frame, state: &mut AppState) {
 
 fn render_header(f: &mut Frame, state: &AppState, area: Rect) {
     let focus_style = if state.focus == Focus::Search {
-        Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD)
+        Style::default()
+            .fg(Color::Yellow)
+            .add_modifier(Modifier::BOLD)
     } else {
         Style::default().fg(Color::DarkGray)
     };
@@ -65,18 +67,22 @@ fn render_header(f: &mut Frame, state: &AppState, area: Rect) {
         format!(" > {}█", state.search_query)
     };
 
-    let header = Paragraph::new(search_content)
-        .block(Block::default()
+    let header = Paragraph::new(search_content).block(
+        Block::default()
             .borders(Borders::ALL)
             .title(title)
-            .border_style(focus_style));
-    
+            .border_style(focus_style),
+    );
+
     f.render_widget(header, area);
 }
 
 fn render_footer(f: &mut Frame, state: &AppState, area: Rect) {
     if let Some(msg) = &state.status_message {
-        let style = Style::default().bg(Color::Green).fg(Color::Black).add_modifier(Modifier::BOLD);
+        let style = Style::default()
+            .bg(Color::Green)
+            .fg(Color::Black)
+            .add_modifier(Modifier::BOLD);
         f.render_widget(Paragraph::new(format!(" {} ", msg)).style(style), area);
     } else {
         let help = match state.focus {
@@ -87,7 +93,10 @@ fn render_footer(f: &mut Frame, state: &AppState, area: Rect) {
             Focus::InputModal => " [Type] Input | [Enter] Next/Copy | [Alt+Enter] New Line | [Esc] Cancel ",
             Focus::ConfirmationModal => " [y] Confirm | [n/Esc] Cancel ",
         };
-        f.render_widget(Paragraph::new(help).style(Style::default().fg(Color::DarkGray)), area);
+        f.render_widget(
+            Paragraph::new(help).style(Style::default().fg(Color::DarkGray)),
+            area,
+        );
     }
 }
 
@@ -103,22 +112,34 @@ fn render_confirmation_modal(f: &mut Frame, state: &AppState) {
             .padding(Padding::uniform(1));
 
         let text = vec![
-            Line::from(vec![
-                Span::styled("⚠️  ACTION REQUIRED", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
-            ]),
+            Line::from(vec![Span::styled(
+                "⚠️  ACTION REQUIRED",
+                Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
+            )]),
             Line::from(""),
             Line::from(modal.message.as_str()),
             Line::from(""),
             Line::from(vec![
-                Span::styled(" [y] ", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
+                Span::styled(
+                    " [y] ",
+                    Style::default()
+                        .fg(Color::Green)
+                        .add_modifier(Modifier::BOLD),
+                ),
                 Span::raw("Confirm"),
                 Span::raw("  "),
-                Span::styled(" [n] ", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
+                Span::styled(
+                    " [n] ",
+                    Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
+                ),
                 Span::raw("Cancel"),
             ]),
         ];
 
-        f.render_widget(Paragraph::new(text).block(block).wrap(Wrap { trim: true }), area);
+        f.render_widget(
+            Paragraph::new(text).block(block).wrap(Wrap { trim: true }),
+            area,
+        );
     }
 }
 
@@ -129,12 +150,15 @@ fn render_categories(f: &mut Frame, state: &AppState, area: Rect) {
         Style::default().fg(Color::DarkGray)
     };
 
-    let items: Vec<ListItem> = state.categories
+    let items: Vec<ListItem> = state
+        .categories
         .iter()
         .enumerate()
         .map(|(i, (name, count))| {
             let style = if i == state.selected_category_index {
-                Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD)
+                Style::default()
+                    .fg(Color::Yellow)
+                    .add_modifier(Modifier::BOLD)
             } else {
                 Style::default()
             };
@@ -144,11 +168,13 @@ fn render_categories(f: &mut Frame, state: &AppState, area: Rect) {
         .collect();
 
     let list = List::new(items)
-        .block(Block::default()
-            .borders(Borders::ALL)
-            .title(" Domains ")
-            .border_style(focus_style)
-            .padding(Padding::horizontal(1)))
+        .block(
+            Block::default()
+                .borders(Borders::ALL)
+                .title(" Domains ")
+                .border_style(focus_style)
+                .padding(Padding::horizontal(1)),
+        )
         .highlight_style(Style::default().bg(Color::Rgb(40, 40, 40)));
 
     f.render_widget(list, area);
@@ -161,23 +187,26 @@ fn render_prompts(f: &mut Frame, state: &AppState, area: Rect) {
         Style::default().fg(Color::DarkGray)
     };
 
-    let items: Vec<ListItem> = state.filter_groups
+    let items: Vec<ListItem> = state
+        .filter_groups
         .iter()
         .enumerate()
         .map(|(i, g)| {
             let style = if i == state.selected_prompt_index {
-                Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)
+                Style::default()
+                    .fg(Color::Green)
+                    .add_modifier(Modifier::BOLD)
             } else {
                 Style::default()
             };
-            
+
             let v_count = g.versions.len();
             let label = if v_count > 1 {
                 format!("• {} ({} versions)", g.name, v_count)
             } else {
                 format!("• {}", g.name)
             };
-            
+
             ListItem::new(label).style(style)
         })
         .collect();
@@ -189,11 +218,13 @@ fn render_prompts(f: &mut Frame, state: &AppState, area: Rect) {
     };
 
     let list = List::new(items)
-        .block(Block::default()
-            .borders(Borders::ALL)
-            .title(title)
-            .border_style(focus_style)
-            .padding(Padding::horizontal(1)))
+        .block(
+            Block::default()
+                .borders(Borders::ALL)
+                .title(title)
+                .border_style(focus_style)
+                .padding(Padding::horizontal(1)),
+        )
         .highlight_style(Style::default().bg(Color::Rgb(40, 40, 40)));
 
     f.render_widget(list, area);
@@ -218,9 +249,15 @@ fn render_details(f: &mut Frame, state: &AppState, area: Rect) {
     }
 }
 
-fn render_metadata(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: Rect, state: &AppState) {
+fn render_metadata(
+    f: &mut Frame,
+    p: &crate::model::Prompt,
+    block: Block,
+    area: Rect,
+    state: &AppState,
+) {
     let mut text = Vec::new();
-    
+
     let display_name = if let Some(v_id) = &p.version_id {
         format!("{}:{}", p.name, v_id)
     } else {
@@ -229,7 +266,12 @@ fn render_metadata(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: 
 
     text.push(Line::from(vec![
         Span::styled("Name:    ", Style::default().fg(Color::DarkGray)),
-        Span::styled(display_name, Style::default().add_modifier(Modifier::BOLD).fg(Color::White)),
+        Span::styled(
+            display_name,
+            Style::default()
+                .add_modifier(Modifier::BOLD)
+                .fg(Color::White),
+        ),
     ]));
     text.push(Line::from(vec![
         Span::styled("Version: ", Style::default().fg(Color::DarkGray)),
@@ -241,40 +283,67 @@ fn render_metadata(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: 
     ]));
 
     for (key, value) in &p.metadata {
-        if key == "prompt" || key == "name" || key == "version_id" { continue; }
+        if key == "prompt" || key == "name" || key == "version_id" {
+            continue;
+        }
         let val_str = match value {
             toml::Value::String(s) => s.clone(),
             _ => value.to_string(),
         };
         text.push(Line::from(vec![
-            Span::styled(format!("{:<8} ", format!("{}:", key)), Style::default().fg(Color::DarkGray)),
+            Span::styled(
+                format!("{:<8} ", format!("{}:", key)),
+                Style::default().fg(Color::DarkGray),
+            ),
             Span::raw(val_str),
         ]));
     }
 
     text.push(Line::from(""));
-    text.push(Line::from(Span::styled("Description:", Style::default().add_modifier(Modifier::BOLD))));
+    text.push(Line::from(Span::styled(
+        "Description:",
+        Style::default().add_modifier(Modifier::BOLD),
+    )));
     text.push(Line::from(p.description.as_str()));
     text.push(Line::from(""));
     text.push(Line::from(vec![
         Span::styled("Input:   ", Style::default().fg(Color::DarkGray)),
         Span::styled(&p.args_description, Style::default().fg(Color::Cyan)),
     ]));
-    
-    let tags_spans: Vec<Span> = p.tags.iter().map(|t| Span::styled(format!(" #{} ", t), Style::default().bg(Color::Rgb(50, 50, 50)).fg(Color::Gray))).collect();
+
+    let tags_spans: Vec<Span> = p
+        .tags
+        .iter()
+        .map(|t| {
+            Span::styled(
+                format!(" #{} ", t),
+                Style::default().bg(Color::Rgb(50, 50, 50)).fg(Color::Gray),
+            )
+        })
+        .collect();
     text.push(Line::from(""));
     text.push(Line::from(tags_spans));
 
     text.push(Line::from(""));
     text.push(Line::from(vec![
-        Span::styled(" [v] ", Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD)),
+        Span::styled(
+            " [v] ",
+            Style::default()
+                .fg(Color::Yellow)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::raw("Show Preview Content"),
     ]));
     text.push(Line::from(vec![
-        Span::styled(" [Enter] ", Style::default().fg(Color::Green).add_modifier(Modifier::BOLD)),
+        Span::styled(
+            " [Enter] ",
+            Style::default()
+                .fg(Color::Green)
+                .add_modifier(Modifier::BOLD),
+        ),
         Span::raw("Hydrate & Copy"),
     ]));
-    
+
     let paragraph = Paragraph::new(text)
         .block(block)
         .wrap(Wrap { trim: true })
@@ -282,17 +351,25 @@ fn render_metadata(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: 
     f.render_widget(paragraph, area);
 }
 
-fn render_preview(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: Rect, state: &AppState) {
+fn render_preview(
+    f: &mut Frame,
+    p: &crate::model::Prompt,
+    block: Block,
+    area: Rect,
+    state: &AppState,
+) {
     let mut spans = Vec::new();
     let content = &p.prompt;
-    
+
     let mut last_idx = 0;
     let re = regex::Regex::new(r"\{\{\s*(\w+)\s*\}\}").unwrap();
     for cap in re.find_iter(content) {
         spans.push(Span::raw(&content[last_idx..cap.start()]));
         spans.push(Span::styled(
             &content[cap.start()..cap.end()],
-            Style::default().fg(Color::Magenta).add_modifier(Modifier::BOLD)
+            Style::default()
+                .fg(Color::Magenta)
+                .add_modifier(Modifier::BOLD),
         ));
         last_idx = cap.end();
     }
@@ -316,12 +393,15 @@ fn render_version_modal(f: &mut Frame, state: &AppState) {
         .border_style(Style::default().fg(Color::Yellow))
         .padding(Padding::uniform(1));
 
-    let items: Vec<ListItem> = group.versions
+    let items: Vec<ListItem> = group
+        .versions
         .iter()
         .enumerate()
         .map(|(i, v)| {
             let style = if i == group.selected_version_index {
-                Style::default().fg(Color::Yellow).add_modifier(Modifier::BOLD)
+                Style::default()
+                    .fg(Color::Yellow)
+                    .add_modifier(Modifier::BOLD)
             } else {
                 Style::default()
             };
@@ -333,7 +413,7 @@ fn render_version_modal(f: &mut Frame, state: &AppState) {
     let list = List::new(items)
         .block(block)
         .highlight_style(Style::default().bg(Color::Rgb(50, 50, 50)));
-    
+
     f.render_widget(list, area);
 }
 
@@ -343,8 +423,12 @@ fn render_modal(f: &mut Frame, state: &AppState) {
         f.render_widget(Clear, area);
 
         let var_name = &modal.variables[modal.current_var_index];
-        let progress = format!("Step {} of {}", modal.current_var_index + 1, modal.variables.len());
-        
+        let progress = format!(
+            "Step {} of {}",
+            modal.current_var_index + 1,
+            modal.variables.len()
+        );
+
         let label = if var_name == "args" {
             &modal.args_description
         } else {
@@ -367,14 +451,22 @@ fn render_modal(f: &mut Frame, state: &AppState) {
             Line::from(vec![
                 Span::styled(progress, Style::default().fg(Color::DarkGray)),
                 Span::raw(" | Required: "),
-                Span::styled(label, Style::default().fg(Color::Cyan).add_modifier(Modifier::BOLD)),
+                Span::styled(
+                    label,
+                    Style::default()
+                        .fg(Color::Cyan)
+                        .add_modifier(Modifier::BOLD),
+                ),
             ]),
             Line::from(""),
         ];
 
         if let Some(error) = &modal.error_message {
             text.push(Line::from(vec![
-                Span::styled(" Error: ", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
+                Span::styled(
+                    " Error: ",
+                    Style::default().fg(Color::Red).add_modifier(Modifier::BOLD),
+                ),
                 Span::styled(error, Style::default().fg(Color::Red)),
             ]));
             text.push(Line::from(""));
@@ -386,7 +478,7 @@ fn render_modal(f: &mut Frame, state: &AppState) {
                 Span::raw(line),
             ]));
         }
-        
+
         if modal.input_buffer.is_empty() || modal.input_buffer.ends_with('\n') {
             text.push(Line::from(vec![
                 Span::styled(" > ", Style::default().fg(Color::Yellow)),
@@ -394,14 +486,21 @@ fn render_modal(f: &mut Frame, state: &AppState) {
             ]));
         } else {
             if let Some(last) = text.last_mut() {
-                last.spans.push(Span::styled("█", Style::default().fg(Color::Yellow)));
+                last.spans
+                    .push(Span::styled("█", Style::default().fg(Color::Yellow)));
             }
         }
 
         text.push(Line::from(""));
-        text.push(Line::from(Span::styled(" [Enter] Next/Copy | [Alt+Enter] New Line | [Esc] Cancel ", Style::default().fg(Color::DarkGray))));
+        text.push(Line::from(Span::styled(
+            " [Enter] Next/Copy | [Alt+Enter] New Line | [Esc] Cancel ",
+            Style::default().fg(Color::DarkGray),
+        )));
 
-        f.render_widget(Paragraph::new(text).block(block).wrap(Wrap { trim: false }), area);
+        f.render_widget(
+            Paragraph::new(text).block(block).wrap(Wrap { trim: false }),
+            area,
+        );
     }
 }
 

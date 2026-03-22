@@ -1,0 +1,39 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-toml
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.9
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: validate-prompts
+        name: Validate Prompt Metadata
+        entry: python3 scripts/validate_prompts.py
+        language: python
+        files: ^commands/prompts/.*\.toml$
+        pass_filenames: false
+
+      - id: rust-fmt
+        name: Rust Format
+        entry: bash -c "cd promptops-tui && cargo fmt -- --check"
+        language: system
+        files: \.rs$
+        pass_filenames: false
+
+      - id: rust-clippy
+        name: Rust Clippy
+        entry: bash -c "cd promptops-tui && cargo clippy -- -D warnings"
+        language: system
+        files: \.rs$
+        pass_filenames: false

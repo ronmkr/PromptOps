@@ -4,6 +4,7 @@ from .core import list_prompts, list_tags, search_prompts, use_prompt, get_promp
 from .ui import print_help
 from .utils import resolve_file_injection
 
+
 def list_names(prompts_dir=None):
     """Hidden helper for shell completion."""
     prompts = get_prompts(prompts_dir)
@@ -15,12 +16,14 @@ def list_names(prompts_dir=None):
     for name in sorted(list(names)):
         print(name)
 
+
 def generate_completion(shell):
     """Generates shell completion scripts for Zsh, Bash, and Fish."""
     # ... (Keeping the implementation from previous core logic)
     # Note: Using 'pop' as the command name in completions.
     if shell == "zsh":
-        print("""#compdef pop promptops
+        print(
+            """#compdef pop promptops
 _pop() {
     local -a commands
     commands=(
@@ -55,9 +58,11 @@ _pop() {
     fi
 }
 _pop "$@"
-""")
+"""
+        )
     elif shell == "bash":
-        print("""_pop_completion() {
+        print(
+            """_pop_completion() {
     local cur prev opts
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
@@ -86,9 +91,11 @@ _pop "$@"
     COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
 }
 complete -F _pop_completion pop promptops
-""")
+"""
+        )
     elif shell == "fish":
-        print("""# pop fish completion
+        print(
+            """# pop fish completion
 complete -c pop -f
 complete -c pop -n " __fish_use_subcommand" -a list -d "List all available prompts"
 complete -c pop -n " __fish_use_subcommand" -a tags -d "List all unique tags"
@@ -98,35 +105,52 @@ complete -c pop -n " __fish_use_subcommand" -a completion -d "Generate shell com
 complete -c pop -n "__fish_seen_subcommand_from use" -a "(pop _list_names)"
 complete -c pop -n "__fish_seen_subcommand_from list search" -l tag -a "(pop _list_tags)"
 complete -c pop -n "__fish_seen_subcommand_from completion" -a "zsh bash fish"
-""")
+"""
+        )
+
 
 def main():
     if len(sys.argv) == 1:
         print_help()
         sys.argv.append("-h")
-    
+
     parser = argparse.ArgumentParser(description="PromptOps CLI Helper", add_help=False)
-    parser.add_argument('-h', '--help', action='store_true')
-    
+    parser.add_argument("-h", "--help", action="store_true")
+
     if len(sys.argv) > 1 and (sys.argv[1] in ("-h", "--help")):
         print_help()
-        
+
     subparsers = parser.add_subparsers(dest="command")
-    subparsers.add_parser("list", help="List all available prompts").add_argument("--tag", help="Filter by tag")
+    subparsers.add_parser("list", help="List all available prompts").add_argument(
+        "--tag", help="Filter by tag"
+    )
     subparsers.add_parser("tags", help="List all unique tags in the library")
-    
-    search_p = subparsers.add_parser("search", help="Search for prompts by name or description")
+
+    search_p = subparsers.add_parser(
+        "search", help="Search for prompts by name or description"
+    )
     search_p.add_argument("term", help="Search term")
     search_p.add_argument("--tag", help="Filter search results by tag")
-    
-    use_p = subparsers.add_parser("use", help="Output prompt content for use in other tools")
+
+    use_p = subparsers.add_parser(
+        "use", help="Output prompt content for use in other tools"
+    )
     use_p.add_argument("name", help="Name of the prompt to use")
-    use_p.add_argument("--no-copy", action="store_true", help="Do not copy the prompt to the clipboard")
-    use_p.add_argument("-y", "--yes", action="store_true", help="Automatically confirm sensitive prompt warnings")
-    
-    comp_p = subparsers.add_parser("completion", help="Generate shell completion script")
+    use_p.add_argument(
+        "--no-copy", action="store_true", help="Do not copy the prompt to the clipboard"
+    )
+    use_p.add_argument(
+        "-y",
+        "--yes",
+        action="store_true",
+        help="Automatically confirm sensitive prompt warnings",
+    )
+
+    comp_p = subparsers.add_parser(
+        "completion", help="Generate shell completion script"
+    )
     comp_p.add_argument("shell", choices=["zsh", "bash", "fish"], help="Target shell")
-    
+
     subparsers.add_parser("_list_names", add_help=False)
     subparsers.add_parser("_list_tags", add_help=False)
 
@@ -141,8 +165,14 @@ def main():
         for i in range(0, len(unknown), 2):
             if unknown[i].startswith("--") and i + 1 < len(unknown):
                 var_name = unknown[i][2:]
-                provided_vars[var_name] = resolve_file_injection(unknown[i+1])
-        use_prompt(target_name, provided_vars, version_hint=version_hint, no_copy=args.no_copy, auto_confirm=args.yes)
+                provided_vars[var_name] = resolve_file_injection(unknown[i + 1])
+        use_prompt(
+            target_name,
+            provided_vars,
+            version_hint=version_hint,
+            no_copy=args.no_copy,
+            auto_confirm=args.yes,
+        )
     else:
         args = parser.parse_args()
         if args.command == "list":
@@ -159,6 +189,7 @@ def main():
             list_tags(raw=True)
         elif args.command is None:
             parser.print_help()
+
 
 if __name__ == "__main__":
     main()

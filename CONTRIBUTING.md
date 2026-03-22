@@ -92,17 +92,21 @@ PromptOps supports a set of variables that are substituted when the prompt is ex
 
 1.  **Fork the Repository**: Create your own copy of PromptOps.
 2.  **Create a Feature Branch**: `git checkout -b feature/your-feature-name`.
-3.  **Validate Your Prompt**: Use the automated validation script to ensure prompts meet project standards. Run it locally using the `Makefile`:
+3.  **Setup Your Environment**: Install dependencies and pre-commit hooks to automate validation:
 
     ```bash
-    make validate
+    make setup
     ```
 
-    You can also run tests and synchronize documentation:
+    This will ensure that Python linting (ruff), prompt metadata validation, and Rust formatting are automatically checked whenever you commit.
+
+4.  **Validate Locally**: You can also run individual checks manually:
 
     ```bash
-    make test
-    make docs
+    make validate # Check prompt metadata
+    make lint     # Run all linters (Python & Rust)
+    make test     # Run unit tests
+    make docs     # Synchronize documentation
     ```
 
 ### Golden Tests (Optional)

@@ -92,12 +92,19 @@ impl AppState {
             group_map.entry(p.name.clone()).or_default().push(p.clone());
         }
 
-        let mut groups: Vec<PromptGroup> = group_map.into_iter()
+        let mut groups: Vec<PromptGroup> = group_map
+            .into_iter()
             .map(|(name, mut versions)| {
                 // Sort: None (default) first, then by ID
                 versions.sort_by(|a, b| {
-                    (a.version_id.is_some(), a.version_id.as_ref().unwrap_or(&String::new()))
-                    .cmp(&(b.version_id.is_some(), b.version_id.as_ref().unwrap_or(&String::new())))
+                    (
+                        a.version_id.is_some(),
+                        a.version_id.as_ref().unwrap_or(&String::new()),
+                    )
+                        .cmp(&(
+                            b.version_id.is_some(),
+                            b.version_id.as_ref().unwrap_or(&String::new()),
+                        ))
                 });
                 PromptGroup {
                     name,
@@ -120,10 +127,10 @@ impl AppState {
                 *counts.entry(tag).or_insert(0) += 1;
             }
         }
-        
+
         let mut categories: Vec<(String, usize)> = counts.into_iter().collect();
         categories.sort_by(|a, b| a.0.cmp(&b.0));
-        
+
         let mut app = Self {
             all_prompts: prompts,
             groups,
@@ -163,14 +170,15 @@ impl AppState {
     pub fn update_filter(&mut self) {
         if !self.search_query.is_empty() {
             let query = self.search_query.to_lowercase();
-            self.filter_groups = self.groups
+            self.filter_groups = self
+                .groups
                 .iter()
                 .filter(|g| {
-                    g.name.to_lowercase().contains(&query) || 
-                    g.versions.iter().any(|v| 
-                        v.description.to_lowercase().contains(&query) ||
-                        v.tags.iter().any(|t| t.to_lowercase().contains(&query))
-                    )
+                    g.name.to_lowercase().contains(&query)
+                        || g.versions.iter().any(|v| {
+                            v.description.to_lowercase().contains(&query)
+                                || v.tags.iter().any(|t| t.to_lowercase().contains(&query))
+                        })
                 })
                 .cloned()
                 .collect();
@@ -178,13 +186,14 @@ impl AppState {
             self.filter_groups = Vec::new();
         } else {
             let category = &self.categories[self.selected_category_index].0;
-            self.filter_groups = self.groups
+            self.filter_groups = self
+                .groups
                 .iter()
                 .filter(|g| g.versions.iter().any(|v| v.tags.contains(category)))
                 .cloned()
                 .collect();
         }
-        
+
         if self.selected_prompt_index >= self.filter_groups.len() {
             self.selected_prompt_index = 0;
         }
@@ -195,19 +204,22 @@ impl AppState {
         match self.focus {
             Focus::Categories => {
                 if !self.categories.is_empty() {
-                    self.selected_category_index = (self.selected_category_index + 1) % self.categories.len();
+                    self.selected_category_index =
+                        (self.selected_category_index + 1) % self.categories.len();
                     self.update_filter();
                 }
             }
             Focus::Prompts => {
                 if !self.filter_groups.is_empty() {
-                    self.selected_prompt_index = (self.selected_prompt_index + 1) % self.filter_groups.len();
+                    self.selected_prompt_index =
+                        (self.selected_prompt_index + 1) % self.filter_groups.len();
                     self.details_scroll = 0;
                 }
             }
             Focus::VersionSelection => {
                 let group = &mut self.filter_groups[self.selected_prompt_index];
-                group.selected_version_index = (group.selected_version_index + 1) % group.versions.len();
+                group.selected_version_index =
+                    (group.selected_version_index + 1) % group.versions.len();
             }
             _ => {}
         }

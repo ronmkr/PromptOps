@@ -109,7 +109,7 @@ mod tests {
         let pattern = dir.path().join("*.txt");
         let val = format!("@{}", pattern.to_str().unwrap());
         let result = resolve_file_injection(&val);
-        
+
         // Should have 100 headers
         let count = result.matches("--- File:").count();
         assert_eq!(count, InjectionConfig::MAX_FILES);
@@ -119,7 +119,7 @@ mod tests {
     fn test_resolve_file_injection_char_limit() {
         let dir = tempdir().unwrap();
         let large_content = "A".repeat(300000);
-        
+
         let p1 = dir.path().join("large1.txt");
         let mut f1 = fs::File::create(&p1).unwrap();
         f1.write_all(large_content.as_bytes()).unwrap();
@@ -131,7 +131,7 @@ mod tests {
         let pattern = dir.path().join("large*.txt");
         let val = format!("@{}", pattern.to_str().unwrap());
         let result = resolve_file_injection(&val);
-        
+
         assert!(result.len() <= InjectionConfig::MAX_CHARS + 1000);
         assert!(result.contains("[TRUNCATED due to length limit]"));
     }

@@ -8,11 +8,14 @@ import shutil
 base_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(base_dir, "scripts"))
 
+
 def launch_tui():
     """Tries to launch the Rust TUI if it exists, or offers to build it."""
-    tui_path = os.path.join(base_dir, "promptops-tui", "target", "release", "promptops-tui")
+    tui_path = os.path.join(
+        base_dir, "promptops-tui", "target", "release", "promptops-tui"
+    )
     tui_dir = os.path.join(base_dir, "promptops-tui")
-    
+
     is_stale = False
     if os.path.exists(tui_path):
         tui_mtime = os.path.getmtime(tui_path)
@@ -24,22 +27,33 @@ def launch_tui():
                     if os.path.getmtime(f_path) > tui_mtime:
                         is_stale = True
                         break
-            if is_stale: break
+            if is_stale:
+                break
 
     # Offer rebuild if binary is missing OR stale
-    if (not os.path.exists(tui_path) or is_stale) and sys.stdin.isatty() and shutil.which("cargo"):
+    if (
+        (not os.path.exists(tui_path) or is_stale)
+        and sys.stdin.isatty()
+        and shutil.which("cargo")
+    ):
         reason = "not found" if not os.path.exists(tui_path) else "out of date"
         print(f"\n\033[1;33mPromptOps Explorer (TUI) binary is {reason}.\033[0m")
         try:
-            choice = input(f"Would you like to {'re' if is_stale else ''}build it now? (y/N): ").lower()
-            if choice == 'y':
-                print(f"\n\033[1;36mBuilding TUI (release mode)... This may take a minute.\033[0m")
+            choice = input(
+                f"Would you like to {'re' if is_stale else ''}build it now? (y/N): "
+            ).lower()
+            if choice == "y":
+                print(
+                    "\n\033[1;36mBuilding TUI (release mode)... This may take a minute.\033[0m"
+                )
                 result = subprocess.run(["cargo", "build", "--release"], cwd=tui_dir)
                 if result.returncode == 0:
                     print("\033[1;32mBuild successful! Launching...\033[0m\n")
                     os.execv(tui_path, [tui_path])
                 else:
-                    print("\n\033[1;31mBuild failed. Falling back to CLI helper.\033[0m\n")
+                    print(
+                        "\n\033[1;31mBuild failed. Falling back to CLI helper.\033[0m\n"
+                    )
         except (KeyboardInterrupt, EOFError):
             print("\n")
             pass
@@ -49,9 +63,10 @@ def launch_tui():
             # Use os.execv to replace current process with TUI
             os.execv(tui_path, [tui_path])
         except Exception:
-            pass # Fallback to CLI helper if exec fails
-    
+            pass  # Fallback to CLI helper if exec fails
+
     return False
+
 
 if __name__ == "__main__":
     # If no arguments and interactive, try to launch or build the TUI

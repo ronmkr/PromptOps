@@ -2,9 +2,10 @@ import os
 import re
 import json
 
+
 def sync_versions(new_version):
     print(f"Syncing all versions to: {new_version}")
-    
+
     # 1. Update gemini-extension.json
     extension_path = "gemini-extension.json"
     if os.path.exists(extension_path):
@@ -20,7 +21,12 @@ def sync_versions(new_version):
     if os.path.exists(cargo_path):
         with open(cargo_path, "r") as f:
             content = f.read()
-        content = re.sub(r'^version\s*=\s*".*?"', f'version = "{new_version}"', content, flags=re.MULTILINE)
+        content = re.sub(
+            r'^version\s*=\s*".*?"',
+            f'version = "{new_version}"',
+            content,
+            flags=re.MULTILINE,
+        )
         with open(cargo_path, "w") as f:
             f.write(content)
         print(f"Updated {cargo_path}")
@@ -36,15 +42,23 @@ def sync_versions(new_version):
                     with open(path, "r") as file:
                         content = file.read()
                     # Only replace the top-level version field
-                    new_content = re.sub(r'^version\s*=\s*".*?"', f'version = "{new_version}"', content, count=1, flags=re.MULTILINE)
+                    new_content = re.sub(
+                        r'^version\s*=\s*".*?"',
+                        f'version = "{new_version}"',
+                        content,
+                        count=1,
+                        flags=re.MULTILINE,
+                    )
                     if new_content != content:
                         with open(path, "w") as file:
                             file.write(new_content)
                         count += 1
         print(f"Updated {count} prompt templates in {prompts_dir}")
 
+
 if __name__ == "__main__":
     import sys
+
     if len(sys.argv) > 1:
         sync_versions(sys.argv[1])
     else:

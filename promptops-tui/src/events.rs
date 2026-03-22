@@ -1,7 +1,7 @@
+use crate::model::{Action, AppState, ConfirmationModal, Focus, InputModal, Prompt};
+use crate::{clipboard, hydrate};
 use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
 use std::collections::HashMap;
-use crate::model::{AppState, Focus, InputModal, Prompt, Action, ConfirmationModal};
-use crate::{hydrate, clipboard};
 
 pub fn handle_navigation_input(app: &mut AppState, event: KeyEvent) {
     match event.code {
@@ -22,10 +22,18 @@ pub fn handle_navigation_input(app: &mut AppState, event: KeyEvent) {
         }
         KeyCode::PageDown => handle_scroll_input(app, KeyCode::PageDown),
         KeyCode::PageUp => handle_scroll_input(app, KeyCode::PageUp),
-        KeyCode::Char('d') if event.modifiers.contains(KeyModifiers::CONTROL) => handle_scroll_input(app, KeyCode::PageDown),
-        KeyCode::Char('u') if event.modifiers.contains(KeyModifiers::CONTROL) => handle_scroll_input(app, KeyCode::PageUp),
-        KeyCode::Char('f') if event.modifiers.contains(KeyModifiers::CONTROL) => handle_scroll_input(app, KeyCode::PageDown),
-        KeyCode::Char('b') if event.modifiers.contains(KeyModifiers::CONTROL) => handle_scroll_input(app, KeyCode::PageUp),
+        KeyCode::Char('d') if event.modifiers.contains(KeyModifiers::CONTROL) => {
+            handle_scroll_input(app, KeyCode::PageDown)
+        }
+        KeyCode::Char('u') if event.modifiers.contains(KeyModifiers::CONTROL) => {
+            handle_scroll_input(app, KeyCode::PageUp)
+        }
+        KeyCode::Char('f') if event.modifiers.contains(KeyModifiers::CONTROL) => {
+            handle_scroll_input(app, KeyCode::PageDown)
+        }
+        KeyCode::Char('b') if event.modifiers.contains(KeyModifiers::CONTROL) => {
+            handle_scroll_input(app, KeyCode::PageUp)
+        }
         KeyCode::Right | KeyCode::Tab | KeyCode::Char('l') => {
             app.focus = Focus::Prompts;
         }
@@ -117,7 +125,9 @@ pub fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
                 app.focus = Focus::Prompts;
             }
             KeyCode::Enter => {
-                if event.modifiers.contains(KeyModifiers::ALT) || event.modifiers.contains(KeyModifiers::CONTROL) {
+                if event.modifiers.contains(KeyModifiers::ALT)
+                    || event.modifiers.contains(KeyModifiers::CONTROL)
+                {
                     modal.input_buffer.push('\n');
                     modal.error_message = None;
                 } else {
@@ -125,13 +135,13 @@ pub fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
                         modal.error_message = Some("Input cannot be empty".to_string());
                         return;
                     }
-                    
+
                     let resolved_val = crate::utils::resolve_file_injection(&modal.input_buffer);
                     let var_name = modal.variables[modal.current_var_index].clone();
                     modal.values.insert(var_name, resolved_val);
                     modal.input_buffer.clear();
                     modal.error_message = None;
-                    
+
                     if modal.current_var_index + 1 < modal.variables.len() {
                         modal.current_var_index += 1;
                     } else {
@@ -142,7 +152,10 @@ pub fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
                             if prompt.sensitive {
                                 app.confirmation_modal = Some(ConfirmationModal {
                                     title: " Security Confirmation ".to_string(),
-                                    message: format!("⚠️  SECURITY WARNING: '{}' is sensitive. Copy?", prompt.name),
+                                    message: format!(
+                                        "⚠️  SECURITY WARNING: '{}' is sensitive. Copy?",
+                                        prompt.name
+                                    ),
                                     action: Action::CopyPrompt(hydrated),
                                 });
                                 app.focus = Focus::ConfirmationModal;
@@ -199,7 +212,10 @@ fn start_hydration(app: &mut AppState, prompt: Prompt) {
         if prompt.sensitive {
             app.confirmation_modal = Some(ConfirmationModal {
                 title: " Security Confirmation ".to_string(),
-                message: format!("⚠️  SECURITY WARNING: '{}' is sensitive. Copy?", prompt.name),
+                message: format!(
+                    "⚠️  SECURITY WARNING: '{}' is sensitive. Copy?",
+                    prompt.name
+                ),
                 action: Action::CopyPrompt(content),
             });
             app.focus = Focus::ConfirmationModal;

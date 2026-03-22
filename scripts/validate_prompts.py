@@ -1,9 +1,9 @@
 import os
-import glob
 import sys
 import tomllib
 import re
 from datetime import datetime
+
 
 class PromptValidator:
     def __init__(self, filepath):
@@ -15,7 +15,7 @@ class PromptValidator:
     def validate(self):
         if not self._check_filename():
             return self.errors
-        
+
         if not self._check_toml_syntax():
             return self.errors
 
@@ -25,12 +25,14 @@ class PromptValidator:
         self._check_tags()
         self._check_prompt_content()
         self._check_description()
-        
+
         return self.errors
 
     def _check_filename(self):
         if not re.match(r"^[a-z0-9-]+\.toml$", self.filename):
-            self.errors.append(f"Filename '{self.filename}' must be lowercase kebab-case (e.g., my-prompt.toml)")
+            self.errors.append(
+                f"Filename '{self.filename}' must be lowercase kebab-case (e.g., my-prompt.toml)"
+            )
             return False
         return True
 
@@ -44,7 +46,14 @@ class PromptValidator:
             return False
 
     def _check_required_fields(self):
-        required = ["description", "args_description", "version", "last_updated", "prompt", "tags"]
+        required = [
+            "description",
+            "args_description",
+            "version",
+            "last_updated",
+            "prompt",
+            "tags",
+        ]
         for field in required:
             if field not in self.data:
                 self.errors.append(f"Missing required field: '{field}'")
@@ -52,7 +61,7 @@ class PromptValidator:
                 val = self.data[field]
                 if field == "tags":
                     if not isinstance(val, list):
-                        self.errors.append(f"Field 'tags' must be a list of strings")
+                        self.errors.append("Field 'tags' must be a list of strings")
                 elif not isinstance(val, str) or not val.strip():
                     self.errors.append(f"Field '{field}' must be a non-empty string")
 
@@ -60,7 +69,9 @@ class PromptValidator:
         version = self.data.get("version")
         if isinstance(version, str):
             if not re.match(r"^\d+\.\d+\.\d+$", version):
-                self.errors.append(f"Invalid version '{version}'. Must follow SemVer (e.g., 1.0.0)")
+                self.errors.append(
+                    f"Invalid version '{version}'. Must follow SemVer (e.g., 1.0.0)"
+                )
 
     def _check_date(self):
         date_str = self.data.get("last_updated")
@@ -71,23 +82,27 @@ class PromptValidator:
                 try:
                     datetime.strptime(date_str, "%Y-%m-%d")
                 except ValueError:
-                    self.errors.append(f"Date '{date_str}' is not a valid calendar date")
+                    self.errors.append(
+                        f"Date '{date_str}' is not a valid calendar date"
+                    )
 
     def _check_tags(self):
         tags = self.data.get("tags")
         if isinstance(tags, list):
             if not tags:
                 self.errors.append("Tags list cannot be empty")
-            
+
             seen = set()
             for tag in tags:
                 if not isinstance(tag, str) or not tag.strip():
                     self.errors.append("Tags must be non-empty strings")
                     continue
-                
+
                 if tag != tag.lower() or " " in tag:
-                    self.errors.append(f"Tag '{tag}' must be lowercase and contain no spaces")
-                
+                    self.errors.append(
+                        f"Tag '{tag}' must be lowercase and contain no spaces"
+                    )
+
                 if tag in seen:
                     self.errors.append(f"Duplicate tag found: '{tag}'")
                 seen.add(tag)
@@ -98,22 +113,29 @@ class PromptValidator:
             if len(desc) > 150:
                 self.errors.append("Description is too long (max 150 characters)")
             if not desc.endswith("."):
-                self.errors.append("Description should end with a period for consistency")
+                self.errors.append(
+                    "Description should end with a period for consistency"
+                )
 
     def _check_prompt_content(self):
         prompt = self.data.get("prompt")
         if isinstance(prompt, str):
             if not re.search(r"^\s*#", prompt, re.MULTILINE):
-                self.errors.append("Prompt content must contain at least one Markdown header (e.g., # Title)")
-            
+                self.errors.append(
+                    "Prompt content must contain at least one Markdown header (e.g., # Title)"
+                )
+
             # Find all variables like {{var}}
             vars_found = re.findall(r"\{\{(\w+)\}\}", prompt)
             if not vars_found:
-                self.errors.append("Prompt contains no variables. Did you forget '{{args}}'?")
+                self.errors.append(
+                    "Prompt contains no variables. Did you forget '{{args}}'?"
+                )
             elif "args" not in vars_found:
-                # We don't strictly require 'args' if they use 'code' etc, 
+                # We don't strictly require 'args' if they use 'code' etc,
                 # but let's warn if it looks like they missed the primary one.
                 pass
+
 
 def main():
     prompt_dir = "commands/prompts"
@@ -122,7 +144,7 @@ def main():
         for f in files:
             if f.endswith(".toml"):
                 prompt_files.append(os.path.join(root, f))
-    
+
     if not prompt_files:
         print(f"No prompt files found in {prompt_dir}")
         sys.exit(0)
@@ -133,7 +155,7 @@ def main():
     for filepath in sorted(prompt_files):
         validator = PromptValidator(filepath)
         errors = validator.validate()
-        
+
         if errors:
             print(f"❌ {filepath}:")
             for err in errors:
@@ -142,11 +164,14 @@ def main():
             total_errors += len(errors)
 
     if total_files_with_errors > 0:
-        print(f"\nValidation failed: {total_files_with_errors} file(s) contained {total_errors} total error(s).")
+        print(
+            f"\nValidation failed: {total_files_with_errors} file(s) contained {total_errors} total error(s)."
+        )
         sys.exit(1)
     else:
         print(f"✅ All {len(prompt_files)} prompts validated successfully!")
         sys.exit(0)
+
 
 if __name__ == "__main__":
     main()

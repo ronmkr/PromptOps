@@ -4,10 +4,11 @@ import sys
 import json
 import glob
 import tomllib
-from typing import List, Dict, Any
+from typing import List
 from pydantic import BaseModel
 from google import genai
 from google.genai import types
+
 
 # Define structured output for the LLM-as-a-judge
 class EvaluationResult(BaseModel):
@@ -15,20 +16,27 @@ class EvaluationResult(BaseModel):
     reasoning: str
     missing_criteria: List[str]
 
+
 def load_prompt(prompt_name: str) -> str:
     filepath = os.path.join("commands", "prompts", f"{prompt_name}.toml")
     if not os.path.exists(filepath):
         raise FileNotFoundError(f"Prompt template {filepath} not found.")
-    
+
     with open(filepath, "rb") as f:
         data = tomllib.load(f)
         return data.get("prompt", "")
 
+
 def run_evaluation():
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
-        print("❌ Error: GEMINI_API_KEY environment variable is not set.", file=sys.stderr)
-        print("Please set it to run the golden tests: export GEMINI_API_KEY='your_key'", file=sys.stderr)
+        print(
+            "❌ Error: GEMINI_API_KEY environment variable is not set.", file=sys.stderr
+        )
+        print(
+            "Please set it to run the golden tests: export GEMINI_API_KEY='your_key'",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     client = genai.Client(api_key=api_key)
@@ -48,10 +56,10 @@ def run_evaluation():
     for dataset_file in dataset_files:
         with open(dataset_file, "r", encoding="utf-8") as f:
             dataset = json.load(f)
-        
+
         prompt_name = dataset.get("prompt_name")
         print(f"📦 Evaluating Prompt: {prompt_name}")
-        
+
         try:
             raw_prompt_template = load_prompt(prompt_name)
         except FileNotFoundError as e:
@@ -72,8 +80,7 @@ def run_evaluation():
             try:
                 # 2. Generate the output from the prompt template
                 response = client.models.generate_content(
-                    model=model_id,
-                    contents=hydrated_prompt
+                    model=model_id, contents=hydrated_prompt
                 )
                 generated_output = response.text
 
@@ -109,17 +116,20 @@ Analyze the output carefully. If ALL criteria are met, passed is true. If ANY cr
                     print(" ❌ FAIL")
                     print(f"     Reasoning: {result.reasoning}")
                     if result.missing_criteria:
-                        print(f"     Missing Criteria: {', '.join(result.missing_criteria)}")
-            
+                        print(
+                            f"     Missing Criteria: {', '.join(result.missing_criteria)}"
+                        )
+
             except Exception as e:
                 print(f" ❌ ERROR: API Call Failed - {e}")
 
-    print("\n" + "="*40)
+    print("\n" + "=" * 40)
     print(f"📊 Golden Test Results: {passed_tests}/{total_tests} Passed")
-    print("="*40)
+    print("=" * 40)
 
     if passed_tests != total_tests:
         sys.exit(1)
+
 
 if __name__ == "__main__":
     run_evaluation()
