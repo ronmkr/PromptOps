@@ -53,7 +53,6 @@ pub fn resolve_file_injection(val: &str) -> String {
                 if remaining > 50 {
                     file_text.truncate(remaining);
                     file_text.push_str("\n... [TRUNCATED due to length limit] ...");
-                    total_chars += file_text.len();
                     contents.push(file_text);
                 }
                 break;
