@@ -80,6 +80,7 @@ pub struct AppState {
     pub status_timeout: Option<Instant>,
     pub search_query: String,
     pub show_preview: bool,
+    pub details_scroll: u16,
 }
 
 impl AppState {
@@ -138,6 +139,7 @@ impl AppState {
             status_timeout: None,
             search_query: String::new(),
             show_preview: false,
+            details_scroll: 0,
         };
         app.update_filter();
         app
@@ -185,6 +187,7 @@ impl AppState {
         if self.selected_prompt_index >= self.filter_groups.len() {
             self.selected_prompt_index = 0;
         }
+        self.details_scroll = 0;
     }
 
     pub fn next(&mut self) {
@@ -198,6 +201,7 @@ impl AppState {
             Focus::Prompts => {
                 if !self.filter_groups.is_empty() {
                     self.selected_prompt_index = (self.selected_prompt_index + 1) % self.filter_groups.len();
+                    self.details_scroll = 0;
                 }
             }
             Focus::VersionSelection => {
@@ -227,6 +231,7 @@ impl AppState {
                     } else {
                         self.selected_prompt_index -= 1;
                     }
+                    self.details_scroll = 0;
                 }
             }
             Focus::VersionSelection => {

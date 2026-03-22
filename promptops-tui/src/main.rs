@@ -74,7 +74,7 @@ fn run_app<B: ratatui::backend::Backend>(
                     Focus::Search => events::handle_search_input(app, key.code),
                     Focus::VersionSelection => events::handle_version_selection(app, key.code),
                     Focus::ConfirmationModal => events::handle_confirmation_modal(app, key.code),
-                    _ => events::handle_navigation_input(app, key.code),
+                    _ => events::handle_navigation_input(app, key),
                 }
             }
         }

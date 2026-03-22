@@ -80,12 +80,12 @@ fn render_footer(f: &mut Frame, state: &AppState, area: Rect) {
         f.render_widget(Paragraph::new(format!(" {} ", msg)).style(style), area);
     } else {
         let help = match state.focus {
-            Focus::Categories => " [j/k/↑/↓] Navigate | [Tab/l/→] Select Prompts | [/] Search | [q] Quit ",
-            Focus::Prompts => " [j/k/↑/↓] Navigate | [Enter] Select | [v] Preview | [h/←] Categories | [/] Search ",
+            Focus::Categories => " [j/k/↑/↓] Navigate | [^u/^d] Scroll | [Tab/l/→] Select Prompts | [/] Search | [q] Quit ",
+            Focus::Prompts => " [j/k/↑/↓] Navigate | [^u/^d] Scroll | [Enter] Select | [v] Preview | [h/←] Categories | [/] Search ",
             Focus::VersionSelection => " [j/k/↑/↓] Change Version | [Enter] Use | [Esc] Back ",
             Focus::Search => " [Type] Search | [Enter] Confirm | [Esc] Cancel ",
             Focus::InputModal => " [Type] Input | [Enter] Next/Copy | [Alt+Enter] New Line | [Esc] Cancel ",
-            Focus::ConfirmationModal => " [y] Confirm Copy | [n/Esc] Cancel ",
+            Focus::ConfirmationModal => " [y] Confirm | [n/Esc] Cancel ",
         };
         f.render_widget(Paragraph::new(help).style(Style::default().fg(Color::DarkGray)), area);
     }
@@ -205,20 +205,20 @@ fn render_details(f: &mut Frame, state: &AppState, area: Rect) {
         .borders(Borders::ALL)
         .title(" Details ")
         .padding(Padding::uniform(1));
-    
+
     if let Some(g) = group {
         let p = &g.versions[g.selected_version_index];
         if state.show_preview {
-            render_preview(f, p, block, area);
+            render_preview(f, p, block, area, state);
         } else {
-            render_metadata(f, p, block, area);
+            render_metadata(f, p, block, area, state);
         }
     } else {
         f.render_widget(Paragraph::new(" No prompt selected ").block(block), area);
     }
 }
 
-fn render_metadata(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: Rect) {
+fn render_metadata(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: Rect, state: &AppState) {
     let mut text = Vec::new();
     
     let display_name = if let Some(v_id) = &p.version_id {
@@ -277,11 +277,12 @@ fn render_metadata(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: 
     
     let paragraph = Paragraph::new(text)
         .block(block)
-        .wrap(Wrap { trim: true });
+        .wrap(Wrap { trim: true })
+        .scroll((state.details_scroll, 0));
     f.render_widget(paragraph, area);
 }
 
-fn render_preview(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: Rect) {
+fn render_preview(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: Rect, state: &AppState) {
     let mut spans = Vec::new();
     let content = &p.prompt;
     
@@ -299,7 +300,8 @@ fn render_preview(f: &mut Frame, p: &crate::model::Prompt, block: Block, area: R
 
     let paragraph = Paragraph::new(Text::from(Line::from(spans)))
         .block(block.title(" Preview Content (v to hide) "))
-        .wrap(Wrap { trim: true });
+        .wrap(Wrap { trim: true })
+        .scroll((state.details_scroll, 0));
     f.render_widget(paragraph, area);
 }
 

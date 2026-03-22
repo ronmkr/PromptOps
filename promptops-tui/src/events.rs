@@ -3,11 +3,29 @@ use std::collections::HashMap;
 use crate::model::{AppState, Focus, InputModal, Prompt, Action, ConfirmationModal};
 use crate::{hydrate, clipboard};
 
-pub fn handle_navigation_input(app: &mut AppState, code: KeyCode) {
-    match code {
+pub fn handle_navigation_input(app: &mut AppState, event: KeyEvent) {
+    match event.code {
         KeyCode::Char('q') => app.should_quit = true,
-        KeyCode::Down | KeyCode::Char('j') => app.next(),
-        KeyCode::Up | KeyCode::Char('k') => app.previous(),
+        KeyCode::Down | KeyCode::Char('j') => {
+            if event.modifiers.contains(KeyModifiers::CONTROL) {
+                handle_scroll_input(app, KeyCode::Down);
+            } else {
+                app.next();
+            }
+        }
+        KeyCode::Up | KeyCode::Char('k') => {
+            if event.modifiers.contains(KeyModifiers::CONTROL) {
+                handle_scroll_input(app, KeyCode::Up);
+            } else {
+                app.previous();
+            }
+        }
+        KeyCode::PageDown => handle_scroll_input(app, KeyCode::PageDown),
+        KeyCode::PageUp => handle_scroll_input(app, KeyCode::PageUp),
+        KeyCode::Char('d') if event.modifiers.contains(KeyModifiers::CONTROL) => handle_scroll_input(app, KeyCode::PageDown),
+        KeyCode::Char('u') if event.modifiers.contains(KeyModifiers::CONTROL) => handle_scroll_input(app, KeyCode::PageUp),
+        KeyCode::Char('f') if event.modifiers.contains(KeyModifiers::CONTROL) => handle_scroll_input(app, KeyCode::PageDown),
+        KeyCode::Char('b') if event.modifiers.contains(KeyModifiers::CONTROL) => handle_scroll_input(app, KeyCode::PageUp),
         KeyCode::Right | KeyCode::Tab | KeyCode::Char('l') => {
             app.focus = Focus::Prompts;
         }
@@ -20,6 +38,7 @@ pub fn handle_navigation_input(app: &mut AppState, code: KeyCode) {
         }
         KeyCode::Char('v') => {
             app.show_preview = !app.show_preview;
+            app.details_scroll = 0;
         }
         KeyCode::Enter => {
             if let Some(group) = app.filter_groups.get(app.selected_prompt_index) {
@@ -29,6 +48,24 @@ pub fn handle_navigation_input(app: &mut AppState, code: KeyCode) {
                     start_hydration(app, group.versions[0].clone());
                 }
             }
+        }
+        _ => {}
+    }
+}
+
+pub fn handle_scroll_input(app: &mut AppState, code: KeyCode) {
+    match code {
+        KeyCode::Down => {
+            app.details_scroll = app.details_scroll.saturating_add(1);
+        }
+        KeyCode::Up => {
+            app.details_scroll = app.details_scroll.saturating_sub(1);
+        }
+        KeyCode::PageDown => {
+            app.details_scroll = app.details_scroll.saturating_add(10);
+        }
+        KeyCode::PageUp => {
+            app.details_scroll = app.details_scroll.saturating_sub(10);
         }
         _ => {}
     }
