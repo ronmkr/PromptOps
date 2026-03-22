@@ -1,5 +1,4 @@
 import os
-import glob
 import sys
 import tomllib
 import re
@@ -52,7 +51,7 @@ class PromptValidator:
                 val = self.data[field]
                 if field == "tags":
                     if not isinstance(val, list):
-                        self.errors.append(f"Field 'tags' must be a list of strings")
+                        self.errors.append("Field 'tags' must be a list of strings")
                 elif not isinstance(val, str) or not val.strip():
                     self.errors.append(f"Field '{field}' must be a non-empty string")
 

@@ -76,7 +76,7 @@ def list_prompts(tag_filter=None, prompts_dir=None):
         grouped = new_grouped
 
     if not grouped:
-        print(f"No prompts found with criteria.")
+        print("No prompts found with criteria.")
         return
 
     format_prompt_list(grouped)
@@ -149,7 +149,8 @@ def search_prompts(term, tag_filter=None, prompts_dir=None):
     grouped = {}
     for p in all_prompts:
         if p["name"] in matching_names:
-            if p["name"] not in grouped: grouped[p["name"]] = []
+            if p["name"] not in grouped:
+                grouped[p["name"]] = []
             grouped[p["name"]].append(p)
             
     format_prompt_list(grouped)
@@ -202,7 +203,7 @@ def _confirm_sensitive_copy(name):
     print(f"{Colors.YELLOW}This prompt is marked as SENSITIVE and will be copied to your clipboard.{Colors.RESET}")
     print(f"{Colors.YELLOW}Proceed with caution if it contains secrets or proprietary data.{Colors.RESET}")
     try:
-        confirm = input(f"\nCopy to clipboard? (y/N): ").lower()
+        confirm = input("\nCopy to clipboard? (y/N): ").lower()
         if confirm != 'y':
             print(f" {Colors.YELLOW}[Skip] Clipboard copy cancelled.{Colors.RESET}", file=sys.stderr)
             return False
@@ -212,7 +213,8 @@ def _confirm_sensitive_copy(name):
         return False
 
 def use_prompt(name, provided_vars=None, prompts_dir=None, return_only=False, version_hint=None, no_copy=False, auto_confirm=False):
-    if provided_vars is None: provided_vars = {}
+    if provided_vars is None:
+        provided_vars = {}
     all_prompts = get_prompts(prompts_dir)
     versions = [p for p in all_prompts if p["name"] == name]
     
@@ -254,7 +256,8 @@ def use_prompt(name, provided_vars=None, prompts_dir=None, return_only=False, ve
         display_name = f"{name}:{selected['version_id']}" if selected["version_id"] else name
         variables = sorted(list(set(re.findall(r"\{\{\s*(\w+)\s*\}\}", prompt_content))))
         
-        if return_only: return prompt_content, variables
+        if return_only:
+            return prompt_content, variables
         
         final_vars = _collect_variables(display_name, variables, data, provided_vars)
         prompt_content = hydrate_prompt(prompt_content, final_vars)

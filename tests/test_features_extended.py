@@ -4,11 +4,11 @@ import sys
 import tempfile
 import shutil
 import io
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 # Import the core logic directly
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from promptops import core, utils, cli
+from promptops import core, utils
 
 class TestFeaturesExtended(unittest.TestCase):
     def setUp(self):
@@ -25,8 +25,8 @@ class TestFeaturesExtended(unittest.TestCase):
         path = os.path.join(self.test_dir, f"{name}.toml")
         with open(path, "w") as f:
             f.write(f'description = "{description}"\n')
-            f.write(f'version     = "1.0.0"\n')
-            f.write(f'last_updated = "2026-03-21"\n')
+            f.write('version     = "1.0.0"\n')
+            f.write('last_updated = "2026-03-21"\n')
             tags_str = str(tags).replace("'", '"')
             f.write(f'tags         = {tags_str}\n')
             if sensitive:
@@ -62,7 +62,7 @@ class TestFeaturesExtended(unittest.TestCase):
     @patch('builtins.input', return_value='n')
     def test_sensitive_prompt_warning_decline(self, mock_input, mock_copy):
         mock_copy.return_value = True
-        with patch('sys.stdout', new=io.StringIO()) as fake_out:
+        with patch('sys.stdout', new=io.StringIO()):
             with patch('sys.stderr', new=io.StringIO()) as fake_err:
                 core.use_prompt("secret", {"args": "my-password"}, prompts_dir=self.test_dir)
                 # Should NOT have called copy
@@ -72,7 +72,7 @@ class TestFeaturesExtended(unittest.TestCase):
     @patch('promptops.core.copy_to_clipboard')
     def test_sensitive_prompt_auto_confirm(self, mock_copy):
         mock_copy.return_value = True
-        with patch('sys.stdout', new=io.StringIO()) as fake_out:
+        with patch('sys.stdout', new=io.StringIO()):
             # Pass auto_confirm=True
             core.use_prompt("secret", {"args": "my-password"}, prompts_dir=self.test_dir, auto_confirm=True)
             # Should have called copy WITHOUT asking (no input mock needed)
@@ -102,8 +102,10 @@ class TestFeaturesExtended(unittest.TestCase):
         large_content = "A" * 300000
         f1_path = os.path.join(self.test_dir, "large1.txt")
         f2_path = os.path.join(self.test_dir, "large2.txt")
-        with open(f1_path, "w") as f: f.write(large_content)
-        with open(f2_path, "w") as f: f.write(large_content)
+        with open(f1_path, "w") as f:
+            f.write(large_content)
+        with open(f2_path, "w") as f:
+            f.write(large_content)
         
         try:
             pattern = os.path.join(self.test_dir, "large*.txt")
@@ -121,7 +123,8 @@ class TestFeaturesExtended(unittest.TestCase):
     def test_glob_char_limit_single_huge_file(self):
         huge_content = "A" * 600000
         f_path = os.path.join(self.test_dir, "huge.txt")
-        with open(f_path, "w") as f: f.write(huge_content)
+        with open(f_path, "w") as f:
+            f.write(huge_content)
         
         try:
             val = f"@{f_path}"
