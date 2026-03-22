@@ -38,8 +38,8 @@ jobs:
         with:
           workspaces: "promptops-tui -> target"
 
-      - name: Build Rust TUI
-        run: cd promptops-tui && cargo build --release
+      - name: Build Rust TUI (Debug)
+        run: cd promptops-tui && cargo build
 
       - name: Run Rust Unit Tests
         run: cd promptops-tui && cargo test
