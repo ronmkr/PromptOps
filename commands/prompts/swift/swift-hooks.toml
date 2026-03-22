@@ -1,0 +1,29 @@
+description = "Swift Hooks."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["swift"]
+prompt = '''
+
+
+# Swift Hooks
+
+> This file extends [common/hooks.md](../common/hooks.md) with Swift specific content.
+
+## Automation Hooks
+
+Recommended configuration:
+
+- **SwiftFormat**: Auto-format `.swift` files after edit
+- **SwiftLint**: Run lint checks after editing `.swift` files
+- **swift build**: Type-check modified packages after edit
+
+## Warning
+
+Flag `print()` statements — use `os.Logger` or structured logging instead for production code.
+
+# Context/Input
+{{args}}
+
+
+'''

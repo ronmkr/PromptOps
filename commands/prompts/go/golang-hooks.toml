@@ -1,0 +1,25 @@
+description = "Go Hooks."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["go"]
+prompt = '''
+
+
+# Go Hooks
+
+> This file extends [common/hooks.md](../common/hooks.md) with Go specific content.
+
+## Automation Hooks
+
+Recommended configuration:
+
+- **gofmt/goimports**: Auto-format `.go` files after edit
+- **go vet**: Run static analysis after editing `.go` files
+- **staticcheck**: Run extended static checks on modified packages
+
+# Context/Input
+{{args}}
+
+
+'''

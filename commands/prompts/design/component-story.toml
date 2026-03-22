@@ -1,0 +1,35 @@
+description = "Generate Storybook stories for UI components."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["design"]
+prompt = '''
+
+
+# Storybook Story Generator
+
+Please generate a comprehensive Storybook file (Component Story Format 3.0 / CSF3) for the following React/Vue/UI component:
+
+```
+{{args}}
+```
+
+Ensure the generated story includes:
+
+  ## 1. Default Setup
+- Correct imports (`Meta`, `StoryObj`).
+- The `default export` containing the component `title`, the `component` itself, and appropriate `tags: ['autodocs']`.
+
+  ## 2. Argument Types (ArgTypes)
+- Define `argTypes` to provide interactive controls for the component's props (e.g., mapping a 'variant' prop to a select dropdown with options).
+
+  ## 3. Stories
+Generate multiple story variations representing different states of the component:
+- **Default/Primary**: The standard state.
+- **Variations**: (e.g., Primary, Secondary, Disabled, Loading, Error).
+- **Edge Cases**: How does the component look with extremely long text or missing optional props?
+
+Output the complete, syntactically correct Storybook file.
+
+
+'''

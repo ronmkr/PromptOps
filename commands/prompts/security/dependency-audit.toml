@@ -1,0 +1,36 @@
+description = "Analyze a package.json or requirements.txt for known vulnerable patterns."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["security"]
+prompt = '''
+
+
+# Dependency Security Audit
+
+Please analyze the following dependency manifest (e.g., `package.json`, `requirements.txt`, `Gemfile`, or `Cargo.toml`) for security risks, vulnerable patterns, and maintenance issues:
+
+```
+{{args}}
+```
+
+Provide your analysis in the following format:
+
+  ## 1. Known Vulnerable Packages
+Identify any dependencies that are historically known to have major CVEs or frequent security issues in the specified versions. 
+
+  ## 2. Unmaintained or Deprecated Packages
+Flag any packages that are officially deprecated, renamed, or haven't seen updates in years. Suggest modern alternatives.
+
+  ## 3. Typo-Squatting & Malicious Risks
+Check for packages with unusual names, extremely broad scopes, or common typo-squatting targets.
+
+  ## 4. Supply Chain Best Practices
+Recommend improvements such as:
+- Pinning versions strictly.
+- Using lockfiles (`package-lock.json`, `poetry.lock`).
+- Implementing automated auditing (e.g., Dependabot, Snyk).
+- Removing unnecessary runtime dependencies (moving them to `devDependencies`).
+
+
+'''

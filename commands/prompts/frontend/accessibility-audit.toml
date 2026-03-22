@@ -1,0 +1,39 @@
+description = "Review HTML/React code for WCAG compliance."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["frontend"]
+prompt = '''
+
+
+# Frontend Accessibility (a11y) Audit
+
+Please analyze the following HTML, React, or Vue component for Web Content Accessibility Guidelines (WCAG) compliance:
+
+```
+{{args}}
+```
+
+Focus your audit on the following areas:
+
+  ## 1. Semantic HTML
+- Are the correct semantic tags used (e.g., `<button>` vs `<div>` for clickable elements, `<nav>`, `<main>`)?
+- Are heading levels (`h1`-`h6`) structured logically without skipping levels?
+
+  ## 2. Keyboard Navigation
+- Can all interactive elements be reached using the `Tab` key?
+- Is there a visible focus indicator (`:focus` or `:focus-visible`)?
+- Are `tabindex` attributes used correctly (avoiding positive values)?
+
+  ## 3. Screen Reader Support (ARIA)
+- Do images have descriptive `alt` text (or empty `alt=""` for decorative images)?
+- Are ARIA roles, states, and properties applied correctly to custom UI components (like modals, dropdowns, or tabs)?
+- Are form inputs explicitly associated with `<label>` elements?
+
+  ## 4. Contrast & Visuals
+- Are you able to identify any obvious color contrast issues based on the provided classes or styles?
+
+For every issue found, provide a description of why it's an accessibility barrier and supply the corrected code block.
+
+
+'''

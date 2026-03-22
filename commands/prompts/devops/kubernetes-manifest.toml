@@ -1,0 +1,46 @@
+description = "Create Kubernetes Deployment and Service YAML manifests."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["devops"]
+prompt = '''
+
+
+# Kubernetes Manifest Generator
+
+Please generate production-ready Kubernetes YAML manifests (Deployment and Service) for the following application:
+
+```
+{{args}}
+```
+
+Ensure the generated manifests follow these Kubernetes best practices:
+
+  ## 1. Workload Configuration (Deployment)
+- Define a clear `Deployment` structure with an appropriate `replica` count (e.g., at least 2 for high availability).
+- Use specific image tags (do not use `latest`).
+- Include standard metadata `labels` (e.g., `app.kubernetes.io/name`, `app.kubernetes.io/version`).
+
+  ## 2. Resilience & Health Checks
+- Include a `livenessProbe` to restart the container if it deadlocks.
+- Include a `readinessProbe` to ensure traffic is only routed to the pod when it is ready to accept requests.
+- Provide sensible defaults for probe `initialDelaySeconds`, `periodSeconds`, and `timeoutSeconds`.
+
+  ## 3. Resource Management
+- Define explicit `resources.requests` (CPU/Memory) to ensure the pod is scheduled on an appropriate node.
+- Define explicit `resources.limits` (CPU/Memory) to prevent the pod from monopolizing node resources.
+
+  ## 4. Security Context
+- Add a `securityContext` at the pod or container level (e.g., `runAsNonRoot: true`, `readOnlyRootFilesystem: true`, dropping default capabilities).
+
+  ## 5. Networking (Service)
+- Define a corresponding `Service` to expose the deployment.
+- Correctly map the `targetPort` (container port) to the `port` (service port).
+- Set an appropriate service `type` (e.g., `ClusterIP` for internal, or `LoadBalancer`/`NodePort` if specified in the prompt).
+
+For your response, provide:
+1. **The complete YAML manifest** (combining Deployment and Service using `---`).
+2. **A brief explanation** of the specific probes, limits, and security contexts chosen for this stack.
+
+
+'''

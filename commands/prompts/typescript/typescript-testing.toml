@@ -1,0 +1,25 @@
+description = "TypeScript testing extending common rules."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["typescript"]
+prompt = '''
+
+
+# TypeScript/JavaScript Testing
+
+> This file extends the common testing rule with TypeScript/JavaScript specific content.
+
+## E2E Testing
+
+Use **Playwright** as the E2E testing framework for critical user flows.
+
+## Agent Support
+
+- **e2e-runner** - Playwright E2E testing specialist
+
+# Context/Input
+{{args}}
+
+
+'''

@@ -1,0 +1,36 @@
+description = "Cache expensive file processing results using SHA-256 content hashes — path-independent, auto-invalidating, with service layer separation."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["architecture"]
+prompt = '''
+
+# Content-Hash File Cache Pattern
+
+Cache expensive file processing results (PDF parsing, text extraction, image analysis) using SHA-256 content hashes as cache keys. Unlike path-based caching, this approach survives file moves/renames and auto-invalidates when content changes.
+
+## When to Activate
+
+- Building file processing pipelines (PDF, images, text extraction)
+- Processing cost is high and same files are processed repeatedly
+- Need a `--cache/--no-cache` CLI option
+- Want to add caching to existing pure functions without modifying them
+
+## Core Pattern
+
+### 1. Content-Hash Based Cache Key
+
+Use file content (not path) as the cache key:
+
+```python
+import hashlib
+from pathlib import Path
+
+_HASH_CHUNK_SIZE = 65536  # 64KB chunks for large files
+
+def compute_file_hash(path: Path) -> str:
+
+# Context/Input
+{{args}}
+
+'''

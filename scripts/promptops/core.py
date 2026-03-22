@@ -15,21 +15,55 @@ def get_prompts(prompts_dir=None):
     if not os.path.exists(prompts_dir):
         return []
 
-    # 1. Look for flat files at root
-    for entry in os.listdir(prompts_dir):
-        full_path = os.path.join(prompts_dir, entry)
-        if os.path.isfile(full_path) and entry.endswith(".toml"):
-            name = entry.replace(".toml", "")
-            _process_prompt_file(full_path, name, None, groups)
-        elif os.path.isdir(full_path):
-            # 2. Look for versioned files in subdirectories
-            name = entry
-            for sub_entry in sorted(os.listdir(full_path)):
-                if sub_entry.endswith(".toml"):
-                    version_id = sub_entry.replace(".toml", "")
-                    _process_prompt_file(
-                        os.path.join(full_path, sub_entry), name, version_id, groups
-                    )
+    # Walk through the directory structure recursively
+    for root, dirs, files in os.walk(prompts_dir):
+        # Calculate relative path from prompts_dir to root to identify categories
+        rel_path = os.path.relpath(root, prompts_dir)
+        category = None if rel_path == "." else rel_path
+
+        for filename in files:
+            if not filename.endswith(".toml"):
+                continue
+
+            full_path = os.path.join(root, filename)
+            
+            # 1. Simple Case: prompt.toml
+            # 2. Category Case: category/prompt.toml
+            # 3. Versioned Case: prompt/version.toml or category/prompt/version.toml
+            
+            # If the immediate parent is NOT prompts_dir, check if the parent name matches filename (sans .toml)
+            # This handles the existing versioning logic: prompts/name/version.toml
+            parent_name = os.path.basename(root)
+            file_base = filename.replace(".toml", "")
+            
+            if category and parent_name == file_base:
+                # This is likely a versioned file (e.g. category/name/name.toml)
+                # But our current structure is category/name.toml
+                # Let's adjust to be robust
+                name = file_base
+                version_id = None
+            elif category:
+                # Check if this file is in a subdirectory named after it (versioning)
+                # e.g., commands/prompts/testing/my-prompt/v1.toml
+                # In our new structure, it's commands/prompts/testing/my-prompt.toml
+                
+                # If we are deeper than 1 level, we might have versioning
+                depth = rel_path.count(os.sep) + 1
+                if depth >= 2:
+                    # Rel path might be "testing/my-prompt"
+                    parts = rel_path.split(os.sep)
+                    name = parts[-1]
+                    version_id = file_base
+                else:
+                    # Rel path is "testing", filename is "my-prompt.toml"
+                    name = file_base
+                    version_id = None
+            else:
+                # Root level
+                name = file_base
+                version_id = None
+
+            _process_prompt_file(full_path, name, version_id, groups)
 
     all_versions = []
     for name in sorted(groups.keys()):

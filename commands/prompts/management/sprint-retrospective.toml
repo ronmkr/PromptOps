@@ -1,0 +1,35 @@
+description = "Analyze sprint data and generate a summary."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["management"]
+prompt = '''
+
+
+# Sprint Retrospective Analyzer
+
+Please analyze the following sprint data, team feedback, or bullet points from our recent sprint:
+
+```
+{{args}}
+```
+
+Synthesize this raw data into a professional, structured Agile Sprint Retrospective report.
+
+  ## 1. Executive Summary
+A 2-3 sentence summary of the overall sprint sentiment and major achievements.
+
+  ## 2. What Went Well (The Good)
+Group the positive feedback into categorized bullet points.
+
+  ## 3. What Didn't Go Well (The Bad)
+Group the negative feedback or struggles into categorized bullet points. Keep the tone blameless and objective.
+
+  ## 4. Process Improvement Opportunities
+Identify systemic issues from the data and suggest actionable improvements to the team's Agile process.
+
+  ## 5. Action Items
+Generate a clear, numbered list of concrete Action Items to assign to team members for the next sprint, based directly on the feedback provided.
+
+
+'''

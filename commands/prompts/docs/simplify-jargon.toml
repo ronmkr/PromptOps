@@ -1,0 +1,34 @@
+description = "Simplify technical jargon."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["docs"]
+prompt = '''
+
+
+# Technical Jargon Simplification
+
+Please take the following highly technical text or concept and translate it into clear, accessible language for a non-technical audience:
+
+```
+{{args}}
+```
+
+Please structure your explanation as follows:
+
+  ## 1. The "Explain Like I'm 5" (ELI5) Analogy
+- Provide a simple, relatable real-world analogy that captures the core concept.
+
+  ## 2. The Plain English Translation
+- Rewrite the original text, stripping out all jargon, acronyms, and overly complex phrasing. 
+- Keep the sentences short and punchy.
+- Focus on *what it means* and *why it matters*, rather than how it works under the hood.
+
+  ## 3. Key Terms Unpacked (Optional)
+- If there are 1-3 absolutely essential technical terms the reader *must* know, define them simply here. Otherwise, omit this section.
+
+  ## 4. Real-World Value
+- Give a concrete example of how this concept affects a regular user or a business in their day-to-day operations.
+
+
+'''

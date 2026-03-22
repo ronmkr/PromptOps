@@ -1,0 +1,30 @@
+description = "C# Hooks."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["csharp"]
+prompt = '''
+
+
+# C# Hooks
+
+> This file extends [common/hooks.md](../common/hooks.md) with C#-specific content.
+
+## Automation Hooks
+
+Recommended configuration:
+
+- **dotnet format**: Auto-format edited C# files and apply analyzer fixes
+- **dotnet build**: Verify the solution or project still compiles after edits
+- **dotnet test --no-build**: Re-run the nearest relevant test project after behavior changes
+
+## Stop Hooks
+
+- Run a final `dotnet build` before ending a session with broad C# changes
+- Warn on modified `appsettings*.json` files so secrets do not get committed
+
+# Context/Input
+{{args}}
+
+
+'''

@@ -1,0 +1,34 @@
+description = "Generate and explain complex Regular Expressions."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["engineering"]
+prompt = '''
+
+
+# Regex Builder & Explainer
+
+Please analyze the following text-matching requirement and generate an optimized Regular Expression:
+
+```
+{{args}}
+```
+
+Provide your response in the following format:
+
+  ## 1. The Regular Expression
+Provide the raw regex pattern. If it requires specific flags (like `g`, `i`, `m`), specify them.
+
+  ## 2. Step-by-Step Breakdown
+Explain exactly how the regex works, breaking down every token, group, and quantifier.
+
+  ## 3. Test Cases
+Provide examples of strings that this regex will successfully **Match**.
+Provide examples of similar strings that this regex will correctly **Fail to match** (edge cases).
+
+  ## 4. Performance & ReDoS Warning
+- Is this regex susceptible to Catastrophic Backtracking (ReDoS)? 
+- Are there any inefficient greedy quantifiers (`.*`) that could be optimized?
+
+
+'''
