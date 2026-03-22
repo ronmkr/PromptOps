@@ -119,11 +119,18 @@ pub fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
             KeyCode::Enter => {
                 if event.modifiers.contains(KeyModifiers::ALT) || event.modifiers.contains(KeyModifiers::CONTROL) {
                     modal.input_buffer.push('\n');
+                    modal.error_message = None;
                 } else {
+                    if modal.input_buffer.trim().is_empty() {
+                        modal.error_message = Some("Input cannot be empty".to_string());
+                        return;
+                    }
+                    
                     let resolved_val = crate::utils::resolve_file_injection(&modal.input_buffer);
                     let var_name = modal.variables[modal.current_var_index].clone();
                     modal.values.insert(var_name, resolved_val);
                     modal.input_buffer.clear();
+                    modal.error_message = None;
                     
                     if modal.current_var_index + 1 < modal.variables.len() {
                         modal.current_var_index += 1;
@@ -151,9 +158,11 @@ pub fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
             }
             KeyCode::Char(c) => {
                 modal.input_buffer.push(c);
+                modal.error_message = None;
             }
             KeyCode::Backspace => {
                 modal.input_buffer.pop();
+                modal.error_message = None;
             }
             _ => {}
         }
@@ -208,6 +217,7 @@ fn start_hydration(app: &mut AppState, prompt: Prompt) {
             values: HashMap::new(),
             input_buffer: String::new(),
             args_description: prompt.args_description.clone(),
+            error_message: None,
         });
         app.focus = Focus::InputModal;
     }

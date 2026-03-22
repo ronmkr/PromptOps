@@ -62,6 +62,7 @@ pub struct InputModal {
     pub values: HashMap<String, String>,
     pub input_buffer: String,
     pub args_description: String,
+    pub error_message: Option<String>,
 }
 
 pub struct AppState {

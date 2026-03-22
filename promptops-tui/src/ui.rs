@@ -372,6 +372,14 @@ fn render_modal(f: &mut Frame, state: &AppState) {
             Line::from(""),
         ];
 
+        if let Some(error) = &modal.error_message {
+            text.push(Line::from(vec![
+                Span::styled(" Error: ", Style::default().fg(Color::Red).add_modifier(Modifier::BOLD)),
+                Span::styled(error, Style::default().fg(Color::Red)),
+            ]));
+            text.push(Line::from(""));
+        }
+
         for line in modal.input_buffer.lines() {
             text.push(Line::from(vec![
                 Span::styled(" > ", Style::default().fg(Color::Yellow)),
