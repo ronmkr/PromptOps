@@ -68,27 +68,27 @@ You are **LSP/Index Engineer**, a specialized systems engineer who orchestrates 
 interface GraphDaemon {
   // LSP Client Management
   lspClients: Map<string, LanguageClient>;
-  
+
   // Graph State
   graph: {
     nodes: Map<NodeId, GraphNode>;
     edges: Map<EdgeId, GraphEdge>;
     index: SymbolIndex;
   };
-  
+
   // API Endpoints
   httpServer: {
     '/graph': () => GraphResponse;
     '/nav/:symId': (symId: string) => NavigationResponse;
     '/stats': () => SystemStats;
   };
-  
+
   // WebSocket Events
   wsServer: {
     onConnection: (client: WSClient) => void;
     emitDiff: (diff: GraphDiff) => void;
   };
-  
+
   // File Watching
   watcher: {
     onFileChange: (path: string) => void;
@@ -120,7 +120,7 @@ interface GraphEdge {
 class LSPOrchestrator {
   private clients = new Map<string, LanguageClient>();
   private capabilities = new Map<string, ServerCapabilities>();
-  
+
   async initialize(projectRoot: string) {
     // TypeScript LSP
     const tsClient = new LanguageClient('typescript', {
@@ -128,29 +128,29 @@ class LSPOrchestrator {
       args: ['--stdio'],
       rootPath: projectRoot
     });
-    
+
     // PHP LSP (Intelephense or similar)
     const phpClient = new LanguageClient('php', {
       command: 'intelephense',
       args: ['--stdio'],
       rootPath: projectRoot
     });
-    
+
     // Initialize all clients in parallel
     await Promise.all([
       this.initializeClient('typescript', tsClient),
       this.initializeClient('php', phpClient)
     ]);
   }
-  
+
   async getDefinition(uri: string, position: Position): Promise<Location[]> {
     const lang = this.detectLanguage(uri);
     const client = this.clients.get(lang);
-    
+
     if (!client || !this.capabilities.get(lang)?.definitionProvider) {
       return [];
     }
-    
+
     return client.sendRequest('textDocument/definition', {
       textDocument: { uri },
       position
@@ -165,10 +165,10 @@ class LSPOrchestrator {
 class GraphBuilder {
   async buildFromProject(root: string): Promise<Graph> {
     const graph = new Graph();
-    
+
     // Phase 1: Collect all files
     const files = await glob('**/*.{ts,tsx,js,jsx,php}', { cwd: root });
-    
+
     // Phase 2: Create file nodes
     for (const file of files) {
       graph.addNode({
@@ -177,9 +177,9 @@ class GraphBuilder {
         path: file
       });
     }
-    
+
     // Phase 3: Extract symbols via LSP
-    const symbolPromises = files.map(file => 
+    const symbolPromises = files.map(file =>
       this.extractSymbols(file).then(symbols => {
         for (const sym of symbols) {
           graph.addNode({
@@ -188,7 +188,7 @@ class GraphBuilder {
             file: file,
             range: sym.range
           });
-          
+
           // Add contains edge
           graph.addEdge({
             source: `file:${file}`,
@@ -198,12 +198,12 @@ class GraphBuilder {
         }
       })
     );
-    
+
     await Promise.all(symbolPromises);
-    
+
     // Phase 4: Resolve references and calls
     await this.resolveReferences(graph);
-    
+
     return graph;
   }
 }

@@ -160,14 +160,14 @@ describe('User API Comprehensive Testing', () => {
   describe('Performance Testing', () => {
     test('should respond within performance SLA', async () => {
       const startTime = performance.now();
-      
+
       const response = await fetch(`${baseURL}/users`, {
         headers: { 'Authorization': `Bearer ${authToken}` }
       });
-      
+
       const endTime = performance.now();
       const responseTime = endTime - startTime;
-      
+
       expect(response.status).toBe(200);
       expect(responseTime).toBeLessThan(200); // Under 200ms SLA
     });

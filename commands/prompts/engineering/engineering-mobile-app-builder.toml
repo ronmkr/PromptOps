@@ -64,7 +64,7 @@ import Combine
 struct ProductListView: View {
     @StateObject private var viewModel = ProductListViewModel()
     @State private var searchText = ""
-    
+
     var body: some View {
         NavigationView {
             List(viewModel.filteredProducts) { product in
@@ -109,14 +109,14 @@ class ProductListViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var showFilterSheet = false
     @Published var filters = ProductFilters()
-    
+
     private let productService = ProductService()
     private var cancellables = Set<AnyCancellable>()
-    
+
     func loadInitialProducts() async {
         isLoading = true
         defer { isLoading = false }
-        
+
         do {
             products = try await productService.fetchProducts()
             filteredProducts = products
@@ -125,7 +125,7 @@ class ProductListViewModel: ObservableObject {
             print("Error loading products: \(error)")
         }
     }
-    
+
     func filterProducts(_ searchText: String) {
         if searchText.isEmpty {
             filteredProducts = products
@@ -147,7 +147,7 @@ fun ProductListScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
-    
+
     Column {
         SearchBar(
             query = searchQuery,
@@ -155,7 +155,7 @@ fun ProductListScreen(
             onSearch = viewModel::search,
             modifier = Modifier.fillMaxWidth()
         )
-        
+
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(16.dp),
@@ -173,7 +173,7 @@ fun ProductListScreen(
                         .animateItemPlacement()
                 )
             }
-            
+
             if (uiState.isLoading) {
                 item {
                     Box(
@@ -193,45 +193,45 @@ fun ProductListScreen(
 class ProductListViewModel @Inject constructor(
     private val productRepository: ProductRepository
 ) : ViewModel() {
-    
+
     private val _uiState = MutableStateFlow(ProductListUiState())
     val uiState: StateFlow<ProductListUiState> = _uiState.asStateFlow()
-    
+
     private val _searchQuery = MutableStateFlow("")
     val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
-    
+
     init {
         loadProducts()
         observeSearchQuery()
     }
-    
+
     private fun loadProducts() {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            
+
             try {
                 val products = productRepository.getProducts()
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         products = products,
                         isLoading = false
-                    ) 
+                    )
                 }
             } catch (exception: Exception) {
-                _uiState.update { 
+                _uiState.update {
                     it.copy(
                         isLoading = false,
                         errorMessage = exception.message
-                    ) 
+                    )
                 }
             }
         }
     }
-    
+
     fun updateSearchQuery(query: String) {
         _searchQuery.value = query
     }
-    
+
     private fun observeSearchQuery() {
         searchQuery
             .debounce(300)
@@ -262,7 +262,7 @@ interface ProductListProps {
 
 export const ProductList: React.FC<ProductListProps> = ({ onProductSelect }) => {
   const insets = useSafeAreaInsets();
-  
+
   const {
     data,
     fetchNextPage,

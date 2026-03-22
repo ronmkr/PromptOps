@@ -26,16 +26,16 @@ def get_prompts(prompts_dir=None):
                 continue
 
             full_path = os.path.join(root, filename)
-            
+
             # 1. Simple Case: prompt.toml
             # 2. Category Case: category/prompt.toml
             # 3. Versioned Case: prompt/version.toml or category/prompt/version.toml
-            
+
             # If the immediate parent is NOT prompts_dir, check if the parent name matches filename (sans .toml)
             # This handles the existing versioning logic: prompts/name/version.toml
             parent_name = os.path.basename(root)
             file_base = filename.replace(".toml", "")
-            
+
             if category and parent_name == file_base:
                 # This is likely a versioned file (e.g. category/name/name.toml)
                 # But our current structure is category/name.toml
@@ -46,7 +46,7 @@ def get_prompts(prompts_dir=None):
                 # Check if this file is in a subdirectory named after it (versioning)
                 # e.g., commands/prompts/testing/my-prompt/v1.toml
                 # In our new structure, it's commands/prompts/testing/my-prompt.toml
-                
+
                 # If we are deeper than 1 level, we might have versioning
                 depth = rel_path.count(os.sep) + 1
                 if depth >= 2:

@@ -61,20 +61,20 @@ You are **UI Designer**, an expert user interface designer who creates beautiful
   --color-primary-100: #f0f9ff;
   --color-primary-500: #3b82f6;
   --color-primary-900: #1e3a8a;
-  
+
   --color-secondary-100: #f3f4f6;
   --color-secondary-500: #6b7280;
   --color-secondary-900: #111827;
-  
+
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-error: #ef4444;
   --color-info: #3b82f6;
-  
+
   /* Typography Tokens */
   --font-family-primary: 'Inter', system-ui, sans-serif;
   --font-family-secondary: 'JetBrains Mono', monospace;
-  
+
   --font-size-xs: 0.75rem;    /* 12px */
   --font-size-sm: 0.875rem;   /* 14px */
   --font-size-base: 1rem;     /* 16px */
@@ -83,7 +83,7 @@ You are **UI Designer**, an expert user interface designer who creates beautiful
   --font-size-2xl: 1.5rem;    /* 24px */
   --font-size-3xl: 1.875rem;  /* 30px */
   --font-size-4xl: 2.25rem;   /* 36px */
-  
+
   /* Spacing Tokens */
   --space-1: 0.25rem;   /* 4px */
   --space-2: 0.5rem;    /* 8px */
@@ -93,12 +93,12 @@ You are **UI Designer**, an expert user interface designer who creates beautiful
   --space-8: 2rem;      /* 32px */
   --space-12: 3rem;     /* 48px */
   --space-16: 4rem;     /* 64px */
-  
+
   /* Shadow Tokens */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
-  
+
   /* Transition Tokens */
   --transition-fast: 150ms ease;
   --transition-normal: 300ms ease;
@@ -110,7 +110,7 @@ You are **UI Designer**, an expert user interface designer who creates beautiful
   --color-primary-100: #1e3a8a;
   --color-primary-500: #60a5fa;
   --color-primary-900: #dbeafe;
-  
+
   --color-secondary-100: #111827;
   --color-secondary-500: #9ca3af;
   --color-secondary-900: #f9fafb;
@@ -128,12 +128,12 @@ You are **UI Designer**, an expert user interface designer who creates beautiful
   cursor: pointer;
   transition: all var(--transition-fast);
   user-select: none;
-  
+
   &:focus-visible {
     outline: 2px solid var(--color-primary-500);
     outline-offset: 2px;
   }
-  
+
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
@@ -144,7 +144,7 @@ You are **UI Designer**, an expert user interface designer who creates beautiful
 .btn--primary {
   background-color: var(--color-primary-500);
   color: white;
-  
+
   &:hover:not(:disabled) {
     background-color: var(--color-primary-600);
     transform: translateY(-1px);
@@ -159,7 +159,7 @@ You are **UI Designer**, an expert user interface designer who creates beautiful
   font-size: var(--font-size-base);
   background-color: white;
   transition: all var(--transition-fast);
-  
+
   &:focus {
     outline: none;
     border-color: var(--color-primary-500);
@@ -174,7 +174,7 @@ You are **UI Designer**, an expert user interface designer who creates beautiful
   box-shadow: var(--shadow-sm);
   overflow: hidden;
   transition: all var(--transition-normal);
-  
+
   &:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
@@ -207,7 +207,7 @@ You are **UI Designer**, an expert user interface designer who creates beautiful
 
 /* Large devices (1024px and up) */
 @media (min-width: 1024px) {
-  .container { 
+  .container {
     max-width: 1024px;
     padding-left: var(--space-6);
     padding-right: var(--space-6);
@@ -217,7 +217,7 @@ You are **UI Designer**, an expert user interface designer who creates beautiful
 
 /* Extra large devices (1280px and up) */
 @media (min-width: 1280px) {
-  .container { 
+  .container {
     max-width: 1280px;
     padding-left: var(--space-8);
     padding-right: var(--space-8);

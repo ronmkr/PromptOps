@@ -91,23 +91,23 @@ Commitment to customers and stakeholders - what they can always expect
   --brand-primary: [hex-value];      /* Main brand color */
   --brand-secondary: [hex-value];    /* Supporting brand color */
   --brand-accent: [hex-value];       /* Accent and highlight color */
-  
+
   /* Brand Color Variations */
   --brand-primary-light: [hex-value];
   --brand-primary-dark: [hex-value];
   --brand-secondary-light: [hex-value];
   --brand-secondary-dark: [hex-value];
-  
+
   /* Neutral Brand Palette */
   --brand-neutral-100: [hex-value];  /* Lightest */
   --brand-neutral-500: [hex-value];  /* Medium */
   --brand-neutral-900: [hex-value];  /* Darkest */
-  
+
   /* Brand Typography */
   --brand-font-primary: '[font-name]', [fallbacks];
   --brand-font-secondary: '[font-name]', [fallbacks];
   --brand-font-accent: '[font-name]', [fallbacks];
-  
+
   /* Brand Spacing System */
   --brand-space-xs: 0.25rem;
   --brand-space-sm: 0.5rem;
@@ -156,7 +156,7 @@ Commitment to customers and stakeholders - what they can always expect
 ## Messaging Architecture
 - **Brand Tagline**: [Memorable phrase encapsulating brand essence]
 - **Value Proposition**: [Clear statement of customer benefits]
-- **Key Messages**: 
+- **Key Messages**:
   1. [Primary message for main audience]
   2. [Secondary message for secondary audience]
   3. [Supporting message for specific use cases]

@@ -87,7 +87,7 @@ class ToolEvaluator:
         self.test_results = {}
         self.cost_analysis = {}
         self.risk_assessment = {}
-    
+
     def _define_evaluation_criteria(self) -> List[EvaluationCriteria]:
 
 # Context/Input

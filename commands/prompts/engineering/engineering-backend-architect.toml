@@ -162,7 +162,7 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // API Routes with proper validation and error handling
-app.get('/api/users/:id', 
+app.get('/api/users/:id',
   authenticate,
   async (req, res, next) => {
     try {
@@ -173,7 +173,7 @@ app.get('/api/users/:id',
           code: 'USER_NOT_FOUND'
         });
       }
-      
+
       res.json({
         data: user,
         meta: { timestamp: new Date().toISOString() }

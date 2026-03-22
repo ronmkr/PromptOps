@@ -17,7 +17,7 @@ Please analyze the following dependency manifest (e.g., `package.json`, `require
 Provide your analysis in the following format:
 
   ## 1. Known Vulnerable Packages
-Identify any dependencies that are historically known to have major CVEs or frequent security issues in the specified versions. 
+Identify any dependencies that are historically known to have major CVEs or frequent security issues in the specified versions.
 
   ## 2. Unmaintained or Deprecated Packages
 Flag any packages that are officially deprecated, renamed, or haven't seen updates in years. Suggest modern alternatives.

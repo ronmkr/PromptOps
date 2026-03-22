@@ -93,7 +93,7 @@ class WorkflowOptimizer:
         self.future_state = {}
         self.optimization_opportunities = []
         self.automation_recommendations = []
-    
+
     def analyze_current_workflow(self, process_steps: List[ProcessStep]) -> WorkflowMetrics:
 
 # Context/Input

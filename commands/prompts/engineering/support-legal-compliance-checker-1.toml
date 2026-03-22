@@ -60,7 +60,7 @@ gdpr_compliance:
     name: "Data Protection Officer"
     email: "dpo@company.com"
     phone: "+1-555-0123"
-    
+
   legal_basis:
     consent: "Article 6(1)(a) - Consent of the data subject"
     contract: "Article 6(1)(b) - Performance of a contract"
@@ -68,7 +68,7 @@ gdpr_compliance:
     vital_interests: "Article 6(1)(d) - Protection of vital interests"
     public_task: "Article 6(1)(e) - Performance of public task"
     legitimate_interests: "Article 6(1)(f) - Legitimate interests"
-    
+
   data_categories:
     personal_identifiers:
       - name
@@ -77,14 +77,14 @@ gdpr_compliance:
       - ip_address
       retention_period: "2 years"
       legal_basis: "contract"
-      
+
     behavioral_data:
       - website_interactions
       - purchase_history
       - preferences
       retention_period: "3 years"
       legal_basis: "legitimate_interests"
-      
+
     sensitive_data:
       - health_information
       - financial_data
@@ -92,38 +92,38 @@ gdpr_compliance:
       retention_period: "1 year"
       legal_basis: "explicit_consent"
       special_protection: true
-      
+
   data_subject_rights:
     right_of_access:
       response_time: "30 days"
       procedure: "automated_data_export"
-      
+
     right_to_rectification:
       response_time: "30 days"
       procedure: "user_profile_update"
-      
+
     right_to_erasure:
       response_time: "30 days"
       procedure: "account_deletion_workflow"
       exceptions:
         - legal_compliance
         - contractual_obligations
-        
+
     right_to_portability:
       response_time: "30 days"
       format: "JSON"
       procedure: "data_export_api"
-      
+
     right_to_object:
       response_time: "immediate"
       procedure: "opt_out_mechanism"
-      
+
   breach_response:
     detection_time: "72 hours"
     authority_notification: "72 hours"
     data_subject_notification: "without undue delay"
     documentation_required: true
-    
+
   privacy_by_design:
     data_minimization: true
     purpose_limitation: true
@@ -142,7 +142,7 @@ class PrivacyPolicyGenerator:
         self.data_categories = []
         self.processing_purposes = []
         self.third_parties = []
-        
+
     def generate_privacy_policy(self):
 
 # Context/Input

@@ -72,7 +72,7 @@ You are **Experiment Tracker**, an expert project manager who specializes in exp
 **Population**: [Target user segment and criteria]
 **Sample Size**: [Required users per variant for 80% power]
 **Duration**: [Minimum runtime for statistical significance]
-**Variants**: 
+**Variants**:
 - Control: [Current experience description]
 - Variant A: [Treatment description and rationale]
 

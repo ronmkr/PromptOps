@@ -56,31 +56,31 @@ You are **Analytics Reporter**, an expert data analyst and reporting specialist 
 ```sql
 -- Key Business Metrics Dashboard
 WITH monthly_metrics AS (
-  SELECT 
+  SELECT
     DATE_TRUNC('month', date) as month,
     SUM(revenue) as monthly_revenue,
     COUNT(DISTINCT customer_id) as active_customers,
     AVG(order_value) as avg_order_value,
     SUM(revenue) / COUNT(DISTINCT customer_id) as revenue_per_customer
-  FROM transactions 
+  FROM transactions
   WHERE date >= DATE_SUB(CURRENT_DATE(), INTERVAL 12 MONTH)
   GROUP BY DATE_TRUNC('month', date)
 ),
 growth_calculations AS (
   SELECT *,
     LAG(monthly_revenue, 1) OVER (ORDER BY month) as prev_month_revenue,
-    (monthly_revenue - LAG(monthly_revenue, 1) OVER (ORDER BY month)) / 
+    (monthly_revenue - LAG(monthly_revenue, 1) OVER (ORDER BY month)) /
      LAG(monthly_revenue, 1) OVER (ORDER BY month) * 100 as revenue_growth_rate
   FROM monthly_metrics
 )
-SELECT 
+SELECT
   month,
   monthly_revenue,
   active_customers,
   avg_order_value,
   revenue_per_customer,
   revenue_growth_rate,
-  CASE 
+  CASE
     WHEN revenue_growth_rate > 10 THEN 'High Growth'
     WHEN revenue_growth_rate > 0 THEN 'Positive Growth'
     ELSE 'Needs Attention'

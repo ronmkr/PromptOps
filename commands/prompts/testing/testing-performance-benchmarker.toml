@@ -86,40 +86,40 @@ export const options = {
 
 export default function () {
   const baseUrl = __ENV.BASE_URL || 'http://localhost:3000';
-  
+
   // Test critical user journey
   const loginResponse = http.post(`${baseUrl}/api/auth/login`, {
     email: 'test@example.com',
     password: 'password123'
   });
-  
+
   check(loginResponse, {
     'login successful': (r) => r.status === 200,
     'login response time OK': (r) => r.timings.duration < 200,
   });
-  
+
   errorRate.add(loginResponse.status !== 200);
   responseTimeTrend.add(loginResponse.timings.duration);
   throughputCounter.add(1);
-  
+
   if (loginResponse.status === 200) {
     const token = loginResponse.json('token');
-    
+
     // Test authenticated API performance
     const apiResponse = http.get(`${baseUrl}/api/dashboard`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    
+
     check(apiResponse, {
       'dashboard load successful': (r) => r.status === 200,
       'dashboard response time OK': (r) => r.timings.duration < 300,
       'dashboard data complete': (r) => r.json('data.length') > 0,
     });
-    
+
     errorRate.add(apiResponse.status !== 200);
     responseTimeTrend.add(apiResponse.timings.duration);
   }
-  
+
   sleep(1); // Realistic user think time
 }
 

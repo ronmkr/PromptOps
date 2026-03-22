@@ -64,7 +64,7 @@ support_channels:
       - enterprise_customers
       - billing_issues
       - technical_emergencies
-    
+
   live_chat:
     response_time_sla: "30 seconds"
     concurrent_chat_limit: 3
@@ -73,7 +73,7 @@ support_channels:
       - technical_issues: "tier2_technical"
       - billing_questions: "billing_specialist"
       - general_inquiries: "tier1_general"
-    
+
   phone_support:
     response_time_sla: "3 rings"
     callback_option: true
@@ -81,7 +81,7 @@ support_channels:
       - premium_customers
       - escalated_issues
       - urgent_technical_problems
-    
+
   social_media:
     monitoring_keywords:
       - "@company_handle"
@@ -89,7 +89,7 @@ support_channels:
       - "company_name issues"
     response_time_sla: "1 hour"
     escalation_to_private: true
-    
+
   in_app_messaging:
     contextual_help: true
     user_session_data: true
@@ -109,7 +109,7 @@ support_tiers:
       - technical_complexity
       - policy_exceptions
       - customer_dissatisfaction
-    
+
   tier2_technical:
     capabilities:
       - advanced_troubleshooting
@@ -120,7 +120,7 @@ support_tiers:
       - engineering_required
       - security_concerns
       - data_recovery_needs
-    
+
   tier3_specialists:
     capabilities:
       - enterprise_support
@@ -144,7 +144,7 @@ class SupportAnalytics:
     def __init__(self, support_data):
         self.data = support_data
         self.metrics = {}
-        
+
     def calculate_key_metrics(self):
 
 # Context/Input

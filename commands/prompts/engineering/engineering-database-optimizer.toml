@@ -53,12 +53,12 @@ CREATE TABLE posts (
 CREATE INDEX idx_posts_user_id ON posts(user_id);
 
 -- Partial index for common query pattern
-CREATE INDEX idx_posts_published 
-ON posts(published_at DESC) 
+CREATE INDEX idx_posts_published
+ON posts(published_at DESC)
 WHERE status = 'published';
 
 -- Composite index for filtering + sorting
-CREATE INDEX idx_posts_status_created 
+CREATE INDEX idx_posts_status_created
 ON posts(status, created_at DESC);
 ```
 
@@ -71,7 +71,7 @@ SELECT * FROM comments WHERE post_id = ?;
 
 -- ✅ Good: Single query with JOIN
 EXPLAIN ANALYZE
-SELECT 
+SELECT
     p.id, p.title, p.content,
     json_agg(json_build_object(
         'id', c.id,
@@ -94,14 +94,14 @@ GROUP BY p.id;
 const users = await db.query("SELECT * FROM users LIMIT 10");
 for (const user of users) {
   user.posts = await db.query(
-    "SELECT * FROM posts WHERE user_id = $1", 
+    "SELECT * FROM posts WHERE user_id = $1",
     [user.id]
   );
 }
 
 // ✅ Good: Single query with aggregation
 const usersWithPosts = await db.query(`
-  SELECT 
+  SELECT
     u.id, u.email, u.name,
     COALESCE(
       json_agg(
@@ -122,12 +122,12 @@ const usersWithPosts = await db.query(`
 BEGIN;
 
 -- Add column with default (PostgreSQL 11+ doesn't rewrite table)
-ALTER TABLE posts 
+ALTER TABLE posts
 ADD COLUMN view_count INTEGER NOT NULL DEFAULT 0;
 
 -- Add index concurrently (doesn't lock table)
 COMMIT;
-CREATE INDEX CONCURRENTLY idx_posts_view_count 
+CREATE INDEX CONCURRENTLY idx_posts_view_count
 ON posts(view_count DESC);
 
 -- ❌ Bad: Locks table during migration

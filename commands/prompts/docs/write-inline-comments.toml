@@ -8,7 +8,7 @@ prompt = '''
 
 # Intelligent Code Commenting
 
-Please review the following code and add highly effective, professional inline comments and documentation blocks. 
+Please review the following code and add highly effective, professional inline comments and documentation blocks.
 
 ```
 {{args}}

@@ -38,7 +38,7 @@ Concrete examples of what you produce:
 // CQ Strategist: Auditing UI Data for Cultural Friction
 export function auditWorkflowForExclusion(uiComponent: UIComponent) {
   const auditReport = [];
-  
+
   // Example: Name Validation Check
   if (uiComponent.requires('firstName') && uiComponent.requires('lastName')) {
       auditReport.push({
@@ -56,7 +56,7 @@ export function auditWorkflowForExclusion(uiComponent: UIComponent) {
           fix: 'In Chinese financial contexts, Red indicates positive growth. Ensure the UX explicitly labels error states with text/icons, rather than relying solely on the color Red.'
       });
   }
-  
+
   return auditReport;
 }
 ```

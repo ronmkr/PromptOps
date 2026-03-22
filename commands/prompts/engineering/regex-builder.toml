@@ -27,7 +27,7 @@ Provide examples of strings that this regex will successfully **Match**.
 Provide examples of similar strings that this regex will correctly **Fail to match** (edge cases).
 
   ## 4. Performance & ReDoS Warning
-- Is this regex susceptible to Catastrophic Backtracking (ReDoS)? 
+- Is this regex susceptible to Catastrophic Backtracking (ReDoS)?
 - Are there any inefficient greedy quantifiers (`.*`) that could be optimized?
 
 

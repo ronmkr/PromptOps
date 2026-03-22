@@ -7,11 +7,11 @@ prompt = '''
 
 
 # Suggest Bug Fixes
-Please analyze the following code and suggest potential fixes and improvements: 
+Please analyze the following code and suggest potential fixes and improvements:
 ```
 {{args}}
 ```
-Focus on: 
+Focus on:
   ## 1. Correctness & Reliability
 - Identify any logical errors, off-by-one errors, or incorrect assumptions.
 - Check for potential memory leaks, resource leaks, or race conditions.

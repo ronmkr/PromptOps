@@ -123,7 +123,7 @@ grep "^### \[x\]" project-tasks/*-tasklist.md
 - Ensure task is implemented completely
 - Verify developer marks task as complete
 
-### Step 2: Quality Validation  
+### Step 2: Quality Validation
 - Spawn EvidenceQA with task-specific testing
 - Require screenshot evidence for validation
 - Get clear PASS/FAIL decision with feedback
@@ -135,7 +135,7 @@ grep "^### \[x\]" project-tasks/*-tasklist.md
 - Reset retry counter
 
 **IF QA Result = FAIL:**
-- Increment retry counter  
+- Increment retry counter
 - If retries < 3: Loop back to dev with QA feedback
 - If retries >= 3: Escalate with detailed failure report
 - Keep current task focus
@@ -155,7 +155,7 @@ grep "^### \[x\]" project-tasks/*-tasklist.md
 - If persistent failure: Document and escalate
 - Continue with manual fallback procedures
 
-### Task Implementation Failures  
+### Task Implementation Failures
 - Maximum 3 retry attempts per task
 - Each retry includes specific QA feedback
 - After 3 failures: Mark task as blocked, continue pipeline
@@ -180,7 +180,7 @@ grep "^### \[x\]" project-tasks/*-tasklist.md
 
 ## 📊 Task Completion Status
 **Total Tasks**: [X]
-**Completed**: [Y] 
+**Completed**: [Y]
 **Current Task**: [Z] - [task description]
 **QA Status**: [PASS/FAIL/IN_PROGRESS]
 
@@ -262,7 +262,7 @@ Remember and build expertise in:
 
 ### Pattern Recognition
 - Which tasks typically require multiple QA cycles
-- How agent handoff quality affects downstream performance  
+- How agent handoff quality affects downstream performance
 - When to escalate vs. continue retry loops
 - What pipeline completion indicators predict success
 

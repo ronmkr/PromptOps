@@ -103,14 +103,14 @@ aws secretsmanager rotate-secret --secret-id prod/db-password --rotation-lambda-
 # ✅ CORRECT: Restricted security group
 resource "aws_security_group" "app" {
   name = "app-sg"
-  
+
   ingress {
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/16"]  # Internal VPC only
   }
-  
+
   egress {
     from_port   = 443
     to_port     = 443
@@ -190,18 +190,18 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read  # Minimal permissions
-      
+
     steps:
       - uses: actions/checkout@v4
-      
+
       # Scan for secrets
       - name: Secret scanning
         uses: trufflesecurity/trufflehog@main
-        
+
       # Dependency audit
       - name: Audit dependencies
         run: npm audit --audit-level=high
-        
+
       # Use OIDC, not long-lived tokens
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -242,14 +242,14 @@ jobs:
 export default {
   async fetch(request: Request): Promise<Response> {
     const response = await fetch(request);
-    
+
     // Add security headers
     const headers = new Headers(response.headers);
     headers.set('X-Frame-Options', 'DENY');
     headers.set('X-Content-Type-Options', 'nosniff');
     headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
     headers.set('Permissions-Policy', 'geolocation=(), microphone=()');
-    
+
     return new Response(response.body, {
       status: response.status,
       headers
@@ -286,13 +286,13 @@ export default {
 resource "aws_db_instance" "main" {
   allocated_storage     = 20
   engine               = "postgres"
-  
+
   backup_retention_period = 30  # 30 days retention
   backup_window          = "03:00-04:00"
   maintenance_window     = "mon:04:00-mon:05:00"
-  
+
   enabled_cloudwatch_logs_exports = ["postgresql"]
-  
+
   deletion_protection = true  # Prevent accidental deletion
 }
 ```

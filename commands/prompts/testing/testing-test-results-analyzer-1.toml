@@ -72,7 +72,7 @@ class TestResultsAnalyzer:
         self.test_results = pd.read_json(test_results_path)
         self.quality_metrics = {}
         self.risk_assessment = {}
-        
+
     def analyze_test_coverage(self):
 
 # Context/Input
