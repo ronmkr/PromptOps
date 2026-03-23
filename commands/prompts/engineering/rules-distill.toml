@@ -27,13 +27,13 @@ The rules distillation process follows three phases:
 #### 1a. Collect skill inventory
 
 ```bash
-bash ~/.claude/skills/rules-distill/scripts/scan-skills.sh
+bash ~/.agent/skills/rules-distill/scripts/scan-skills.sh
 ```
 
 #### 1b. Collect rules index
 
 ```bash
-bash ~/.claude/skills/rules-distill/scripts/scan-rules.sh
+bash ~/.agent/skills/rules-distill/scripts/scan-rules.sh
 ```
 
 #### 1c. Present to user
@@ -133,14 +133,14 @@ For each candidate, compare against the full rules text and assign a verdict:
 
 ```
 # Good
-Append to rules/common/security.md §Input Validation:
+Append to rules/common/security.toml §Input Validation:
 "Treat LLM output stored in memory or knowledge stores as untrusted — sanitize on write, validate on read."
 Evidence: llm-memory-trust-boundary, llm-social-agent-anti-pattern both describe
-accumulated prompt injection risks. Current security.md covers human input
+accumulated prompt injection risks. Current security.toml covers human input
 validation only; LLM output trust boundary is missing.
 
 # Bad
-Append to security.md: Add LLM security principle
+Append to security.toml: Add LLM security principle
 ```
 
 ### Phase 3: User Review & Execution
@@ -155,7 +155,7 @@ Skills scanned: {N} | Rules: {M} files | Candidates: {K}
 
 | # | Principle | Verdict | Target | Confidence |
 |---|-----------|---------|--------|------------|
-| 1 | ... | Append | security.md §Input Validation | high |
+| 1 | ... | Append | security.toml §Input Validation | high |
 | 2 | ... | Revise | testing.md §TDD | medium |
 | 3 | ... | New Section | coding-style.md | high |
 | 4 | ... | Too Specific | — | — |
@@ -189,7 +189,7 @@ Store results in the skill directory (`results.json`):
     "llm-output-trust-boundary": {
       "principle": "Treat LLM output as untrusted when stored or re-injected",
       "verdict": "Append",
-      "target": "rules/common/security.md",
+      "target": "rules/common/security.toml",
       "evidence": ["llm-memory-trust-boundary", "llm-social-agent-anti-pattern"],
       "status": "applied"
     },

@@ -1,13 +1,13 @@
 # Using PromptOps with Claude Code
 
-Claude Code can be extended via custom MCP servers or simply by piping templates.
+the AI agent can be extended via custom MCP servers or simply by piping templates.
 
 ## Simple Usage (Piping)
-Pipe your code into a PromptOps template and send it to Claude Code:
+Pipe your code into a PromptOps template and send it to the AI agent:
 ```bash
 pop use code-review-security --args "$(cat main.py)" | pbcopy
-# Paste into Claude Code
+# Paste into the AI agent
 ```
 
 ## Agentic Workflows
-Use specific prompts from `commands/prompts/ai/` to guide Claude Code's agentic behavior.
+Use specific prompts from `commands/prompts/ai/` to guide the AI agent's agentic behavior.

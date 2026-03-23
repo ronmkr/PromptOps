@@ -1,0 +1,113 @@
+description = "Unified PyTorch specialist for development patterns, best practices, and runtime/CUDA error resolution."
+args_description = "Context or Source Code"
+version = "1.1.0"
+last_updated = "2026-03-23"
+tags = ["python", "ai-infra", "ml"]
+prompt = '''
+
+# PyTorch Specialist: Development & Troubleshooting
+
+A comprehensive guide for building, training, and debugging PyTorch models using idiomatic patterns and efficient error resolution strategies.
+
+---
+
+## 1. Core Development Principles
+
+### Device-Agnostic Code
+Always write code that works on both CPU and GPU without hardcoding devices.
+```python
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = MyModel().to(device)
+data = data.to(device)
+```
+
+### Reproducibility First
+Set all random seeds for reproducible results across runs.
+```python
+def set_seed(seed: int = 42):
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
+    np.random.seed(seed)
+    random.seed(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
+```
+
+### Explicit Shape Management
+Document and verify tensor shapes at every layer to avoid dimension mismatches.
+```python
+def forward(self, x: torch.Tensor) -> torch.Tensor:
+    # x: (batch_size, channels, H, W)
+    x = self.conv1(x)    # -> (batch_size, 32, H, W)
+    x = x.view(x.size(0), -1) # -> (batch_size, flattened)
+    return self.fc(x)
+```
+
+---
+
+## 2. Idiomatic Training & Evaluation
+
+### Standard Training Loop (with AMP)
+Use `torch.amp` for mixed precision and `set_to_none=True` for efficient gradient clearing.
+```python
+scaler = torch.amp.GradScaler("cuda")
+model.train()
+for data, target in dataloader:
+    data, target = data.to(device), target.to(device)
+    optimizer.zero_grad(set_to_none=True)
+    with torch.amp.autocast("cuda"):
+        output = model(data)
+        loss = criterion(output, target)
+    scaler.scale(loss).backward()
+    scaler.step(optimizer)
+    scaler.update()
+```
+
+### Evaluation Pattern
+Always use `model.eval()` and `@torch.no_grad()` to disable dropout and gradient tracking.
+```python
+@torch.no_grad()
+def evaluate(model, dataloader):
+    model.eval()
+    # ... evaluation logic ...
+```
+
+---
+
+## 3. Error Resolution Workflow
+
+### Diagnostic Commands
+```bash
+# Check environment and GPU status
+python -c "import torch; print(f'PyTorch: {torch.__version__}, CUDA: {torch.cuda.is_available()}')"
+nvidia-smi
+pip list | grep -iE "torch|cuda|nvidia"
+```
+
+### Common Fix Patterns
+| Error | Common Cause | Fix |
+|-------|--------------|-----|
+| `mat1 and mat2 shapes mismatch` | Linear layer input size error | Adjust `in_features` to match previous output |
+| `Expected all tensors on same device` | Mixed CPU/GPU tensors | Use `.to(device)` consistently |
+| `CUDA out of memory` | Batch too large / leak | Reduce batch size, use `empty_cache()`, or gradient checkpointing |
+| `element 0 does not require grad` | Detached tensor in loss | Avoid `.item()` or `.detach()` before `.backward()` |
+| `modified by an inplace operation` | In-place op breaks autograd | Replace `x += 1` with `x = x + 1` |
+
+### Shape & Memory Debugging
+- **Inject Prints**: `print(f"tensor.shape = {tensor.shape}, device = {tensor.device}")`
+- **Memory Stats**: `torch.cuda.memory_allocated()` / `torch.cuda.max_memory_allocated()`
+- **AMP**: Use `torch.cuda.amp.autocast()` to reduce memory footprint.
+- **Checkpointing**: Use `torch.utils.checkpoint` for very large models.
+
+---
+
+## 4. Best Practices Summary
+
+1.  **Surgical Fixes**: Fix the root cause (e.g., shape) rather than suppressing symptoms.
+2.  **Explicit Checkpointing**: Save `state_dict`, optimizer state, and epoch for resumable training.
+3.  **Efficient Data Loading**: Use `num_workers > 0`, `pin_memory=True`, and `persistent_workers=True`.
+4.  **Secure Loading**: Use `weights_only=True` when loading untrusted models.
+
+# Context/Input
+{{args}}
+'''

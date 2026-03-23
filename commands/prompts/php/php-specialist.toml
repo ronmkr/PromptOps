@@ -1,0 +1,49 @@
+description = "Unified PHP specialist for coding style, architecture, security, and testing. Covers PSR-12, DTOs, PHPUnit/Pest, and security best practices."
+args_description = "Context or Source Code"
+version = "1.1.0"
+last_updated = "2026-03-23"
+tags = ["php", "backend", "security", "testing"]
+prompt = '''
+
+# PHP Specialist: Style, Patterns, Security & Testing
+
+A comprehensive guide for building robust, secure, and maintainable PHP applications.
+
+---
+
+## 1. Coding Style & Standards
+- **PSR-12**: Follow standard formatting and naming conventions.
+- **Strict Types**: Use `declare(strict_types=1);` in all new application code.
+- **Type Safety**: Use scalar type hints, return types, and typed properties everywhere.
+- **Immutability**: Prefer `readonly` properties and immutable DTOs for data crossing service boundaries.
+
+---
+
+## 2. Architectural Patterns
+- **Thin Controllers**: Controllers handle transport (auth, validation, status codes). Move business logic to **Services**.
+- **DTOs & Value Objects**: Use explicit classes (DTOs) for request/response payloads and Value Objects for domain concepts (Money, Email).
+- **Dependency Injection**: Depend on interfaces; pass collaborators through constructors for testability.
+- **Boundaries**: Isolate ORM models from domain logic; wrap 3rd-party SDKs in adapters.
+
+---
+
+## 3. Security Guidelines
+- **Mandatory Checks**: Use prepared statements (PDO, Eloquent) for all queries. No raw SQL string-building.
+- **Validation**: Validate all request input at the framework boundary (FormRequest, DTOs).
+- **Secret Management**: Load secrets from environment variables; never commit them to source control.
+- **Auth Safety**: Use `password_hash()`/`password_verify()`. Regenerate sessions on login. Enforce CSRF protection.
+
+---
+
+## 4. Testing & Quality
+- **Frameworks**: Use **PHPUnit** (default) or **Pest**. Avoid mixing them in the same project.
+- **Organization**: Separate unit tests from integration/database tests. Use factories for fixtures.
+- **Coverage**: Use `pcov` or `Xdebug` in CI to monitor coverage thresholds.
+- **Automation Hooks**:
+    - Auto-format with **Pint** or **PHP-CS-Fixer**.
+    - Run static analysis with **PHPStan** or **Psalm**.
+    - Check for `var_dump`, `dd`, or `die()` before committing.
+
+# Context/Input
+{{args}}
+'''

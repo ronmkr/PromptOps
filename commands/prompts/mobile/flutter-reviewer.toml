@@ -27,7 +27,7 @@ Run `git diff --staged` and `git diff` to see changes. If no diff, check `git lo
 Check for:
 - `pubspec.yaml` — dependencies and project type
 - `analysis_options.yaml` — lint rules
-- `CLAUDE.md` — project-specific conventions
+- `AGENT.md` — project-specific conventions
 - Whether this is a monorepo (melos) or single-package project
 - **Identify the state management approach** (BLoC, Riverpod, Provider, GetX, MobX, Signals, or built-in). Adapt review to the chosen solution's conventions.
 - **Identify the routing and DI approach** to avoid flagging idiomatic usage as violations

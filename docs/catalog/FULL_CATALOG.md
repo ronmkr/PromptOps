@@ -57,26 +57,26 @@
 | Template | Description |
 | :--- | :--- |
 | **`agent-activation-prompts`** | 🎯 NEXUS Agent Activation Prompts. |
-| **`agent-eval-specialist`** | Head-to-head comparison of coding agents (Claude Code, Aider, Codex, etc.) on custom tasks with pass rate, cost, time, and consistency metrics. |
+| **`agent-eval-specialist`** | Head-to-head comparison of coding agents (the AI agent, Aider, Codex, etc.) on custom tasks with pass rate, cost, time, and consistency metrics. |
 | **`agentic-engineering-specialist`** | Operate as an agentic engineer using eval-first execution, decomposition, and cost-aware model routing. |
 | **`agents-orchestrator`** | Autonomous pipeline manager that orchestrates the entire development workflow. You are the leader of this process. |
 | **`agents`** | Agent Orchestration. |
 | **`ai-first-architect`** | Engineering operating model for teams where AI agents generate a large share of implementation output. |
-| **`autonomous-loop-engineer`** | Patterns and architectures for autonomous Claude Code loops — from simple sequential pipelines to RFC-driven multi-agent DAG systems. |
+| **`autonomous-loop-engineer`** | Patterns and architectures for autonomous AI agent loops — from simple sequential pipelines to RFC-driven multi-agent DAG systems. |
 | **`capture-reference`** | Capture Reference. |
 | **`capture`** | Comprehensive guide for VideoDB Capture, enabling real-time macOS screen and audio recording with AI processing workflows. |
 | **`claude-api-specialist`** | Anthropic Claude API patterns for Python and TypeScript. Covers Messages API, streaming, tool use, vision, extended thinking, batches, prompt cach... |
 | **`claude-devfleet-specialist`** | Orchestrate multi-agent coding tasks via Claude DevFleet, enabling project planning, parallel agent dispatch, and automated progress monitoring. |
 | **`common-agents`** | Agent orchestration: available agents, parallel execution, multi-perspective analysis. |
 | **`content-engine-specialist`** | Create platform-native content systems for X, LinkedIn, TikTok, YouTube, newsletters, and repurposed multi-platform campaigns. Use when the user w... |
-| **`context-budget-specialist`** | Audits Claude Code context window consumption across agents, skills, MCP servers, and rules. Identifies bloat, redundant components, and produces... |
+| **`context-budget-specialist`** | Audits the AI agent context window consumption across agents, skills, MCP servers, and rules. Identifies bloat, redundant components, and produces... |
 | **`continuous-agent-loop-specialist`** | Patterns for continuous autonomous agent loops with quality gates, evals, and recovery controls. |
 | **`cost-aware-llm-pipeline-specialist`** | Expert patterns for LLM API cost optimization, featuring model routing by task complexity, budget tracking, retry logic, and prompt caching. |
 | **`data-consolidation-agent`** | AI specialist for consolidating sales metrics into real-time reporting dashboards with territory, representative, and pipeline summaries. |
 | **`data-scraper-architect`** | Framework for building automated AI-powered data collection agents for public sources like job boards, prices, news, and GitHub repositories. |
 | **`deep-research-specialist`** | Expert multi-source deep research specialist using firecrawl and exa MCPs to deliver cited, synthesized reports with full source attribution. |
 | **`enterprise-agent-ops-specialist`** | Operate long-lived agent workloads with observability, security boundaries, and lifecycle management. |
-| **`eval-harness-specialist`** | Formal evaluation framework for Claude Code sessions implementing eval-driven development (EDD) principles. |
+| **`eval-harness-specialist`** | Formal evaluation framework for the AI agent sessions implementing eval-driven development (EDD) principles. |
 | **`exa-search-specialist`** | Neural search specialist using Exa MCP for comprehensive web, code, and company research, including people lookups and technical documentation. |
 | **`foundation-models-on-device-specialist`** | Apple FoundationModels framework for on-device LLM — text generation, guided generation with @Generable, tool calling, and snapshot streaming in i... |
 | **`generative`** | Generative Media Guide. |
@@ -116,7 +116,7 @@
 | Template | Description |
 | :--- | :--- |
 | **`architect`** | Software architecture specialist for system design, scalability, and technical decision-making. Use PROACTIVELY when planning new features, refact... |
-| **`architecture-decision-records`** | Capture architectural decisions made during Claude Code sessions as structured ADRs. Auto-detects decision moments, records context, alternatives... |
+| **`architecture-decision-records`** | Capture architectural decisions made during the AI agent sessions as structured ADRs. Auto-detects decision moments, records context, alternatives... |
 | **`automation-governance-architect`** | Governance-first architect for business automations (n8n-first) who audits value, risk, and maintainability before implementation. |
 | **`blueprint`** | >-. |
 | **`content-hash-cache-pattern`** | Cache expensive file processing results using SHA-256 content hashes — path-independent, auto-invalidating, with service layer separation. |
@@ -325,7 +325,7 @@
 | **`common-performance`** | Performance: model selection, context management, build troubleshooting. |
 | **`compare-technologies`** | Compare different technologies. |
 | **`continuous-learning-v2`** | Instinct-based learning system that observes sessions via hooks, creates atomic instincts with confidence scoring, and evolves them into skills/co... |
-| **`continuous-learning`** | Automatically extract reusable patterns from Claude Code sessions and save them as learned skills for future use. |
+| **`continuous-learning`** | Automatically extract reusable patterns from the AI agent sessions and save them as learned skills for future use. |
 | **`create-prompt-template`** | Create reusable prompt templates. |
 | **`debug-error`** | Help diagnose and fix errors. |
 | **`dev`** | Development Context. |
@@ -401,7 +401,7 @@
 | **`support-support-responder-1`** | Expert customer support specialist delivering exceptional customer service, issue resolution, and user experience optimization. Specializes in mul... |
 | **`trace-issue`** | Trace the root cause of issues. |
 | **`use-cases`** | Use Cases. |
-| **`verification-loop`** | A comprehensive verification system for Claude Code sessions. |
+| **`verification-loop`** | A comprehensive verification system for the AI agent sessions. |
 
 [⬆ Back to Top](#-categories)
 
@@ -654,7 +654,7 @@
 | **`security-policy`** | Draft a SECURITY.md or vulnerability disclosure policy. |
 | **`security-review`** | Use this skill when adding authentication, handling user input, working with secrets, creating API endpoints, or implementing payment/sensitive fe... |
 | **`security-reviewer`** | Security vulnerability detection and remediation specialist. Use PROACTIVELY after writing code that handles user input, authentication, API endpo... |
-| **`security-scan`** | Scan your Claude Code configuration (.claude/ directory) for security vulnerabilities, misconfigurations, and injection risks using AgentShield. C... |
+| **`security-scan`** | Scan your AI agent configuration (.agent/ directory) for security vulnerabilities, misconfigurations, and injection risks using AgentShield. C... |
 | **`security`** | Python Security. |
 | **`threat-modeling`** | Generate a STRIDE threat model for a proposed architecture. |
 | **`zk-steward`** | Knowledge-base steward in the spirit of Niklas Luhmann's Zettelkasten. Default perspective: Luhmann; switches to domain experts (Feynman, Munger,... |

@@ -8,7 +8,7 @@ prompt = '''
 
 # Go Security
 
-> This file extends [common/security.md](../common/security.md) with Go specific content.
+> This file extends [common/security.toml](../common/security.toml) with Go specific content.
 
 ## Secret Management
 

@@ -1,4 +1,4 @@
-description = "Write-time code quality enforcement using Plankton — auto-formatting, linting, and Claude-powered fixes on every file edit via hooks."
+description = "Write-time code quality enforcement using Plankton — auto-formatting, linting, and the agent-powered fixes on every file edit via hooks."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"
@@ -8,7 +8,7 @@ prompt = '''
 
 # Plankton Code Quality Skill
 
-Integration reference for Plankton (credit: @alxfazio), a write-time code quality enforcement system for Claude Code. Plankton runs formatters and linters on every file edit via automation hooks, then spawns Claude subprocesses to fix violations the agent didn't catch.
+Integration reference for Plankton (credit: @alxfazio), a write-time code quality enforcement system for the AI agent. Plankton runs formatters and linters on every file edit via automation hooks, then spawns the agent subprocesses to fix violations the agent didn't catch.
 
 ## When to Use
 
@@ -21,7 +21,7 @@ Integration reference for Plankton (credit: @alxfazio), a write-time code qualit
 
 ### Three-Phase Architecture
 
-Every time Claude Code edits or writes a file, Plankton's `multi_linter.sh` automation hook runs:
+Every time the AI agent edits or writes a file, Plankton's `multi_linter.sh` automation hook runs:
 
 ```
 Phase 1: Auto-Format (Silent)
@@ -83,18 +83,18 @@ brew install jaq ruff uv
 # Install Python linters
 uv sync --all-extras
 
-# Start Claude Code — hooks activate automatically
+# Start the AI agent — hooks activate automatically
 claude
 ```
 
-No install command, no plugin config. The hooks in `.claude/settings.json` are picked up automatically when you run Claude Code in the Plankton directory.
+No install command, no plugin config. The hooks in `your agent's configuration file` are picked up automatically when you run the AI agent in the Plankton directory.
 
 ### Per-Project Integration
 
 To use Plankton hooks in your own project:
 
-1. Copy `.claude/hooks/` directory to your project
-2. Copy `.claude/settings.json` hook configuration
+1. Copy `.agent/hooks/` directory to your project
+2. Copy `your agent's configuration file` hook configuration
 3. Copy linter config files (`.ruff.toml`, `biome.json`, etc.)
 4. Install the linters for your languages
 
@@ -140,7 +140,7 @@ If running both ECC and Plankton hooks:
 
 ## Configuration Reference
 
-Plankton's `.claude/hooks/config.json` controls all behavior:
+Plankton's `.agent/hooks/config.json` controls all behavior:
 
 ```json
 {

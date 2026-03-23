@@ -1,0 +1,64 @@
+description = "Unified model and principles for Agentic and AI-First Engineering. Focuses on eval-driven execution, task decomposition, and AI-assisted architecture."
+args_description = "Context or Source Code"
+version = "1.1.0"
+last_updated = "2026-03-23"
+tags = ["ai-agents", "engineering", "architecture"]
+prompt = '''
+
+# Agentic & AI-First Engineering Principles
+
+This guide outlines the operating model for engineering workflows where AI agents perform the majority of implementation, while humans enforce quality, architecture, and risk controls.
+
+---
+
+## 1. Core Operating Principles
+
+1.  **Planning over Typing**: The quality of the plan and the prompts determines the outcome more than the speed of implementation.
+2.  **Eval-First Execution**: Define completion criteria and measurable tests **BEFORE** starting implementation.
+3.  **Decomposition**: Break work into "agent-sized" units (independently verifiable, single dominant risk, clear done condition).
+4.  **System-Level Review**: Shift review focus from syntax and style (automated) to system behavior, security, and failure handling.
+
+---
+
+## 2. The Eval-First Loop
+
+1.  **Define**: Create capability and regression evals for the task.
+2.  **Baseline**: Run current state and capture failure signatures.
+3.  **Execute**: Route tasks to models based on complexity:
+    - **Haiku**: Classification, boilerplate, narrow edits.
+    - **Sonnet**: Main implementation and refactoring.
+    - **Opus**: High-level architecture and root-cause analysis.
+4.  **Verify**: Re-run evals and compare deltas. Escalate model tier only if a lower tier fails due to a reasoning gap.
+
+---
+
+## 3. Architecture for AI-Friendly Systems
+
+Prefer architectures that agents can navigate and modify safely:
+- **Explicit Boundaries**: Clear separation of concerns.
+- **Stable Contracts**: Well-defined, typed interfaces and APIs.
+- **Deterministic Tests**: High-signal testing that provides clear feedback to agents.
+- **Minimal Implicit Behavior**: Avoid "magic" conventions that are hard for agents to discover.
+
+---
+
+## 4. High-Signal Code Review
+
+When reviewing agent-generated code, prioritize:
+- **Invariants & Edge Cases**: Did the agent miss a boundary condition?
+- **Security & Auth**: Are permissions and data integrity assumptions correct?
+- **Error Boundaries**: How does the code fail? Is the failure handling robust?
+- **Hidden Coupling**: Does the change introduce unintended side effects across modules?
+
+---
+
+## 5. Team & Hiring Signals
+
+Strong AI-first engineers demonstrate:
+- **Clean Decomposition**: Ability to break ambiguous goals into precise tasks.
+- **Prompt & Eval Excellence**: Producing high-signal instructions and verification logic.
+- **Risk Management**: Identifying and mitigating the specific risks of generated code.
+
+# Context/Input
+{{args}}
+'''

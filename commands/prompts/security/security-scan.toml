@@ -1,4 +1,4 @@
-description = "Scan your Claude Code configuration (.claude/ directory) for security vulnerabilities, misconfigurations, and injection risks using AgentShield. C..."
+description = "Scan your AI agent configuration for security vulnerabilities, misconfigurations, and injection risks using AgentShield. C..."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"
@@ -8,22 +8,22 @@ prompt = '''
 
 # Security Scan Skill
 
-Audit your Claude Code configuration for security issues using [AgentShield](https://github.com/affaan-m/agentshield).
+Audit your AI agent configuration for security issues using [AgentShield](https://github.com/affaan-m/agentshield).
 
 ## When to Activate
 
-- Setting up a new Claude Code project
-- After modifying `.claude/settings.json`, `CLAUDE.md`, or MCP configs
+- Setting up a new AI agent project
+- After modifying `your agent's configuration file`, `AGENT.md`, or MCP configs
 - Before committing configuration changes
-- When onboarding to a new repository with existing Claude Code configs
+- When onboarding to a new repository with existing AI agent configs
 - Periodic security hygiene checks
 
 ## What It Scans
 
 | File | Checks |
 |------|--------|
-| `CLAUDE.md` | Hardcoded secrets, auto-run instructions, prompt injection patterns |
-| `settings.json` | Overly permissive allow lists, missing deny lists, dangerous bypass flags |
+| `AGENT.md` | Hardcoded secrets, auto-run instructions, prompt injection patterns |
+| `the agent's settings file` | Overly permissive allow lists, missing deny lists, dangerous bypass flags |
 | `mcp.json` | Risky MCP servers, hardcoded env secrets, npx supply chain risks |
 | `hooks/` | Command injection via interpolation, data exfiltration, silent error suppression |
 | `agents/*.md` | Unrestricted tool access, prompt injection surface, missing model specs |
@@ -47,7 +47,7 @@ npx ecc-agentshield scan .
 
 ### Basic Scan
 
-Run against the current project's `.claude/` directory:
+Run against the current project's `.agent/` directory:
 
 ```bash
 # Scan current project
@@ -106,15 +106,15 @@ This runs:
 
 ### Initialize Secure Config
 
-Scaffold a new secure `.claude/` configuration from scratch:
+Scaffold a new secure `.agent/` configuration from scratch:
 
 ```bash
 npx ecc-agentshield init
 ```
 
 Creates:
-- `settings.json` with scoped permissions and deny list
-- `CLAUDE.md` with security best practices
+- `the agent's settings file` with scoped permissions and deny list
+- `AGENT.md` with security best practices
 - `mcp.json` placeholder
 
 ### GitHub Action
@@ -148,7 +148,7 @@ Add to your CI pipeline:
 - Shell-running MCP servers
 
 ### High Findings (fix before production)
-- Auto-run instructions in CLAUDE.md (prompt injection vector)
+- Auto-run instructions in AGENT.md (prompt injection vector)
 - Missing deny lists in permissions
 - Agents with unnecessary Bash access
 
