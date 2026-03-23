@@ -1,4 +1,4 @@
-description = "Expert TypeScript/JavaScript code reviewer specializing in type safety, async correctness, Node/web security, and idiomatic patterns. Use for all..."
+description = "Expert TypeScript code reviewer ensuring type safety, async correctness, security, and idiomatic patterns in TS/JS codebases."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"

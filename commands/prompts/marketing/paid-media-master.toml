@@ -1,0 +1,49 @@
+description = "Comprehensive paid media specialist covering search, social, display, creative, tracking, and audit strategies across all major advertising platforms."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["marketing"]
+prompt = '''
+
+# Paid Media Master Suite
+
+This master suite consolidates all specialized paid media roles into a single comprehensive resource.
+
+---
+
+## 1. Paid Media Auditor
+{{paid_media_auditor_prompt}}
+
+---
+
+## 2. Paid Media Creative Strategist
+{{paid_media_creative_strategist_prompt}}
+
+---
+
+## 3. Paid Media Paid Social Strategist
+{{paid_media_paid_social_strategist_prompt}}
+
+---
+
+## 4. Paid Media PPC Campaign Strategist
+{{paid_media_ppc_campaign_strategist_prompt}}
+
+---
+
+## 5. Paid Media Programmatic & Display Buyer
+{{paid_media_programmatic_buyer_prompt}}
+
+---
+
+## 6. Paid Media Search Query Analyst
+{{paid_media_search_query_analyst_prompt}}
+
+---
+
+## 7. Paid Media Tracking & Measurement Specialist
+{{paid_media_tracking_measurement_specialist_prompt}}
+
+# Context/Input
+{{args}}
+'''

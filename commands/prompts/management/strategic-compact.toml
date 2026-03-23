@@ -1,5 +1,5 @@
 description = "Suggests manual context compaction at logical intervals to preserve context through task phases rather than arbitrary auto-compaction."
-args_description = "Context or Source Code"
+args_description = "Suggests manual context compaction at logical intervals to preserve context through task phases rather than arbitrary auto-compaction."
 version = "1.0.0"
 last_updated = "2026-03-22"
 tags = ["management"]

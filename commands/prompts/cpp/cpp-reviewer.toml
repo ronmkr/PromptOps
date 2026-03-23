@@ -1,4 +1,4 @@
-description = "Expert C++ code reviewer specializing in memory safety, modern C++ idioms, concurrency, and performance. Use for all C++ code changes. MUST BE USE..."
+description = "Senior C++ code reviewer focused on modern idioms, memory safety, concurrency, and performance to ensure high-quality and secure codebases."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"

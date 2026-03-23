@@ -1,5 +1,5 @@
 description = "Example project-specific skill template based on a real production application."
-args_description = "Context or Source Code"
+args_description = "Example project-specific skill template based on a real production application."
 version = "1.0.0"
 last_updated = "2026-03-22"
 tags = ["management"]

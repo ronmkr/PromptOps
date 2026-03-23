@@ -2,7 +2,7 @@ description = "Unified PHP specialist for coding style, architecture, security, 
 args_description = "Context or Source Code"
 version = "1.1.0"
 last_updated = "2026-03-23"
-tags = ["php", "backend", "security", "testing"]
+tags = ["php"]
 prompt = '''
 
 # PHP Specialist: Style, Patterns, Security & Testing

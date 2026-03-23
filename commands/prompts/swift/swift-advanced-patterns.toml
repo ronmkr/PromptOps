@@ -1,0 +1,49 @@
+description = "Advanced Swift patterns: actor-based persistence, Swift 6.2 concurrency, and protocol-based dependency injection for testing."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["swift"]
+prompt = '''
+
+# Swift Advanced Patterns
+
+Expert guide for advanced Swift development: actor-based persistence, modern concurrency (Swift 6.2+), and testable protocol-based architecture.
+
+## 1. Swift 6.2 Concurrency
+
+Swift 6.2 introduces approachable concurrency where code runs single-threaded by default, and concurrency is introduced explicitly.
+
+### Key Features
+- **Single-Threaded by Default**: Async functions stay on the calling actor by default, avoiding data races.
+- **Isolated Conformances**: `MainActor` types can conform to non-isolated protocols safely.
+- **`@concurrent`**: Explicitly offload CPU-intensive work to concurrent thread pools.
+- **`MainActor` Default Inference**: Reduces boilerplate for app targets.
+
+## 2. Actor-Based Persistence
+
+Patterns for building thread-safe persistence using Swift actors.
+
+### Core Pattern: Actor Repository
+The actor model ensures serialized access to shared state, eliminating manual synchronization.
+- **In-Memory Cache + File-Backed Storage**: Atomic writes for data safety.
+- **`Sendable` Types**: Ensure all data crossing actor boundaries is `Sendable`.
+- **Minimal API**: Only expose domain operations, hiding persistence details.
+
+## 3. Protocol-Based DI & Testing
+
+Abstract external dependencies behind small, focused protocols to make code testable and deterministic.
+
+### Core Pattern: Focused Protocols
+- **Define Boundaries**: Mock file system, network, and external APIs.
+- **Production Implementations**: Real-world behavior using Apple frameworks.
+- **Mock Implementations**: Deterministic, configurable behavior for testing failure paths and edge cases.
+- **Injection**: Use default parameters to allow production code to use real implementations while tests inject mocks.
+
+## Best Practices
+- **Start on `MainActor`**: Write single-threaded code first, optimize with `@concurrent` only when needed.
+- **Use `Swift Testing`**: Leverages `@Test` and `#expect` for modern unit testing.
+- **Avoid Global State**: Protect any necessary global/static state with actor isolation.
+
+# Context/Input
+{{args}}
+'''

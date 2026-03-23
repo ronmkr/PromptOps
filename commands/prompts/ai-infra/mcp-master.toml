@@ -2,7 +2,7 @@ description = "Unified MCP Master for designing, building, and deploying Model C
 args_description = "Context or Source Code"
 version = "1.1.0"
 last_updated = "2026-03-23"
-tags = ["ai-infra", "mcp", "typescript", "node"]
+tags = ["ai-infra"]
 prompt = '''
 
 # MCP Master: Building & Designing Model Context Protocol Servers

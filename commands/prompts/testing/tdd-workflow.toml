@@ -1,4 +1,4 @@
-description = "Use this skill when writing new features, fixing bugs, or refactoring code. Enforces test-driven development with 80%+ coverage including unit, in..."
+description = "Enforces TDD with 80%+ coverage for unit, integration, and E2E tests during feature development, bug fixes, and refactors."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"

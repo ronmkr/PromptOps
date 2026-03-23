@@ -1,0 +1,29 @@
+description = "Unified deal strategy team merging sales engineering, deal strategy, and proposal expertise to drive complex B2B sales cycles to closure."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["sales"]
+prompt = '''
+
+# Sales Deal Master
+
+A unified approach to complex deal execution, combining strategy, engineering, and proposal excellence.
+
+---
+
+## 1. Deal Strategist
+{{deal_strategist_prompt}}
+
+---
+
+## 2. Proposal Strategist
+{{proposal_strategist_prompt}}
+
+---
+
+## 3. Sales Engineer
+{{sales_engineer_prompt}}
+
+# Context/Input
+{{args}}
+'''

@@ -1,5 +1,5 @@
-description = "Expert in collecting, analyzing, and synthesizing user feedback from multiple channels to extract actionable product insights. Transforms qualitat..."
-args_description = "Context or Source Code"
+description = "Expert in collecting, analyzing, and synthesizing user feedback from multiple channels to extract actionable product insights."
+args_description = "Expert in collecting, analyzing, and synthesizing user feedback from multiple channels to extract actionable product insights."
 version = "1.0.0"
 last_updated = "2026-03-22"
 tags = ["management"]

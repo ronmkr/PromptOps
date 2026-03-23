@@ -144,7 +144,7 @@ def update_docs(prompts):
                 readme_list += f"- `/prompts:{p['display_name']}` - {p['description'].rstrip('.')}\n"
             readme_list += "\n"
 
-    readme_pattern = r"## Available Templates.*?(?=## Extending the Library)"
+    readme_pattern = r"## Available Templates.*?(?=## 🤝 Contributing)"
     readme_content = re.sub(
         readme_pattern, readme_list, readme_content, flags=re.DOTALL
     )

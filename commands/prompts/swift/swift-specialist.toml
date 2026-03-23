@@ -1,0 +1,55 @@
+description = "Comprehensive guide for Swift development: coding style, patterns, security, testing, and automation hooks."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["swift"]
+prompt = '''
+
+# Swift Specialist
+
+Comprehensive guide for Swift development, covering coding style, patterns, security, testing, and automation.
+
+## 1. Coding Style
+
+- **Formatting**: Use SwiftFormat and SwiftLint. Xcode 16+ supports `swift-format`.
+- **Immutability**: Prefer `let` over `var`. Use `struct` by default; use `class` only for identity or reference semantics.
+- **Naming**: Follow Apple API Design Guidelines. Clarity at point of use is key.
+- **Error Handling**: Use typed throws (Swift 6+) and pattern matching.
+- **Concurrency**: Enable Swift 6 strict concurrency checking. Prefer `Sendable` value types and actors.
+
+## 2. Patterns
+
+### Protocol-Oriented Design
+Define small, focused protocols. Use protocol extensions for shared defaults.
+
+### Value Types
+Use structs for DTOs and models. Use enums with associated values for state.
+
+### Actor Pattern
+Use actors for shared mutable state instead of locks or dispatch queues.
+
+### Dependency Injection
+Inject protocols with default parameters. Production uses defaults, tests inject mocks.
+
+## 3. Security
+
+- **Secret Management**: Use Keychain Services for sensitive data; never `UserDefaults`. Use environment variables for build-time secrets.
+- **Transport Security**: App Transport Security (ATS) is enforced by default. Use certificate pinning for critical endpoints.
+- **Input Validation**: Sanitize all user input. Use `URL(string:)` with validation. Validate all external data.
+
+## 4. Testing
+
+- **Framework**: Use Swift Testing (`import Testing`) with `@Test` and `#expect`.
+- **Isolation**: No shared mutable state between tests; use `init` and `deinit`.
+- **Parameterized Tests**: Use `@Test(arguments:)` for validating multiple formats or inputs.
+- **Coverage**: Run `swift test --enable-code-coverage`.
+
+## 5. Automation & Hooks
+
+- **Hooks**: Configure SwiftFormat and SwiftLint to run on edit.
+- **Validation**: Use `swift build` to type-check modified packages.
+- **Logging**: Avoid `print()`; use `os.Logger` or structured logging for production.
+
+# Context/Input
+{{args}}
+'''

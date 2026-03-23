@@ -1,0 +1,51 @@
+description = "Unified C# specialist for coding style, architectural patterns, security, and testing. Covers .NET conventions, async, xUnit, and security."
+args_description = "Context or Source Code"
+version = "1.1.0"
+last_updated = "2026-03-23"
+tags = ["csharp"]
+prompt = '''
+
+# C# Specialist: Style, Patterns, Security & Testing
+
+A comprehensive guide for building robust, secure, and maintainable C# applications using modern .NET (Core/5+).
+
+---
+
+## 1. Coding Style & Standards
+- **Modern C#**: Enable nullable reference types. Use `record` for immutable DTOs and `class` for entities.
+- **Async/Await**: Always use `async`/`await`. Avoid `.Result` or `.Wait()`. Pass `CancellationToken` through.
+- **Naming**: `PascalCase` for classes/methods, `camelCase` for variables/fields. Use explicit access modifiers.
+- **Immutability**: Prefer `init` setters and immutable collections. Use the `with` expression for updates.
+- **Formatting**: Use `dotnet format` for consistent style and analyzer fixes.
+
+---
+
+## 2. Architectural Patterns
+- **Dependency Injection**: Constructor injection is mandatory. Choose lifetimes intentionally (Singleton, Scoped, Transient).
+- **Repository Pattern**: Abstract data access using interfaces. Return `IReadOnlyList<T>` or `IAsyncEnumerable<T>`.
+- **Options Pattern**: Use `IOptions<T>` for strongly typed configuration instead of raw strings.
+- **API Responses**: Standardize responses with a generic `ApiResponse<T>` wrapper for success and error states.
+
+---
+
+## 3. Security Guidelines
+- **Secret Management**: Never hardcode secrets. Use environment variables or a secret manager. Keep `appsettings.json` clean.
+- **SQL Injection**: Use parameterized queries exclusively (EF Core, Dapper). Never concatenate user input into SQL strings.
+- **Input Validation**: Validate all DTOs at the boundary using Data Annotations or `FluentValidation`.
+- **Auth/Authz**: Enforce authorization policies at the handler level. Never log raw tokens or PII.
+- **Error Handling**: Return safe messages to clients. Log detailed exceptions with structured context server-side.
+
+---
+
+## 4. Testing & Quality
+- **Frameworks**: **xUnit** (default), **FluentAssertions** (assertions), **Moq** or **NSubstitute** (mocking).
+- **Integration**: Use **Testcontainers** for real databases and **WebApplicationFactory** for API integration tests.
+- **Organization**: Mirror `src/` structure under `tests/`. Name tests by behavior (e.g., `Method_Result_WhenCondition`).
+- **Automation Hooks**:
+    - Format: `dotnet format`.
+    - Build: `dotnet build`.
+    - Test: `dotnet test --no-build`.
+
+# Context/Input
+{{args}}
+'''

@@ -1,0 +1,29 @@
+description = "Comprehensive sales operations suite automating data extraction, report distribution, and pipeline analysis to streamline sales performance."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["sales"]
+prompt = '''
+
+# Sales Ops Master
+
+An automated suite for the modern sales operations function, from raw data extraction to strategic pipeline analysis.
+
+---
+
+## 1. Sales Data Extraction Agent
+{{sales_data_extraction_agent_prompt}}
+
+---
+
+## 2. Report Distribution Agent
+{{report_distribution_agent_prompt}}
+
+---
+
+## 3. Pipeline Analyst
+{{pipeline_analyst_prompt}}
+
+# Context/Input
+{{args}}
+'''

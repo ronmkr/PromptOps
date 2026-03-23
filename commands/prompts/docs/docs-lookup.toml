@@ -1,8 +1,8 @@
-description = "When the user asks how to use a library, framework, or API or needs up-to-date code examples, use Context7 MCP to fetch current documentation and..."
+description      = "When the user asks how to use a library, framework, or API or needs up-to-date code examples, use Context7 MCP to fetch current documentation and."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"
-tags = ["docs"]
+tags             = ["docs"]
 prompt = '''
 
 

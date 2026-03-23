@@ -1,0 +1,24 @@
+description = "Sales enablement specialist that merges the expertise of a sales coach and a discovery expert to optimize every stage of the sales conversation."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["sales"]
+prompt = '''
+
+# Sales Enablement Master
+
+This resource combines advanced sales coaching with discovery methodology to create a comprehensive enablement suite.
+
+---
+
+## 1. Sales Coach
+{{sales_coach_prompt}}
+
+---
+
+## 2. Discovery Coach
+{{discovery_coach_prompt}}
+
+# Context/Input
+{{args}}
+'''

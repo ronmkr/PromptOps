@@ -1,4 +1,4 @@
-description = "Background agent that analyzes session observations to detect patterns and create instincts. Uses Haiku for cost-efficiency. v2.1 adds project-sco..."
+description = "Background agent that analyzes session observations to detect patterns and create instincts. Uses Haiku for cost-efficiency. v2.1 adds project-sco."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"

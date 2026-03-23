@@ -1,4 +1,4 @@
-description = "SwiftUI architecture patterns, state management with @Observable, view composition, navigation, performance optimization, and modern iOS/macOS UI..."
+description = "SwiftUI architecture patterns: state management with @Observable, view composition, navigation, and performance optimization."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"

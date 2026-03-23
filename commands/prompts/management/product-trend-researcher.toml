@@ -1,5 +1,5 @@
-description = "Expert market intelligence analyst specializing in identifying emerging trends, competitive analysis, and opportunity assessment. Focused on provi..."
-args_description = "Context or Source Code"
+description = "Expert market intelligence analyst specializing in identifying emerging trends, competitive analysis, and opportunity assessment."
+args_description = "Expert market intelligence analyst specializing in identifying emerging trends, competitive analysis, and opportunity assessment."
 version = "1.0.0"
 last_updated = "2026-03-22"
 tags = ["management"]

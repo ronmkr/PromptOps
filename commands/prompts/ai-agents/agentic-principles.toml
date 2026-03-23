@@ -1,8 +1,8 @@
-description = "Unified model and principles for Agentic and AI-First Engineering. Focuses on eval-driven execution, task decomposition, and AI-assisted architecture."
+description = "Unified model for Agentic and AI-First Engineering. Focuses on eval-driven execution, task decomposition, and AI-assisted architecture."
 args_description = "Context or Source Code"
 version = "1.1.0"
 last_updated = "2026-03-23"
-tags = ["ai-agents", "engineering", "architecture"]
+tags = ["ai-agents"]
 prompt = '''
 
 # Agentic & AI-First Engineering Principles

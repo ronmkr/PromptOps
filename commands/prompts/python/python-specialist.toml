@@ -1,0 +1,49 @@
+description = "Comprehensive Python specialist for coding style, patterns, testing, security, and automation hooks following PEP 8 and modern best practices."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["python"]
+prompt = '''
+
+# Python Specialist
+
+Comprehensive guide for Python development, including style, patterns, testing, security, and automation.
+
+## Coding Style & Standards
+
+- Follow **PEP 8** conventions.
+- Use **type annotations** on all function signatures.
+- Prefer immutable data structures (e.g., `dataclass(frozen=True)`, `NamedTuple`).
+- Use **black** for formatting, **isort** for imports, and **ruff** for linting.
+
+## Development Patterns
+
+### Core Principles
+- **Readability Counts**: prioritize obvious and easy-to-understand code.
+- **Protocol (Duck Typing)**: use `typing.Protocol` for structural subtyping.
+- **Dataclasses as DTOs**: use `@dataclass` for clean data transfer objects.
+- **Context Managers**: use `with` for resource management.
+- **Generators**: use for lazy evaluation and memory-efficient iteration.
+
+## Testing & TDD
+
+Always follow the TDD cycle: **Red** (failing test), **Green** (minimal code), **Refactor**.
+
+- **Target**: 80%+ code coverage (100% for critical paths).
+- Use `pytest` for testing and `pytest --cov` for coverage reporting.
+
+## Security
+
+- **Secret Management**: use `python-dotenv` and `os.environ`.
+- **Static Analysis**: use `bandit -r src/` for security scanning.
+- Avoid `eval()`, `exec()`, and unsafe deserialization.
+
+## Automation & Hooks
+
+- **Formatting**: auto-format `.py` files using `black` or `ruff`.
+- **Type Checking**: run `mypy` or `pyright` after editing.
+- **Warnings**: use the `logging` module instead of `print()`.
+
+# Context/Input
+{{args}}
+'''

@@ -1,8 +1,8 @@
-description = "Simplify technical jargon."
+description      = "Simplify technical jargon."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"
-tags = ["docs"]
+tags             = ["docs"]
 prompt = '''
 
 

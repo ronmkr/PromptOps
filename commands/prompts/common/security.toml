@@ -2,7 +2,7 @@ description = "Common Security Guidelines and Mandatory Checks."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-23"
-tags = ["security", "common"]
+tags = ["common"]
 prompt = '''
 
 # Security Guidelines

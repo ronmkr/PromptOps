@@ -2,7 +2,7 @@ description = "Unified specialist for LLM API integration and cost-aware pipelin
 args_description = "Context or Source Code"
 version = "1.1.0"
 last_updated = "2026-03-23"
-tags = ["ai-agents", "ai-infra", "cost-optimization"]
+tags = ["ai-agents"]
 prompt = '''
 
 # LLM Pipeline & Cost Specialist

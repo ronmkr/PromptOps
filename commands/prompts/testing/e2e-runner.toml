@@ -1,4 +1,4 @@
-description = "End-to-end testing specialist using Vercel Agent Browser (preferred) with Playwright fallback. Use PROACTIVELY for generating, maintaining, and ru..."
+description = "End-to-end testing specialist using Vercel Agent Browser and Playwright for creating and maintaining reliable browser-based test suites."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"

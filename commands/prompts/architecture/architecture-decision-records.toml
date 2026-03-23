@@ -1,4 +1,4 @@
-description = "Capture architectural decisions made during the AI agent sessions as structured ADRs. Auto-detects decision moments, records context, alternatives..."
+description = "Capture architectural decisions as structured ADR documents. Tracks context, alternatives, consequences, and decision status."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"

@@ -1,8 +1,8 @@
-description = "Use up-to-date library and framework docs via Context7 MCP instead of training data. Activates for setup questions, API references, code examples,..."
+description      = "Use up-to-date library and framework docs via Context7 MCP instead of training data. Activates for setup questions, API references, code examples,."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"
-tags = ["engineering"]
+tags             = ["engineering"]
 prompt = '''
 
 

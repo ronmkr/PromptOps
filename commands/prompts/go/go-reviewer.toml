@@ -1,4 +1,4 @@
-description = "Expert Go code reviewer specializing in idiomatic Go, concurrency patterns, error handling, and performance. Use for all Go code changes. MUST BE..."
+description = "Expert Go code reviewer for idiomatic code, concurrency, error handling, and performance. Ensures high standards and best practices in Go."
 args_description = "Context or Source Code"
 version = "1.0.0"
 last_updated = "2026-03-22"

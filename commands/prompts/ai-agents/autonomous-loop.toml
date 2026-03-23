@@ -2,7 +2,7 @@ description = "Unified guide for autonomous AI agent loops. Covers sequential pi
 args_description = "Context or Source Code"
 version = "1.1.0"
 last_updated = "2026-03-23"
-tags = ["ai-agents", "workflow", "automation"]
+tags = ["ai-agents"]
 prompt = '''
 
 # Autonomous Agent Loops
