@@ -1290,6 +1290,16 @@
     "args_description": "Context or Source Code"
   },
   {
+    "name": "security-reviewer",
+    "description": "Internal security auditor specialized in project-wide vulnerability assessment and emergency response.",
+    "version": "1.0.0",
+    "last_updated": "2026-03-24",
+    "tags": [
+      "security"
+    ],
+    "args_description": "Scope or Incident Details"
+  },
+  {
     "name": "security-scan",
     "description": "Comprehensive, tool-agnostic security audit for codebases, configurations, and dependencies. Focused on OWASP, secrets, and supply-chain risks.",
     "version": "1.2.0",

@@ -143,6 +143,7 @@ Templates are categorized by domain. Click a category to view its full reference
 - `/prompts:blockchain-security-auditor` - Expert smart contract security auditor specializing in vulnerability detection, formal verification, and exploit analysis
 - `/prompts:security-architect` - Expert security architect specializing in threat modeling, secure code review, and defense-in-depth across the entire application stack
 - `/prompts:security-policy` - Draft a SECURITY.md or vulnerability disclosure policy
+- `/prompts:security-reviewer` - Internal security auditor specialized in project-wide vulnerability assessment and emergency response
 - `/prompts:security-scan` - Comprehensive, tool-agnostic security audit for codebases, configurations, and dependencies. Focused on OWASP, secrets, and supply-chain risks
 - `/prompts:threat-modeling` - Generate a STRIDE threat model for a proposed architecture
 - `/prompts:zk-steward` - Knowledge-base steward in the spirit of Niklas Luhmann's Zettelkasten. Default perspective: Luhmann; switches to domain experts (Feynman, Munger,

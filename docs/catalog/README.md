@@ -10,7 +10,7 @@ Explore our curated collection of prompts organized by domain.
 | **DevOps & Infrastructure** | 5 templates | [View Catalog](devops-and-infrastructure.md) |
 | **Backend & Systems** | 6 templates | [View Catalog](backend-and-systems.md) |
 | **Frontend & UI/UX** | 5 templates | [View Catalog](frontend-and-ui-ux.md) |
-| **Security & Compliance** | 6 templates | [View Catalog](security-and-compliance.md) |
+| **Security & Compliance** | 7 templates | [View Catalog](security-and-compliance.md) |
 | **Testing & QA** | 14 templates | [View Catalog](testing-and-qa.md) |
 | **Language Specialists** | 43 templates | [View Catalog](language-specialists.md) |
 | **Shell & Scripting** | 6 templates | [View Catalog](shell-and-scripting.md) |

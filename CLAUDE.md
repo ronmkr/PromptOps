@@ -153,6 +153,7 @@ Templates are organized by domain. When a user asks for help with a task, map it
 - `blockchain-security-auditor`: Expert smart contract security auditor specializing in vulnerability detection, formal verification, and exploit analysis
 - `security-architect`: Expert security architect specializing in threat modeling, secure code review, and defense-in-depth across the entire application stack
 - `security-policy`: Draft a SECURITY.md or vulnerability disclosure policy
+- `security-reviewer`: Internal security auditor specialized in project-wide vulnerability assessment and emergency response
 - `security-scan`: Comprehensive, tool-agnostic security audit for codebases, configurations, and dependencies. Focused on OWASP, secrets, and supply-chain risks
 - `threat-modeling`: Generate a STRIDE threat model for a proposed architecture
 - `zk-steward`: Knowledge-base steward in the spirit of Niklas Luhmann's Zettelkasten. Default perspective: Luhmann; switches to domain experts (Feynman, Munger,
