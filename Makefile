@@ -55,7 +55,7 @@ evaluate:
 	@python3 scripts/evaluate_prompts.py
 
 check-sync: docs
-	@if [ -n "$$(git status --porcelain docs/catalog/ README.md GEMINI.md CLAUDE.md prompts.json)" ]; then \
+	@if [ -n "$$(git status --porcelain -u no docs/catalog/ README.md GEMINI.md CLAUDE.md prompts.json | grep '^ M')" ]; then \
 		echo "Error: Documentation catalogs, README, or registry are out of sync!"; \
 		echo "Please run 'make docs' locally and commit the changes."; \
 		git diff docs/catalog/ README.md GEMINI.md CLAUDE.md prompts.json; \

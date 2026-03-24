@@ -1,5 +1,4 @@
 import os
-import datetime
 import re
 import sys
 import json
@@ -47,7 +46,6 @@ def update_registry(prompts):
 def generate_domain_markdown(tag_name, display_name, prompts):
     content = [
         f"# 📖 promptbook - {display_name} Catalog\n\n",
-        f"Generated on: {datetime.date.today().isoformat()}\n\n",
         f"This catalog contains the reference for all **{display_name}** templates.\n\n",
         "## 📑 Table of Contents\n",
     ]
@@ -91,7 +89,6 @@ def generate_domain_markdown(tag_name, display_name, prompts):
 def generate_full_catalog(prompts):
     content = [
         "# 📚 Full promptbook Catalog\n\n",
-        f"Generated on: {datetime.date.today().isoformat()}\n\n",
         "This file contains every template available in the library for exhaustive reference and search.\n\n",
         "## 📑 All Prompts\n\n",
     ]

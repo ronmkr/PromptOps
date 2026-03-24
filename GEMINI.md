@@ -72,6 +72,7 @@ ln -s $(pwd)/promptbook ~/.local/bin/pop
 | `pop keys list` | List providers with stored keys |
 | `pop keys delete <provider>` | Remove a key from the vault |
 | `pop tags` | List all unique category tags |
+| `pop init` | Unified setup wizard (check deps, build TUI, completions) |
 | `pop completion <shell>` | Output shell completion script (zsh/bash/fish) |
 | `make evaluate` | Run Golden Tests using LLM-as-a-judge |
 ### Shell Auto-Completion Setup

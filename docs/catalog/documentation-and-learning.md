@@ -1,7 +1,5 @@
 # 📖 promptbook - Documentation & Learning Catalog
 
-Generated on: 2026-03-24
-
 This catalog contains the reference for all **Documentation & Learning** templates.
 
 ## 📑 Table of Contents

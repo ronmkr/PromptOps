@@ -3,6 +3,7 @@ import os
 import sys
 import json
 import glob
+
 try:
     import tomllib
 except ImportError:
@@ -45,7 +46,7 @@ def get_client_and_model():
     # Check vault if env var not set
     if not api_key:
         api_key = Vault.get_key("openai")
-        
+
     base_url = os.getenv("OPENAI_BASE_URL")
     model_id = os.getenv("OPENAI_MODEL_NAME", "gpt-4o")
 

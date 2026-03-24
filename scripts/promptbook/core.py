@@ -2,14 +2,168 @@ import os
 import sys
 import re
 import difflib
+
 try:
     import tomllib
 except ImportError:
     import tomli as tomllib
 import subprocess
 import shlex
-from .utils import PROMPTS_DIR, Colors, copy_to_clipboard, AuditLogger
+from .utils import PROMPTS_DIR, Colors, copy_to_clipboard, AuditLogger, BASE_DIR
 from .ui import format_prompt_list, format_tag_list, print_interactive_header
+
+
+import shutil
+import platform
+
+
+def init_wizard():
+    """Unified setup wizard to check requirements, build TUI, and install completions."""
+    print(f"\n{Colors.BOLD}{Colors.CYAN}🚀 Promptbook Setup Wizard{Colors.RESET}")
+    print("-------------------------------------------------------\n")
+
+    # 1. System Check
+    print(f"{Colors.BOLD}[1/4] Checking system requirements...{Colors.RESET}")
+
+    # Python Check
+    py_ver = sys.version_info
+    if py_ver.major >= 3 and py_ver.minor >= 8:
+        print(
+            f"  {Colors.GREEN}✓{Colors.RESET} Python {py_ver.major}.{py_ver.minor} detected."
+        )
+    else:
+        print(
+            f"  {Colors.YELLOW}⚠{Colors.RESET} Warning: Python 3.8+ recommended (you have {py_ver.major}.{py_ver.minor})."
+        )
+
+    # Git Check
+    if shutil.which("git"):
+        print(f"  {Colors.GREEN}✓{Colors.RESET} Git detected.")
+    else:
+        print(
+            f"  {Colors.YELLOW}⚠{Colors.RESET} Warning: Git not found. Auto-updates will be disabled."
+        )
+
+    # Clipboard Check
+    os_name = platform.system()
+    if os_name == "Linux":
+        if shutil.which("xclip") or shutil.which("xsel"):
+            print(f"  {Colors.GREEN}✓{Colors.RESET} Clipboard utility found.")
+        else:
+            print(
+                f"  {Colors.YELLOW}⚠{Colors.RESET} Warning: No clipboard utility (xclip/xsel) found. Copying might fail."
+            )
+    else:
+        print(
+            f"  {Colors.GREEN}✓{Colors.RESET} {os_name} native clipboard support verified."
+        )
+
+    # 2. Rust/TUI Check
+    print(f"\n{Colors.BOLD}[2/4] Rust TUI Explorer...{Colors.RESET}")
+    cargo_path = shutil.which("cargo")
+    if cargo_path:
+        print(f"  {Colors.GREEN}✓{Colors.RESET} Rust (cargo) detected.")
+        confirm = input(
+            "  Would you like to build the Rust TUI now for faster browsing? (y/N): "
+        ).lower()
+        if confirm == "y":
+            print(
+                f"  {Colors.CYAN}Building TUI (this may take a minute)...{Colors.RESET}"
+            )
+            try:
+                tui_dir = os.path.join(BASE_DIR, "promptbook-tui")
+                subprocess.run(["cargo", "build", "--release"], cwd=tui_dir, check=True)
+                print(f"  {Colors.GREEN}✓{Colors.RESET} TUI built successfully.")
+            except Exception as e:
+                print(f"  {Colors.YELLOW}✗{Colors.RESET} TUI build failed: {e}")
+    else:
+        print("  - Rust not detected. Skipping TUI build.")
+        print("    (You can still use the Python CLI helpers).")
+
+    # 3. Shell Completions
+    print(f"\n{Colors.BOLD}[3/4] Installing Shell Completions...{Colors.RESET}")
+    shell_path = os.environ.get("SHELL", "")
+    shell = ""
+    if "zsh" in shell_path:
+        shell = "zsh"
+    elif "bash" in shell_path:
+        shell = "bash"
+    elif "fish" in shell_path:
+        shell = "fish"
+
+    if shell:
+        print(f"  Detected {Colors.CYAN}{shell}{Colors.RESET} shell.")
+        confirm = input(f"  Install completions for {shell}? (y/N): ").lower()
+        if confirm == "y":
+            from .cli import generate_completion
+
+            try:
+                # Get the completion script
+                import io
+                from contextlib import redirect_stdout
+
+                f = io.StringIO()
+                with redirect_stdout(f):
+                    generate_completion(shell)
+                completion_script = f.getvalue()
+
+                if shell == "zsh":
+                    config_path = os.path.expanduser("~/.zshrc")
+                    marker = "# promptbook completions"
+                    if os.path.exists(config_path):
+                        with open(config_path, "r") as config_file:
+                            if marker in config_file.read():
+                                print(
+                                    f"  {Colors.YELLOW}⚠{Colors.RESET} Completions already in .zshrc."
+                                )
+                            else:
+                                with open(config_path, "a") as config_file:
+                                    config_file.write(
+                                        f"\n{marker}\nsource <(pop completion zsh)\n"
+                                    )
+                                print(
+                                    f"  {Colors.GREEN}✓{Colors.RESET} Added completion source to .zshrc."
+                                )
+                elif shell == "bash":
+                    config_path = os.path.expanduser("~/.bashrc")
+                    marker = "# promptbook completions"
+                    with open(config_path, "a") as config_file:
+                        config_file.write(
+                            f"\n{marker}\nsource <(pop completion bash)\n"
+                        )
+                    print(
+                        f"  {Colors.GREEN}✓{Colors.RESET} Added completion source to .bashrc."
+                    )
+                elif shell == "fish":
+                    config_dir = os.path.expanduser("~/.config/fish/completions")
+                    os.makedirs(config_dir, exist_ok=True)
+                    with open(os.path.join(config_dir, "pop.fish"), "w") as config_file:
+                        config_file.write(completion_script)
+                    print(
+                        f"  {Colors.GREEN}✓{Colors.RESET} Created completion file in {config_dir}."
+                    )
+            except Exception as e:
+                print(
+                    f"  {Colors.YELLOW}✗{Colors.RESET} Failed to install completions: {e}"
+                )
+    else:
+        print("  - Could not detect current shell. Skip completions.")
+
+    # 4. Final Verification
+    print(f"\n{Colors.BOLD}[4/4] Finishing up...{Colors.RESET}")
+    print(f"  {Colors.GREEN}✓{Colors.RESET} Setup complete!")
+
+    restart_cmd = "source ~/.zshrc"
+    if shell == "bash":
+        restart_cmd = "source ~/.bashrc"
+    elif shell == "fish":
+        restart_cmd = "exec fish"
+
+    print("\n-------------------------------------------------------")
+    print(f"{Colors.BOLD}Next Steps:{Colors.RESET}")
+    print(f"  1. Restart your terminal (or run '{restart_cmd}')")
+    print(f"  2. Type {Colors.CYAN}pop list{Colors.RESET} to get started.")
+    print("-------------------------------------------------------\n")
 
 
 def get_prompts(prompts_dir=None):
@@ -209,10 +363,12 @@ def search_prompts(term, tag_filter=None, prompts_dir=None):
 def hydrate_prompt(template, variables_map):
     def handle_conditionals(text):
         cond_pattern = r"<if\s+(\w+)\s*=\s*\"([^\"]+)\"\s*>(.*?)</if>"
+
         def cond_substitute(match):
             key, expected_val, content = match.group(1), match.group(2), match.group(3)
             actual_val = variables_map.get(key, "").strip().lower()
             return content if actual_val == expected_val.strip().lower() else ""
+
         return re.sub(cond_pattern, cond_substitute, text, flags=re.DOTALL)
 
     template = handle_conditionals(template)
@@ -224,13 +380,13 @@ def hydrate_prompt(template, variables_map):
         start = -1
         i = 0
         while i < len(text):
-            if text[i:i + 2] == "{{":
+            if text[i : i + 2] == "{{":
                 # Check if escaped
                 if i > 0 and text[i - 1] == "\\":
                     i += 2
                     continue
                 # Check if it's a shell block or we're already inside one
-                if text[i:i + 4] == "{{$(":
+                if text[i : i + 4] == "{{$(":
                     if stack == 0:
                         start = i
                     stack += 1
@@ -239,7 +395,7 @@ def hydrate_prompt(template, variables_map):
                 if stack > 0:
                     stack += 1
                 i += 2
-            elif text[i:i + 2] == "}}":
+            elif text[i : i + 2] == "}}":
                 if stack > 0:
                     stack -= 1
                     if stack == 0:
@@ -250,14 +406,14 @@ def hydrate_prompt(template, variables_map):
         return ranges
 
     shell_ranges = find_shell_ranges(template)
-    
+
     # 2. Tokenize shell blocks to protect them during standard variable resolution
     tokenized_template = ""
     last_pos = 0
     token_map = {}
     for i, (s, e) in enumerate(shell_ranges):
         token = f"__PB_SHELL_{i}__"
-        token_map[token] = template[s + 2:e - 2]  # Content inside {{ }}
+        token_map[token] = template[s + 2 : e - 2]  # Content inside {{ }}
         tokenized_template += template[last_pos:s] + token
         last_pos = e
     tokenized_template += template[last_pos:]
@@ -270,10 +426,12 @@ def hydrate_prompt(template, variables_map):
         escape_char, content = m.group(1), m.group(2).strip()
         if escape_char == "\\":
             return f"{{{{{content}}}}}"
-        
+
         if content.startswith("env."):
-            return os.environ.get(content[4:].strip(), f"[Env var {content[4:].strip()} not found]")
-        
+            return os.environ.get(
+                content[4:].strip(), f"[Env var {content[4:].strip()} not found]"
+            )
+
         return variables_map.get(content, m.group(0))
 
     # Single pass for standard variables to respect escaping rules
@@ -283,7 +441,7 @@ def hydrate_prompt(template, variables_map):
     for token, shell_content in token_map.items():
         # shell_content is e.g. "$(echo {{args}})"
         inner_cmd = shell_content[2:-1].strip()
-        
+
         # Resolve any {{var}} inside the shell command WITH quoting for security
         def quote_fn(mm):
             v_name = mm.group(1).strip()
@@ -292,16 +450,18 @@ def hydrate_prompt(template, variables_map):
             else:
                 val = variables_map.get(v_name, "")
             return shlex.quote(val)
-        
+
         safe_cmd = re.sub(r"\{\{\s*(.*?)\s*\}\}", quote_fn, inner_cmd)
-        
+
         try:
-            res = subprocess.check_output(safe_cmd, shell=True, stderr=subprocess.STDOUT, text=True).strip()
+            res = subprocess.check_output(
+                safe_cmd, shell=True, stderr=subprocess.STDOUT, text=True
+            ).strip()
         except Exception as e:
             res = f"[Error: {str(e)}]"
-        
+
         hydrated_text = hydrated_text.replace(token, res)
-    
+
     return hydrated_text
 
 
@@ -313,7 +473,7 @@ def _collect_variables(display_name, variables, data, provided_vars):
     try:
         # Recursively find all standard user variables
         user_vars = set()
-        
+
         def find_vars(text):
             # Use greedy to find outer blocks, then look inside
             found = re.findall(r"\{\{\s*(.*?)\s*\}\}", text)
@@ -329,7 +489,7 @@ def _collect_variables(display_name, variables, data, provided_vars):
                         user_vars.add(v)
                     else:
                         find_vars(v)
-        
+
         for v in variables:
             v = v.strip()
             if v.startswith("$(") and v.endswith(")"):
@@ -466,16 +626,17 @@ def use_prompt(
         display_name = (
             f"{name}:{selected['version_id']}" if selected["version_id"] else name
         )
-        
+
         # Recursive variable discovery
         variables_set = set()
+
         def discover_vars(text):
             # Find innermost blocks first (no {{ or }} inside)
             innermost = re.findall(r"\{\{\s*([^{}]+?)\s*\}\}", text)
             for v in innermost:
                 v = v.strip()
                 variables_set.add(v)
-            
+
             # Now replace innermost blocks with placeholders and recurse to find outer blocks
             if innermost:
                 # Simple placeholder replacement to avoid infinite recursion
@@ -489,9 +650,9 @@ def use_prompt(
                         # If outer block is shell, recurse on its content
                         if ob.strip().startswith("$(") and ob.strip().endswith(")"):
                             discover_vars(ob.strip()[2:-1])
-                    
+
                     discover_vars(remaining_text)
-        
+
         discover_vars(prompt_content)
         variables = sorted(list(variables_set))
 
@@ -499,21 +660,25 @@ def use_prompt(
             return prompt_content, variables
 
         final_vars = _collect_variables(display_name, variables, data, provided_vars)
-        
+
         # PII Masking (GDPR/Compliance)
         if mask:
             try:
                 import scrubadub
+
                 for var_name, var_val in final_vars.items():
                     if isinstance(var_val, str):
                         final_vars[var_name] = scrubadub.clean(var_val)
             except ImportError:
-                print(f"{Colors.YELLOW}Warning: 'scrubadub' not installed. Masking skipped.{Colors.RESET}", file=sys.stderr)
+                print(
+                    f"{Colors.YELLOW}Warning: 'scrubadub' not installed. Masking skipped.{Colors.RESET}",
+                    file=sys.stderr,
+                )
 
         # Log sensitive prompt execution
         if is_sensitive:
             AuditLogger.log(name, selected.get("version_id"), final_vars)
-            
+
         prompt_content = hydrate_prompt(prompt_content, final_vars)
 
         do_copy = not no_copy

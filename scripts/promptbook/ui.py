@@ -12,6 +12,7 @@ def print_help():
   Find and use the best AI prompts directly from your terminal.
   Automatically copies results to your clipboard for easy pasting.
 {Colors.BOLD}BEGINNER GUIDE:{Colors.RESET}
+  - {Colors.GREEN}pop init{Colors.RESET}          : Run the setup wizard (completions, TUI).
   - {Colors.GREEN}pop list{Colors.RESET}          : See everything available.
   - {Colors.GREEN}pop search "term"{Colors.RESET} : Find tools for a specific task.
   - {Colors.GREEN}pop use <tool>{Colors.RESET}    : Run it! (We'll ask for your input).

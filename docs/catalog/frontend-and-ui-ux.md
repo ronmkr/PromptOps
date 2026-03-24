@@ -1,7 +1,5 @@
 # 📖 promptbook - Frontend & UI/UX Catalog
 
-Generated on: 2026-03-24
-
 This catalog contains the reference for all **Frontend & UI/UX** templates.
 
 ## 📑 Table of Contents

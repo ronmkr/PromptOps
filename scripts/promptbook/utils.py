@@ -20,15 +20,20 @@ class Colors:
 # Constants
 # Resolve script directory to be robust against symlinks and direct calls
 _script_dir = os.path.dirname(os.path.realpath(__file__))
+
+
 # scripts/promptbook/utils.py -> BASE_DIR is 2 levels up from 'scripts/promptbook'
 # Let's find the project root by looking for '.git' or 'commands'
 def find_project_root():
     curr = _script_dir
     while curr != os.path.dirname(curr):
-        if os.path.exists(os.path.join(curr, "commands")) and os.path.exists(os.path.join(curr, "scripts")):
+        if os.path.exists(os.path.join(curr, "commands")) and os.path.exists(
+            os.path.join(curr, "scripts")
+        ):
             return curr
         curr = os.path.dirname(curr)
     return os.path.dirname(os.path.dirname(_script_dir))
+
 
 BASE_DIR = find_project_root()
 PROMPTS_DIR = os.path.join(BASE_DIR, "commands", "prompts")
@@ -46,24 +51,27 @@ class AuditLogger:
             os.makedirs(USER_CONFIG_DIR, exist_ok=True)
             timestamp = datetime.datetime.now().isoformat()
             user = getpass.getuser()
-            
+
             # Mask variables for privacy in logs - only log keys
             var_keys = list(variables.keys())
-            
+
             log_entry = {
                 "timestamp": timestamp,
                 "user": user,
                 "prompt": prompt_name,
                 "version": version or "default",
                 "variables": var_keys,
-                "status": status
+                "status": status,
             }
-            
+
             with open(AuditLogger.LOG_FILE, "a", encoding="utf-8") as f:
                 f.write(json.dumps(log_entry) + "\n")
         except Exception as e:
             # Don't let logging failures crash the main application
-            print(f"{Colors.YELLOW}Warning: Audit logging failed: {e}{Colors.RESET}", file=sys.stderr)
+            print(
+                f"{Colors.YELLOW}Warning: Audit logging failed: {e}{Colors.RESET}",
+                file=sys.stderr,
+            )
 
 
 class Vault:

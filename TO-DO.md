@@ -37,8 +37,7 @@
     - [ ] Maintain a `TEMPLATES.md` changelog.
 
 ## Technical Improvements
-- [ ] **Abstract the Eval Framework:**
-    - [ ] Modify `make evaluate` to support any OpenAI-compatible endpoint.
+- [x] **Abstract the Eval Framework**: Modified `make evaluate` to support any OpenAI-compatible endpoint, with fallback to Gemini.
 - [ ] **Consolidate Workflow Prompts:**
     - [ ] Review and consolidate prompts in the `workflow/` directory.
 - [x] **Dynamic Context Execution**: Extended Python/Rust parser to evaluate `{{$(cmd)}}` and `{{env.VAR}}` right before hydration.

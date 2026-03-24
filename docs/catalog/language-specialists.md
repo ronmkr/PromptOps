@@ -1,7 +1,5 @@
 # 📖 promptbook - Language Specialists Catalog
 
-Generated on: 2026-03-24
-
 This catalog contains the reference for all **Language Specialists** templates.
 
 ## 📑 Table of Contents

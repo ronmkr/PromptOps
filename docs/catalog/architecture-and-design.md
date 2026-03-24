@@ -1,7 +1,5 @@
 # 📖 promptbook - Architecture & Design Catalog
 
-Generated on: 2026-03-24
-
 This catalog contains the reference for all **Architecture & Design** templates.
 
 ## 📑 Table of Contents

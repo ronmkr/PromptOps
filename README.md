@@ -11,6 +11,8 @@ Get up and running in seconds with our universal installer:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ronmkr/Promptbook/main/scripts/install.sh | bash
+# Then run the setup wizard
+pop init
 ```
 
 *This clones the library to `~/.promptbook` and sets up the `pop` alias in `~/.local/bin`.*

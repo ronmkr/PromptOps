@@ -1,7 +1,5 @@
 # 📚 Full promptbook Catalog
 
-Generated on: 2026-03-24
-
 This file contains every template available in the library for exhaustive reference and search.
 
 ## 📑 All Prompts
