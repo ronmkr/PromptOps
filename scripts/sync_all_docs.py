@@ -2,6 +2,7 @@ import os
 import datetime
 import re
 import sys
+import json
 
 # Add current directory to path so we can import our package
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -22,8 +23,6 @@ def get_prompts():
 
 def update_registry(prompts):
     """Update the central prompts.json registry."""
-    import json
-
     # Clean up the prompt data for the registry (remove raw prompt content to keep it lean)
     registry_data = []
     for p in sorted(prompts, key=lambda x: x["display_name"]):
@@ -39,8 +38,9 @@ def update_registry(prompts):
         )
 
     with open(REGISTRY_FILE, "w", encoding="utf-8") as f:
-        json.dump(registry_data, f, indent=2)
-        f.write("\n")
+        # json.dump + strip + \n ensures exactly one trailing newline
+        content = json.dumps(registry_data, indent=2)
+        f.write(content.strip() + "\n")
     print(f"✅ Registry updated: {REGISTRY_FILE}")
 
 
@@ -77,15 +77,13 @@ def generate_domain_markdown(tag_name, display_name, prompts):
         )
 
     os.makedirs(CATALOG_DIR, exist_ok=True)
-    # Sanitize filename: replace spaces, slashes, and ampersands
     filename = tag_name.lower().replace(" ", "-").replace("&", "and").replace("/", "-")
-    filename = re.sub(r"-+", "-", filename)  # Remove double dashes
+    filename = re.sub(r"-+", "-", filename)
     filename += ".md"
     filepath = os.path.join(CATALOG_DIR, filename)
 
     with open(filepath, "w", encoding="utf-8") as f:
-        f.writelines(content)
-        f.write("\n")
+        f.write("".join(content).strip() + "\n")
 
     return filename
 
@@ -118,8 +116,7 @@ def generate_full_catalog(prompts):
 
     os.makedirs(os.path.dirname(FULL_CATALOG_FILE), exist_ok=True)
     with open(FULL_CATALOG_FILE, "w", encoding="utf-8") as f:
-        f.writelines(content)
-        f.write("\n")
+        f.write("".join(content).strip() + "\n")
 
 
 def generate_catalog_index(domains):
@@ -141,12 +138,11 @@ def generate_catalog_index(domains):
 
     filepath = os.path.join(CATALOG_DIR, "README.md")
     with open(filepath, "w", encoding="utf-8") as f:
-        f.writelines(content)
-        f.write("\n")
+        f.write("".join(content).strip() + "\n")
 
 
 def update_docs(prompts):
-    # Domain configuration for both README and Gemini
+    # Domain configuration
     domains = {
         "AI Agents & Infrastructure": {"tags": ["ai-agents", "ai-infra"], "links": []},
         "Architecture & Design": {"tags": ["architecture"], "links": []},
@@ -190,7 +186,6 @@ def update_docs(prompts):
             p for p in prompts if any(t in p["tags"] for t in config["tags"])
         ]
         if domain_prompts:
-            # Deduplicate by display_name
             seen = set()
             unique_prompts = []
             for p in domain_prompts:
@@ -249,12 +244,10 @@ def update_docs(prompts):
                     readme_list += f"- `/prompts:{p['display_name']}` - {p['description'].rstrip('.')}\n"
                 readme_list += "\n"
 
-        # Update both categories and contributing link
         readme_pattern = r"## Available Templates.*?\n(?=## 🧪 Development & Quality|## 🤝 Contributing)"
         readme_content = re.sub(
             readme_pattern, readme_list, readme_content, flags=re.DOTALL
         )
-
         with open(README_FILE, "w", encoding="utf-8") as f:
             f.write(readme_content.strip() + "\n")
 
@@ -283,8 +276,6 @@ def update_docs(prompts):
 
 if __name__ == "__main__":
     prompts = get_prompts()
-    # 1. Update the central registry
     update_registry(prompts)
-    # 2. Update all documentation from the source
     update_docs(prompts)
     print(f"\n🚀 Distributed documentation synchronized in {CATALOG_DIR}/")
