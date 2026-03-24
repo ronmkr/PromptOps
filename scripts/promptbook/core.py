@@ -214,85 +214,92 @@ def hydrate_prompt(template, variables_map):
 
     template = handle_conditionals(template)
 
-    # Regex for innermost blocks: no {{ or }} inside
-    inner_pattern = r"(\\)?\{\{\s*([^{}]+?)\s*\}\}"
+    # 1. Find all shell blocks {{$( ... )}} using balanced braces to handle nesting
+    def find_shell_ranges(text):
+        ranges = []
+        stack = 0
+        start = -1
+        i = 0
+        while i < len(text):
+            if text[i:i + 2] == "{{":
+                # Check if escaped
+                if i > 0 and text[i - 1] == "\\":
+                    i += 2
+                    continue
+                # Check if it's a shell block or we're already inside one
+                if text[i:i + 4] == "{{$(":
+                    if stack == 0:
+                        start = i
+                    stack += 1
+                    i += 4
+                    continue
+                if stack > 0:
+                    stack += 1
+                i += 2
+            elif text[i:i + 2] == "}}":
+                if stack > 0:
+                    stack -= 1
+                    if stack == 0:
+                        ranges.append((start, i + 2))
+                i += 2
+            else:
+                i += 1
+        return ranges
 
-    def resolve_block(m):
+    shell_ranges = find_shell_ranges(template)
+    
+    # 2. Tokenize shell blocks to protect them during standard variable resolution
+    tokenized_template = ""
+    last_pos = 0
+    token_map = {}
+    for i, (s, e) in enumerate(shell_ranges):
+        token = f"__PB_SHELL_{i}__"
+        token_map[token] = template[s + 2:e - 2]  # Content inside {{ }}
+        tokenized_template += template[last_pos:s] + token
+        last_pos = e
+    tokenized_template += template[last_pos:]
+
+    # 3. Resolve standard variables and env vars in the protected template
+    # Regex for standard blocks: no {{ or }} inside
+    std_pattern = r"(\\)?\{\{\s*([^{}]+?)\s*\}\}"
+
+    def resolve_std_block(m):
         escape_char, content = m.group(1), m.group(2).strip()
         if escape_char == "\\":
             return f"{{{{{content}}}}}"
         
-        # 1. Shell Execution: {{$(command)}}
-        if content.startswith("$(") and content.endswith(")"):
-            # Skip for now, handle in second phase
-            return m.group(0)
-            
-        # 2. Environment Variables: {{env.VAR}}
         if content.startswith("env."):
             return os.environ.get(content[4:].strip(), f"[Env var {content[4:].strip()} not found]")
-            
-        # 3. Standard Variables: {{var}}
+        
         return variables_map.get(content, m.group(0))
 
-    # Phase 1: Iteratively resolve standard variables and env vars (innermost first)
-    # BUT skip variables inside shell blocks to avoid unquoted injection.
-    current = template
-    for _ in range(10):
-        # Identify shell block ranges to skip them
-        shell_ranges = []
-        for sm in re.finditer(r"\{\{\s*\$\((.+?)\)\s*\}\}", current, flags=re.DOTALL):
-            shell_ranges.append(sm.span())
+    # Single pass for standard variables to respect escaping rules
+    hydrated_text = re.sub(std_pattern, resolve_std_block, tokenized_template)
 
-        def std_env_resolver(m):
-            start, end = m.span()
-            # If this match is inside any shell block, skip it
-            for s_start, s_end in shell_ranges:
-                if start >= s_start and end <= s_end:
-                    return m.group(0)
-            
-            c = m.group(2).strip()
-            if c.startswith("$("):
-                return m.group(0)
-            return resolve_block(m)
-            
-        next_text = re.sub(inner_pattern, std_env_resolver, current)
-        if next_text == current:
-            break
-        current = next_text
-
-    # Phase 2: Resolve shell blocks. Now we can use a simpler pattern because 
-    # nested standard variables are still there (unresolved because we skipped them)
-    # OR they are resolved? Wait, if we skip them, they are still {{var}}.
-    # That's good! Now we can resolve them with quoting.
-    
-    # Update std_env_resolver to ONLY skip blocks that ARE shell blocks or ARE INSIDE shell blocks.
-    # This is getting complex. Let's simplify:
-    # A shell block is {{$( ... )}}.
-    
-    def shell_resolver(text):
-        # Find all {{$( ... )}}
-        # We use a greedy match to get the outermost shell block if they were nested (rare)
-        pattern = r"(\\)?\{\{\s*\$\((.+?)\)\s*\}\}"
+    # 4. Resolve shell blocks and replace tokens
+    for token, shell_content in token_map.items():
+        # shell_content is e.g. "$(echo {{args}})"
+        inner_cmd = shell_content[2:-1].strip()
         
-        def sub_shell(m):
-            if m.group(1) == "\\":
-                return f"{{{{$({m.group(2)})}}}}"
-            cmd_template = m.group(2).strip()
-            
-            # Resolve any {{var}} inside the command WITH quoting
-            def quote_fn(mm):
-                v_name = mm.group(1).strip()
-                return shlex.quote(variables_map.get(v_name, ""))
-            
-            safe_cmd = re.sub(r"\{\{\s*(.*?)\s*\}\}", quote_fn, cmd_template)
-            try:
-                return subprocess.check_output(safe_cmd, shell=True, stderr=subprocess.STDOUT, text=True).strip()
-            except Exception as e:
-                return f"[Error: {str(e)}]"
-            
-        return re.sub(pattern, sub_shell, text)
-
-    return shell_resolver(current)
+        # Resolve any {{var}} inside the shell command WITH quoting for security
+        def quote_fn(mm):
+            v_name = mm.group(1).strip()
+            if v_name.startswith("env."):
+                val = os.environ.get(v_name[4:].strip(), "")
+            else:
+                val = variables_map.get(v_name, "")
+            return shlex.quote(val)
+        
+        safe_cmd = re.sub(r"\{\{\s*(.*?)\s*\}\}", quote_fn, inner_cmd)
+        
+        try:
+            res = subprocess.check_output(safe_cmd, shell=True, stderr=subprocess.STDOUT, text=True).strip()
+        except Exception as e:
+            res = f"[Error: {str(e)}]"
+        
+        hydrated_text = hydrated_text.replace(token, res)
+    
+    return hydrated_text
 
 
 def _collect_variables(display_name, variables, data, provided_vars):
