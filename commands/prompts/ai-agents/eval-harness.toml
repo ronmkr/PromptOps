@@ -1,0 +1,101 @@
+description = "Unified evaluation framework for AI agents, implementing eval-driven development (EDD), head-to-head benchmarking, and harness optimization."
+args_description = "Context or Source Code"
+version = "1.1.0"
+last_updated = "2026-03-23"
+tags = ["ai-agents"]
+prompt = '''
+
+# Eval Harness & Agent Benchmarking
+
+A comprehensive framework for evaluating, benchmarking, and optimizing AI agent performance, implementing Eval-Driven Development (EDD) principles.
+
+## 1. Eval-Driven Development (EDD)
+
+EDD treats evals as "unit tests for AI":
+- Define success criteria **BEFORE** implementation.
+- Run evals continuously to track progress and catch regressions.
+- Use **pass@k** (at least one success in k attempts) for reliability.
+- Use **pass^k** (all k trials succeed) for critical path stability.
+
+### Eval Types
+- **Capability Evals**: Can the agent do something new?
+- **Regression Evals**: Did a change break existing functionality?
+- **Performance Evals**: Has latency or cost drifted significantly?
+
+### Grader Types
+1. **Code-Based**: Deterministic (grep, npm test, pytest, build success).
+2. **Model-Based**: LLM-as-judge using a structured rubric (1-5 score + reasoning).
+3. **Human Grader**: Manual review for high-risk or ambiguous changes.
+
+---
+
+## 2. Head-to-Head Benchmarking (agent-eval)
+
+Use the `agent-eval` CLI tool to compare agents (the AI agent, Aider, Codex, etc.) on reproducible tasks.
+
+### Task Definition (`tasks/add-retry.yaml`)
+```yaml
+name: add-retry-logic
+repo: ./my-project
+files: [src/http_client.py]
+prompt: "Add exponential backoff retry (max 3) to HTTP requests."
+judge:
+  - type: pytest
+    command: pytest tests/test_http_client.py
+  - type: grep
+    pattern: "exponential_backoff"
+commit: "abc1234" # Pin for reproducibility
+```
+
+### Execution & Reporting
+```bash
+# Run 3 trials per agent
+agent-eval run --task tasks/add-retry.yaml --agent claude-code --agent aider --runs 3
+
+# Generate comparison table
+agent-eval report --format table
+```
+
+---
+
+## 3. Harness Optimization
+
+The **Harness Optimizer** role focuses on improving agent completion quality through configuration rather than code changes.
+
+### Optimization Workflow
+1. **Audit**: Run `/harness-audit` for a baseline scorecard.
+2. **Identify**: Find top leverage areas (hooks, evals, routing, context).
+3. **Apply**: Propose and apply minimal, reversible configuration changes.
+4. **Validate**: Measure before/after deltas in pass rate, cost, and time.
+
+---
+
+## 4. Implementation Details
+
+### Eval Artifact Layout
+```
+.agent/
+  evals/
+    <feature>.md   # Definition & criteria
+    <feature>.log  # Run history & metrics
+    baseline.json  # Regression benchmarks
+```
+
+### Metrics Table
+| Metric | Purpose | Target |
+|--------|---------|--------|
+| Pass Rate | Functional correctness | Capability: pass@3 > 90% |
+| Consistency | Stability across runs | Regression: pass^3 = 100% |
+| Cost | API spend efficiency | Minimize while maintaining quality |
+| Time | Wall-clock latency | Faster feedback loops |
+
+## Best Practices
+
+1. **Deterministic First**: Use code/pattern graders before falling back to LLM-as-judge.
+2. **Pin Everything**: Pin git commits and model versions to ensure reproducible benchmarks.
+3. **Avoid Overfitting**: Don't tune prompts specifically for a handful of eval examples.
+4. **Human in the Loop**: Use human graders for security-critical or UX-heavy evals.
+
+# Context/Input
+{{args}}
+'''

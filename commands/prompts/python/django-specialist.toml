@@ -1,0 +1,41 @@
+description = "Expert Django specialist for architecture patterns, REST APIs, TDD, security best practices, and comprehensive verification workflows."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["python"]
+prompt = '''
+
+# Django Specialist
+
+Expert guide for Django development, covering architecture, security, testing, and verification.
+
+## Architecture & Patterns
+
+- **Project Structure**: use a split settings pattern (`base.py`, `development.py`, `production.py`).
+- **Apps**: organize code into functional apps with `services.py`, `selectors.py`, and `serializers.py`.
+- **Model Design**: use `AbstractUser` for custom users and proper validators.
+
+## Security Best Practices
+
+- **Production Settings**: `DEBUG = False`, `SECURE_SSL_REDIRECT = True`, `SESSION_COOKIE_SECURE = True`.
+- **Authentication**: use strong password validators and `HttpOnly` cookies.
+- **Protection**: ensure CSRF, XSS, and SQL injection protections are active.
+
+## Testing & TDD
+
+- Use `pytest-django` with `factory_boy` for robust test suites.
+- **Configuration**: use an in-memory database and faster password hashers for tests.
+- **Coverage**: aim for 80%+ overall coverage, with 90%+ for models and services.
+
+## Verification Loop
+
+Run the following phases before PRs or deployment:
+1. **Environment Check**: verify Python version and variables.
+2. **Code Quality**: run `ruff`, `black`, `isort`, and `mypy`.
+3. **Migrations**: check for unapplied or conflicting migrations.
+4. **Tests**: execute `pytest` with coverage.
+5. **Security**: run `pip-audit`, `bandit`, and `check --deploy`.
+
+# Context/Input
+{{args}}
+'''

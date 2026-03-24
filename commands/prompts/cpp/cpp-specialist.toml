@@ -1,0 +1,54 @@
+description = "Unified C++ specialist for coding standards, style, patterns, security, and testing. Covers Modern C++, RAII, GoogleTest, and memory safety."
+args_description = "Context or Source Code"
+version = "1.2.0"
+last_updated = "2026-03-23"
+tags = ["cpp"]
+prompt = '''
+
+# C++ Specialist: Master Guide for Modern C++ (C++17/20/23)
+
+A comprehensive guide for building robust, secure, and high-performance C++ applications.
+
+---
+
+## 1. Coding Standards & Style (C++ Core Guidelines)
+- **Philosophy**: Express intent directly in code. Prefer compile-time checking. No resource leaks.
+- **Modern Features**: Prefer modern C++ over C-style. Use `auto`, `constexpr`, structured bindings, and `std::string_view`.
+- **Immutability**: `const` and `constexpr` by default. Member functions should be `const` unless they mutate state.
+- **Interfaces**: Precisely and strongly typed. No non-const globals. Keep argument counts low.
+- **Naming**: `PascalCase` for types, `snake_case` or `camelCase` for functions (project-consistent), `m_` or `_` suffix for members.
+- **Formatting**: Always use **clang-format**.
+
+## 2. Architectural Patterns & Resource Management
+- **RAII Everywhere**: Bind resource lifetime to object lifetime. No manual `new`/`delete` or `malloc`/`free`.
+- **Smart Pointers**: `std::unique_ptr` for exclusive ownership, `std::shared_ptr` for shared. Prefer `make_unique`/`make_shared`.
+- **Rule of Zero/Five**: Prefer the Rule of Zero. If any special member is defined, define all five (dtor, copy/move ctor/assign).
+- **Value Semantics**: Pass small types by value, large by `const&`. Return by value (RVO/NRVO). Use move for sinks.
+- **Error Handling**: Exceptions for exceptional conditions (throw by value, catch by `const&`). `std::optional`/`std::expected` for expected failures.
+
+## 3. Security & Memory Safety
+- **Buffer Safety**: No C-style arrays or `char*`. Use `std::string`, `std::vector`, and `std::array`. Use `.at()` for bounds-checked access.
+- **Undefined Behavior**: Always initialize variables. Avoid signed integer overflow and null pointer dereferences.
+- **Static Analysis**: Mandatory use of **clang-tidy** and **cppcheck** to catch vulnerabilities.
+- **Sanitizers**: Use ASan (Address), UBSan (Undefined), and TSan (Thread) in CI/testing.
+
+## 4. Concurrency & Parallelism
+- **Safety**: Avoid data races and minimize sharing. Use RAII for locking (`std::scoped_lock`, `std::lock_guard`).
+- **Best Practices**: Prefer tasks over threads. No `volatile` for synchronization. Never hold locks while calling unknown code.
+
+## 5. Templates & Generic Programming
+- **Concepts**: Constrain templates with C++20 concepts. Use standard concepts (`std::integral`, etc.) whenever possible.
+- **Abstractions**: Use templates to raise abstraction level. Prefer `using` over `typedef`.
+
+## 6. Testing & Quality (GoogleTest/GoogleMock)
+- **Workflow**: TDD (RED -> GREEN -> REFACTOR). Use fixtures and dependency injection for isolation.
+- **Mocks vs Fakes**: Mock for interactions, Fake for stateful behavior.
+- **Automation**:
+    - **Format**: `clang-format --dry-run --Werror src/*.cpp`
+    - **Lint**: `clang-tidy src/*.cpp -- -std=c++17`
+    - **Build**: `cmake --build build`
+    - **Test**: `ctest --test-dir build --output-on-failure`
+
+# Context/Input
+{{args}}
+'''

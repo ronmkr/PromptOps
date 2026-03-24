@@ -1,0 +1,80 @@
+description = "Unified guide for autonomous AI agent loops. Covers sequential pipelines, REPLs, infinite generation, PR loops, and RFC-driven DAG orchestration."
+args_description = "Context or Source Code"
+version = "1.1.0"
+last_updated = "2026-03-23"
+tags = ["ai-agents"]
+prompt = '''
+
+# Autonomous Agent Loops
+
+Patterns, architectures, and reference implementations for running AI agents autonomously, from simple sequential pipelines to complex RFC-driven multi-agent systems.
+
+---
+
+## 1. Loop Selection Matrix
+
+| Pattern | Complexity | Best For |
+|---------|-----------|----------|
+| **Sequential Pipeline** | Low | Daily dev steps, scripted workflows, CI/CD |
+| **NanoClaw REPL** | Low | Interactive persistent sessions with history |
+| **Infinite Agentic Loop** | Medium | Parallel creative generation from a spec |
+| **Continuous PR Loop** | Medium | Multi-day iterative projects with CI gates |
+| **De-Sloppify Pass** | Add-on | Quality cleanup after any implementation step |
+| **RFC-Driven DAG** | High | Large features, multi-unit parallel work |
+
+---
+
+## 2. Loop Patterns
+
+### A. Sequential Pipeline (`agent -p`)
+The simplest loop. Chain non-interactive calls where each step has a clear, focused prompt.
+- **Isolate Steps**: Fresh context per call prevents context bleed.
+- **Exit Codes**: Use `set -e` to stop the pipeline on any failure.
+
+### B. NanoClaw REPL
+A session-aware REPL that persists conversation history to Markdown files.
+- **Context Persistence**: History is loaded and updated across restarts.
+- **Interactive**: Better for exploration than pure automation.
+
+### C. Infinite Agentic Loop (disler pattern)
+A two-prompt system:
+1. **Orchestrator**: Parses spec, plans iterations, and assigns unique creative directions.
+2. **Sub-Agents**: Execute assigned missions in parallel waves.
+
+### D. Continuous PR Loop (AnandChowdhary pattern)
+A production-grade loop that:
+1. Creates a branch and runs implementation.
+2. Commits and creates a PR.
+3. Polls CI checks and auto-fixes failures via new agent passes.
+4. Merges upon success.
+*Key Innovation: Use a `SHARED_TASK_NOTES.md` file to persist context between iterations.*
+
+### E. The De-Sloppify Pattern
+Instead of using negative instructions in the implementation prompt (which can degrade quality), add a separate cleanup pass:
+- Remove redundant type checks, console logs, and "slop".
+- Run tests to ensure the cleanup didn't break functionality.
+
+### F. RFC-Driven DAG (Ralphinho pattern)
+The most sophisticated pattern for large features:
+1. **Decomposition**: AI breaks an RFC into a dependency DAG of work units.
+2. **Quality Pipelines**: Each unit runs through a tiered Research → Plan → Implement → Test → Review pipeline.
+3. **Merge Queue**: Units land via a rebase-and-test queue; evicted units re-enter with conflict context.
+
+---
+
+## 3. Best Practices & Design Principles
+
+1. **Deterministic Gates**: Use code-based graders (tests, builds) before LLM-as-judge.
+2. **Context Bridging**: Use persistent files (like `SHARED_TASK_NOTES.md`) to bridge the gap between independent agent calls.
+3. **Separate Author & Reviewer**: The agent reviewing the code should not be the one that wrote it.
+4. **Author-Bias Elimination**: Different tiers (trivial, small, medium, large) get different pipeline depths.
+5. **Recovery with Context**: When a loop fails or a unit is evicted from the merge queue, feed the specific error/conflict context back into the next iteration.
+
+## 4. Anti-Patterns to Avoid
+- **Infinite Churn**: Always have `max-runs`, `max-cost`, or a completion signal.
+- **Blind Retries**: Never retry the same failure without adding new context or feedback.
+- **Unbounded Context**: Compact the context after milestones to prevent performance degradation.
+
+# Context/Input
+{{args}}
+'''

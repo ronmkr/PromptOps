@@ -1,6 +1,6 @@
 ---
 name: "✨ New Prompt Request"
-about: Suggest a new prompt template for the PromptOps library
+about: Suggest a new prompt template for the promptbook library
 title: "[REQUEST] <Proposed Prompt Name>"
 labels: enhancement
 assignees: ''

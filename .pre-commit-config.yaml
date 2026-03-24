@@ -6,7 +6,13 @@ repos:
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-added-large-files
-      - id: check-toml
+        args: ['--maxkb=2000']
+
+  - repo: https://github.com/ComPWA/taplo-pre-commit
+    rev: v0.9.3
+    hooks:
+      - id: taplo-format
+      - id: taplo-lint
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.1.9
@@ -26,14 +32,21 @@ repos:
 
       - id: rust-fmt
         name: Rust Format
-        entry: bash -c "cd promptops-tui && cargo fmt -- --check"
+        entry: bash -c "cd promptbook-tui && cargo fmt -- --check"
         language: system
         files: \.rs$
         pass_filenames: false
 
       - id: rust-clippy
         name: Rust Clippy
-        entry: bash -c "cd promptops-tui && cargo clippy -- -D warnings"
+        entry: bash -c "cd promptbook-tui && cargo clippy -- -D warnings"
         language: system
         files: \.rs$
+        pass_filenames: false
+
+      - id: sync-docs
+        name: Sync Documentation
+        entry: make check-sync
+        language: system
+        files: ^commands/prompts/.*\.toml$
         pass_filenames: false

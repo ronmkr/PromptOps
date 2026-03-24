@@ -11,7 +11,7 @@ assignees: ''
 What is the name of the proposed category?
 
 ### ❓ Why this category?
-Why should PromptOps include this category? How does it benefit the AI CLI community?
+Why should promptbook include this category? How does it benefit the AI CLI community?
 
 ### 🛠️ Example Prompts
 List 3-5 examples of prompts that would fit into this category.

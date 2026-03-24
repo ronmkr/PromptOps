@@ -1,0 +1,36 @@
+description = "Deeply explain obscure terminal commands/flags."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["shell"]
+prompt = '''
+
+
+# CLI Command Explainer
+
+Please provide a deep, easy-to-understand explanation of the following terminal command, pipeline, or script:
+
+```
+{{args}}
+```
+
+Provide your analysis in the following format:
+
+  ## 1. High-Level Summary
+What does this entire command achieve in one simple sentence?
+
+  ## 2. Step-by-Step Breakdown
+Break down every single component, utility, and pipe `|`:
+- Explain the base command.
+- Explain what every flag/argument means (e.g., what does the `-p` or `-aux` actually stand for?).
+- Explain how data is flowing between piped commands.
+
+  ## 3. Safety Warning
+- Is this command destructive? (e.g., Does it delete files, overwrite data, or alter system state?)
+- Are there any dangerous assumptions it makes?
+
+  ## 4. Modern Alternatives
+If this is an archaic or complex command, is there a simpler, modern alternative (e.g., using `fd` instead of `find`, or `rg` instead of `grep`)?
+
+
+'''

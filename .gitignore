@@ -23,13 +23,11 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-
 # Rust
 target/
-promptops-tui/target/
+promptbook-tui/target/
 Cargo.lock.bak
 **/*.rs.bk
-
 # IDEs / Editors
 .vscode/
 .idea/
@@ -40,18 +38,15 @@ Cargo.lock.bak
 .project
 .pydevproject
 .settings/
-
 # OS files
 Thumbs.db
 desktop.ini
 .DS_Store?
 .Spotlight-V100
 .Trashes
-
 # Logs
 *.log
 logs/
-
 # Temporary files
 tmp/
 temp/
@@ -61,9 +56,9 @@ scripts/tmp_*
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
-
 # Project Specific
 # (Add any specific ignore patterns here)
-
 .gemini/
 gha-creds-*.json
+TO-DO
+.env

@@ -1,4 +1,4 @@
-name: CI - PromptOps Workflow
+name: CI - promptbook Workflow
 
 on:
   push:
@@ -48,28 +48,19 @@ jobs:
       - name: Cache Cargo Dependencies
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: "promptops-tui -> target"
+          workspaces: "promptbook-tui -> target"
 
       - name: Build Rust TUI (Debug)
-        run: cd promptops-tui && cargo build
+        run: cd promptbook-tui && cargo build
 
       - name: Run Rust Unit Tests
-        run: cd promptops-tui && cargo test
+        run: cd promptbook-tui && cargo test
 
       - name: Run CLI Helper Tests
         run: make test
 
       - name: Verify Prompt Catalog Synchronization
-        run: |
-          make docs
-          if [ -n "$(git status --porcelain docs/catalog/ README.md GEMINI.md)" ]; then
-            echo "::error::Documentation catalogs or README are out of sync with prompt templates!"
-            echo "::notice::Please run 'make docs' locally and commit the changes before merging."
-            git diff docs/catalog/ README.md GEMINI.md
-            exit 1
-          else
-            echo "✅ Domain catalogs are up to date."
-          fi
+        run: make check-sync
 
   create-tag-on-push:
     name: Tag Release

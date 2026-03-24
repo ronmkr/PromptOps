@@ -1,0 +1,34 @@
+description = "Create realistic JSON/CSV mock data schemas for testing."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["testing"]
+prompt = '''
+
+
+# Mock Data Generator
+
+Please generate realistic, diverse mock data for testing purposes based on the following schema or requirements:
+
+```
+{{args}}
+```
+
+Please follow these guidelines:
+
+  ## 1. Realism
+- Do not use generic placeholders like "test1", "test2". Use realistic names, addresses, dates, and text strings.
+- Ensure logical consistency (e.g., if a user is from the UK, their phone number should match UK formats).
+
+  ## 2. Edge Cases
+Include at least a few records that contain:
+- Null or missing optional fields.
+- Extremely long strings.
+- Special characters / Unicode (e.g., accents, emojis).
+- Boundary values for numbers and dates.
+
+  ## 3. Format
+Provide the output in valid, well-formatted JSON (an array of objects) unless CSV is explicitly requested.
+
+
+'''

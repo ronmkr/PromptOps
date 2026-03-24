@@ -1,9 +1,9 @@
-# PromptOps Makefile
+# promptbook Makefile
 
 .PHONY: help test validate docs evaluate all clean sync-version tui lint fmt setup
 
 help:
-	@echo "PromptOps Developer Tools"
+	@echo "promptbook Developer Tools"
 	@echo "-------------------------"
 	@echo "make setup     - Install dependencies and pre-commit hooks"
 	@echo "make validate  - Run metadata and structure validation on all prompts"
@@ -30,25 +30,34 @@ lint:
 	@echo "Running Python linting (ruff)..."
 	@ruff check .
 	@echo "Running Rust linting (clippy)..."
-	@cd promptops-tui && cargo clippy -- -D warnings
+	@cd promptbook-tui && cargo clippy -- -D warnings
 	@echo "Checking Rust formatting..."
-	@cd promptops-tui && cargo fmt -- --check
+	@cd promptbook-tui && cargo fmt -- --check
 
 fmt:
 	@echo "Formatting Python code (ruff)..."
 	@ruff format .
 	@echo "Formatting Rust code (cargo fmt)..."
-	@cd promptops-tui && cargo fmt
+	@cd promptbook-tui && cargo fmt
 
 test:
 	@echo "Running CLI helper tests..."
-	@python3 scripts/test_promptops.py
+	@python3 scripts/test_promptbook.py
 	@echo "Running validation unit tests..."
 	@python3 scripts/test_validation.py
 
 docs:
 	@echo "Syncing all documentation..."
 	@python3 scripts/sync_all_docs.py
+
+check-sync: docs
+	@if [ -n "$$(git status --porcelain docs/catalog/ README.md GEMINI.md CLAUDE.md prompts.json)" ]; then \
+		echo "Error: Documentation catalogs, README, or registry are out of sync!"; \
+		echo "Please run 'make docs' locally and commit the changes."; \
+		git diff docs/catalog/ README.md GEMINI.md CLAUDE.md prompts.json; \
+		exit 1; \
+	fi
+	@echo "✅ All documentation is in sync."
 
 sync-version:
 	@if [ -z "$(VERSION)" ]; then \
@@ -58,16 +67,16 @@ sync-version:
 	@echo "Syncing all versions to $(VERSION)..."
 	@python3 scripts/sync_all_versions.py $(VERSION)
 
-all: validate test lint docs
+all: validate test lint docs check-sync
 	@echo "✅ All checks passed and documentation synchronized."
 
 tui:
 	@echo "Building and running Rust TUI..."
-	@cd promptops-tui && cargo run --release
+	@cd promptbook-tui && cargo run --release
 
 clean:
 	@echo "Cleaning up..."
 	@find . -type d -name "__pycache__" -exec rm -rf {} +
 	@rm -rf scripts/__pycache__
-	@rm -rf scripts/promptops/__pycache__
+	@rm -rf scripts/promptbook/__pycache__
 	@rm -f scripts/tmp_*

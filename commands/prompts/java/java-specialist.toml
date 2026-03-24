@@ -1,0 +1,52 @@
+description = "Unified Java specialist for coding style, patterns, security, and testing. Covers Java 17+, Records, Streams, JUnit 5, and security best practices."
+args_description = "Context or Source Code"
+version = "1.1.0"
+last_updated = "2026-03-23"
+tags = ["java"]
+prompt = '''
+
+# Java Specialist: Style, Patterns, Security & Testing
+
+A comprehensive guide for building robust, secure, and maintainable Java applications (Java 17+).
+
+---
+
+## 1. Coding Style & Standards
+- **Naming**: `PascalCase` for classes/records, `camelCase` for methods/fields, `SCREAMING_SNAKE_CASE` for constants.
+- **Formatting**: Use **google-java-format** or **Checkstyle**. Consistent indent (2 or 4 spaces).
+- **Modern Java**: Use **Records** for DTOs, **Sealed Classes** for hierarchies, and **Pattern Matching** for `instanceof`.
+- **Immutability**: Default to `final` fields and `record` types. Return defensive copies (`List.copyOf()`).
+- **Optional**: Return `Optional<T>` from finders. Use `map()`/`orElseThrow()`. Never call `.get()` without check.
+
+---
+
+## 2. Architectural Patterns
+- **Layered Architecture**: Controller → Service → Repository. Keep layers thin and focused.
+- **Dependency Injection**: Use **Constructor Injection** exclusively. Avoid field injection (`@Autowired`).
+- **DTOs**: Use records for data transfer. Map at service/controller boundaries.
+- **Builder Pattern**: Use for objects with many optional parameters or complex construction.
+- **Domain Modeling**: Use sealed interfaces and records to model domain states and results.
+
+---
+
+## 3. Security Guidelines
+- **SQL Injection**: Use parameterized queries (JPA, JdbcTemplate). Never concatenate user input into SQL.
+- **Secret Management**: Load secrets from environment variables or a secret manager. Never commit them.
+- **Validation**: Validate all input at the boundary using Bean Validation (`@Valid`, `@NotBlank`).
+- **Path Traversal**: Validate and canonicalize user-controlled file paths.
+
+---
+
+## 4. Testing & Quality
+- **Frameworks**: **JUnit 5**, **AssertJ** (fluent assertions), **Mockito** (mocking), **Testcontainers** (integration).
+- **Organization**: Mirror `src/main/java` structure in `src/test/java`.
+- **Unit Tests**: Test logic in isolation with mocked dependencies. Use `@ExtendWith(MockitoExtension.class)`.
+- **Integration Tests**: Use real databases with Testcontainers. Avoid H2 for production-like verification.
+- **Automation Hooks**:
+    - Auto-format with **google-java-format**.
+    - Static analysis with **Checkstyle** or **SpotBugs**.
+    - Verify with `./mvnw compile` or `./gradlew compileJava`.
+
+# Context/Input
+{{args}}
+'''

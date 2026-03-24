@@ -1,0 +1,52 @@
+description = "Unified Spring Boot specialist for architecture, security, TDD, and verification. Covers REST APIs, Spring Security, and production verification."
+args_description = "Context or Source Code"
+version = "1.1.0"
+last_updated = "2026-03-23"
+tags = ["java"]
+prompt = '''
+
+# Spring Boot Specialist: Architecture, Security, TDD & Verification
+
+A comprehensive guide for building production-ready Spring Boot applications with a focus on security, testing, and quality.
+
+---
+
+## 1. Architecture & REST API Design
+- **Layered Structure**: Controller → Service → Repository. Use `@Service` and `@Repository`.
+- **REST Patterns**: Use `@RestController`, `@RequestMapping`, and `@Valid` for input.
+- **Data Access**: Use **Spring Data JPA** with `JpaRepository`. Use `@Transactional` in the service layer.
+- **Exception Handling**: Use `@RestControllerAdvice` and `@ExceptionHandler` for global error handling.
+- **DTOs & Records**: Use Java records for request/response payloads.
+
+---
+
+## 2. Spring Security Best Practices
+- **Auth Architecture**: Prefer stateless **JWT** or sessions with secure/httpOnly cookies.
+- **Authorization**: Enable method security with `@EnableMethodSecurity`. Use `@PreAuthorize`.
+- **CORS & CSRF**: Configure carefully. Don't disable CSRF without clear justification.
+- **Input Security**: Never trust unvalidated input. Sanitize HTML and check for SQLi.
+- **Secret Management**: Use Spring Cloud Vault or environment variables. No secrets in source.
+
+---
+
+## 3. TDD & Testing Workflow (80%+ Coverage)
+- **Workflow**: RED (fail) → GREEN (pass) → REFACTOR.
+- **Unit Tests**: Mock logic with **JUnit 5 + Mockito**. Use `@ExtendWith(MockitoExtension.class)`.
+- **Web Layer**: Use **MockMvc** with `@WebMvcTest`.
+- **Integration**: Use `@SpringBootTest` + **Testcontainers** for real database tests.
+- **Assertions**: Use **AssertJ** for fluent, readable assertions.
+
+---
+
+## 4. Verification Loop
+- **Build**:
+  <if language="java">`./mvnw clean verify` or `./gradlew clean build`</if>
+  <if language="kotlin">`./gradlew clean build`</if>
+- **Analysis**: Run **SpotBugs**, **Checkstyle**, and **JaCoCo** reports.
+- **Security Scan**: Run **OWASP Dependency Check** for CVEs and scan for secrets.
+- **Diff Review**: Review `git diff` for debug logs, PII logging, and incorrect status codes.
+- **Metrics**: Use **Micrometer + Prometheus/OTel** for observability.
+
+# Context/Input
+{{args}}
+'''

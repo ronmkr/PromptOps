@@ -51,7 +51,7 @@ def run_evaluation():
     total_tests = 0
     passed_tests = 0
 
-    print(f"🚀 Starting PromptOps Golden Tests using {model_id}...\n")
+    print(f"🚀 Starting promptbook Golden Tests using {model_id}...\n")
 
     for dataset_file in dataset_files:
         with open(dataset_file, "r", encoding="utf-8") as f:

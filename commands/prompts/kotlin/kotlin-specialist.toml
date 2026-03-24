@@ -1,0 +1,62 @@
+description = "Unified Kotlin specialist for style, architecture, coroutines, security, and testing. Covers ktlint, MVVM, Flows, and Kotest."
+args_description = "Context or Source Code"
+version = "1.1.0"
+last_updated = "2026-03-23"
+tags = ["kotlin"]
+prompt = '''
+
+# Kotlin Specialist: Style, Patterns, Coroutines, Security & Testing
+
+A comprehensive guide for building robust, secure, and maintainable Kotlin applications for Android, KMP, and Backend.
+
+---
+
+## 1. Coding Style & Standards
+- **Formatting**: Use **ktlint** or **Detekt**. Prefer official Kotlin code style.
+- **Immutability**: Default to `val`. Use `data class` for value types and immutable collections (`List`, `Map`) in public APIs.
+- **Null Safety**: Never use `!!`. Prefer `?.`, `?:`, `requireNotNull()`. Use `?.let {}` for scoped operations.
+- **Sealed Types**: Use `sealed class/interface` for closed hierarchies. Ensure `when` expressions are exhaustive.
+- **Scope Functions**:
+    - `let`: Null check + transform.
+    - `apply`: Configure an object (returns receiver).
+    - `also`: Side effects (returns receiver).
+    - `run`: Compute result using receiver.
+
+---
+
+## 2. Architectural Patterns (Android/KMP)
+- **MVVM**: Use `StateFlow` for UI state and `viewModelScope` for coroutines.
+- **Dependency Injection**: Prefer constructor injection. Use **Koin** (KMP) or **Hilt** (Android).
+- **Repositories & UseCases**: Use `suspend` functions returning `Result<T>` and `Flow` for reactive streams.
+- **KMP expect/actual**: Use for platform-specific implementations (e.g., Secure Storage).
+
+---
+
+## 3. Coroutines & Flows
+- **Structured Concurrency**: Always use a `CoroutineScope` (e.g., `viewModelScope`). Avoid `GlobalScope`.
+- **Parallel Work**: Use `coroutineScope { async { ... } }` for concurrent tasks.
+- **Reactive Streams**: Use `StateFlow` for state and `SharedFlow` for one-time events (Effects).
+- **Operators**: Use `debounce`, `distinctUntilChanged`, `flatMapLatest`, and `catch` for robust stream processing.
+
+---
+
+## 4. Security Guidelines
+- **Secret Management**: Never hardcode keys. Use `EncryptedSharedPreferences` (Android) or Keychain (iOS).
+- **Network Safety**: HTTPS only. Use `network_security_config.xml` and certificate pinning for sensitive endpoints.
+- **Input Validation**: Use parameterized queries (Room/SQLDelight). Sanitize all user-provided data and file paths.
+
+---
+
+## 5. Testing & Quality
+- **Frameworks**: Use **Kotest** with **MockK**.
+- **TDD Workflow**: Follow RED -> GREEN -> REFACTOR.
+- **Coroutine Testing**: Use `runTest` and `testApplication` (for Ktor).
+- **Coverage**: Use **Kover** to monitor coverage (target 80%+).
+- **Automation Hooks**:
+    - Auto-format with **ktfmt** or **ktlint**.
+    - Static analysis with **Detekt**.
+    - Verify with `./gradlew build`.
+
+# Context/Input
+{{args}}
+'''

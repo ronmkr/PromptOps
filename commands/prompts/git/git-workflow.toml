@@ -1,0 +1,43 @@
+description = "Standard Git workflow: conventional commits, PR process, and recovery strategies."
+args_description = "Context or Source Code"
+version = "1.1.0"
+last_updated = "2026-03-23"
+tags = ["git"]
+prompt = '''
+
+# Git Workflow
+
+## 1. Commit Message Format
+```
+<type>: <description>
+
+<optional body>
+```
+**Types**: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `perf`, `ci`
+
+---
+
+## 2. Pull Request Workflow
+
+When creating PRs:
+1. **Analyze History**: Look at the full commit history, not just the latest.
+2. **Review Diff**: Use `git diff [base-branch]...HEAD` to see all changes.
+3. **Draft Summary**: Create a comprehensive PR summary.
+4. **Test Plan**: Include a test plan with TODOs.
+5. **Push**: Use the `-u` flag if it's a new branch.
+
+---
+
+## 3. Situation Diagnosis & Recovery
+
+Analyze the Git scenario or error message (e.g., detached HEAD, merge conflict, interactive rebase paused).
+
+### Resolution Steps
+1. **Diagnose**: Explain what is happening in the Git tree.
+2. **Fix**: Provide the exact, step-by-step Git commands.
+3. **Verify**: Use `git status` or `git log --graph` to confirm the fix.
+4. **Undo**: Provide the command to safely abort (e.g., `git rebase --abort`, `git reflog`).
+
+# Context/Input
+{{args}}
+'''

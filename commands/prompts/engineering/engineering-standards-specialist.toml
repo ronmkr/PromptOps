@@ -1,0 +1,104 @@
+description = "Unified engineering standards for coding style, design patterns, automation hooks, and performance optimization across the development lifecycle."
+args_description = "Context or Source Code"
+version = "1.1.0"
+last_updated = "2026-03-22"
+tags = ["engineering"]
+
+prompt = """
+# Common Engineering Standards
+
+This document defines the unified engineering standards for development, including coding style, design patterns, automation hooks, and performance optimization.
+
+## 1. Coding Style & Quality
+
+### Core Principles
+- **Readability**: Code is read more than written; prefer clear names over comments.
+- **KISS/DRY/YAGNI**: Keep it simple, don't repeat logic, and don't build features until needed.
+- **Immutability (CRITICAL)**: ALWAYS create new objects; NEVER mutate existing ones.
+- **File Organization**: Prefer many small, focused files (200-400 lines).
+
+<if language="typescript">
+### TypeScript & React Standards
+- **Naming**: `camelCase` for variables; `PascalCase` for components.
+- **Type Safety**: Avoid `any`; use Zod for schema validation.
+- **Hooks**: Use functional components and custom hooks.
+</if>
+
+<if language="python">
+### Python Specifics
+- Follow **PEP 8** conventions.
+- Use **type annotations** for all function signatures.
+- Tooling: `black` for formatting, `ruff` for linting.
+</if>
+
+<if language="go">
+### Go Standards
+- Handle errors as first-class values (`if err != nil`).
+- Use `gofmt` and `golangci-lint`.
+- Naming: `PascalCase` for exported, `camelCase` for internal.
+</if>
+
+### Testing Standards
+- **AAA Pattern**: Arrange, Act, Assert.
+- **Naming**: Use descriptive test names (e.g., `returns empty array when no markets match query`).
+
+---
+
+## 2. Common Design Patterns
+
+### Repository Pattern
+Encapsulate data access behind a consistent interface. Business logic should depend on abstractions, not storage details, enabling easier testing and swapping of data sources.
+
+### API Response Format
+Use a consistent envelope for all responses:
+- `success`: Boolean indicator.
+- `data`: The payload (nullable on error).
+- `error`: Error message/code (nullable on success).
+- `meta`: Metadata for pagination (total, page, limit).
+
+### Skeleton Projects
+Before starting new work, search for and evaluate battle-tested skeleton projects. Use proven structures as a foundation rather than starting from scratch.
+
+---
+
+## 3. Hooks & Automation
+
+### Hook Types
+- **PreToolUse**: Validation or parameter modification before execution.
+- **PostToolUse**: Auto-formatting or post-check after execution.
+- **Stop**: Final verification when a session ends.
+
+### Automation Recommendations
+<if language="python">
+- **Python**: Use `black` and `ruff` for formatting and linting on save.
+</if>
+<if language="typescript">
+- **TypeScript**: Use `biome` or `prettier` for instant formatting.
+</if>
+<if language="go">
+- **Go**: Use `go fmt` and `go vet` in your save hooks.
+</if>
+- **Logging**: Prefer structured logging over `print()` statements.
+
+---
+
+## 4. Performance & Resource Management
+
+### Model Selection Strategy
+- **Haiku**: Use for lightweight tasks, frequent invocations, and worker agents (cost-efficient).
+- **Sonnet**: Use for main development, orchestration, and complex coding tasks.
+- **Opus**: Use for deep architectural reasoning and complex research.
+
+### Context Management
+- Avoid the last 20% of the context window for large refactors or multi-file implementations.
+- Use **Plan Mode** for complex tasks to ensure a structured approach and minimize context bloat.
+- Leverage **Extended Thinking** for deep reasoning, but be mindful of the token budget.
+
+### Build Troubleshooting
+If a build fails, resolve errors incrementally. Analyze the error, fix the specific issue, and verify before proceeding.
+
+---
+
+# Context/Input
+{{args}}
+"""

@@ -8,7 +8,7 @@ from unittest.mock import patch
 
 # Import the core logic directly
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from promptops import core, utils  # noqa: E402
+from promptbook import core, utils  # noqa: E402
 
 
 class TestFeaturesExtended(unittest.TestCase):
@@ -40,7 +40,7 @@ class TestFeaturesExtended(unittest.TestCase):
                 f.write("sensitive    = true\n")
             f.write(f'prompt      = """\n{prompt_content}\n"""\n')
 
-    @patch("promptops.core.copy_to_clipboard")
+    @patch("promptbook.core.copy_to_clipboard")
     def test_use_prompt_no_copy_flag(self, mock_copy):
         mock_copy.return_value = True
         with patch("sys.stdout", new=io.StringIO()) as fake_out:
@@ -53,7 +53,7 @@ class TestFeaturesExtended(unittest.TestCase):
             # Should NOT have called copy_to_clipboard
             mock_copy.assert_not_called()
 
-    @patch("promptops.core.copy_to_clipboard")
+    @patch("promptbook.core.copy_to_clipboard")
     @patch("builtins.input", return_value="y")
     def test_sensitive_prompt_warning_confirm(self, mock_input, mock_copy):
         mock_copy.return_value = True
@@ -69,7 +69,7 @@ class TestFeaturesExtended(unittest.TestCase):
                 mock_copy.assert_called_once()
                 self.assertIn("Prompt copied to clipboard", fake_err.getvalue())
 
-    @patch("promptops.core.copy_to_clipboard")
+    @patch("promptbook.core.copy_to_clipboard")
     @patch("builtins.input", return_value="n")
     def test_sensitive_prompt_warning_decline(self, mock_input, mock_copy):
         mock_copy.return_value = True
@@ -82,7 +82,7 @@ class TestFeaturesExtended(unittest.TestCase):
                 mock_copy.assert_not_called()
                 self.assertIn("Clipboard copy cancelled", fake_err.getvalue())
 
-    @patch("promptops.core.copy_to_clipboard")
+    @patch("promptbook.core.copy_to_clipboard")
     def test_sensitive_prompt_auto_confirm(self, mock_copy):
         mock_copy.return_value = True
         with patch("sys.stdout", new=io.StringIO()):

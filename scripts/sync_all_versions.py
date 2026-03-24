@@ -17,7 +17,7 @@ def sync_versions(new_version):
         print(f"Updated {extension_path}")
 
     # 2. Update Cargo.toml
-    cargo_path = "promptops-tui/Cargo.toml"
+    cargo_path = "promptbook-tui/Cargo.toml"
     if os.path.exists(cargo_path):
         with open(cargo_path, "r") as f:
             content = f.read()

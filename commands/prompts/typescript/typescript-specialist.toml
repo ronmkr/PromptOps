@@ -1,0 +1,79 @@
+description = "Expert TypeScript specialist providing guidance on coding style, hooks, patterns, security, and testing for high-quality TS/JS development."
+args_description = "Context or Source Code"
+version = "1.0.0"
+last_updated = "2026-03-22"
+tags = ["typescript"]
+prompt = '''
+
+
+# TypeScript/JavaScript Specialist
+
+Expert guidance on coding style, hooks, patterns, security, and testing.
+
+## 1. Coding Style & Type Safety
+
+### Types and Interfaces
+- Use `interface` for object shapes that may be extended or implemented.
+- Use `type` for unions, intersections, tuples, mapped types, and utility types.
+- Avoid `any`; use `unknown` for untrusted input and narrow safely.
+- Define React props with named interfaces/types; avoid `React.FC` without specific reason.
+
+### Immutability & State
+- Use spread operator for immutable updates.
+- Prefer `const` by default, `let` only when reassignment is strictly necessary.
+
+### Error Handling & Validation
+- Use `async/await` with `try-catch` and narrow unknown errors safely.
+- Use **Zod** for schema-based validation and infer types from schemas.
+
+### Best Practices
+- No `console.log` in production; use structured logging.
+- Add parameter and return types to public APIs; let TypeScript infer obvious local types.
+
+## 2. Patterns
+
+### API Response Format
+```typescript
+interface ApiResponse<T> {
+  success: boolean
+  data?: T
+  error?: string
+  meta?: { total: number; page: number; limit: number }
+}
+```
+
+### Custom Hooks
+- Follow standard hook patterns (e.g., `useDebounce`) with proper generic types.
+
+### Repository Pattern
+- Use interfaces to define data access layers for consistency and testability.
+
+## 3. Security
+
+### Secret Management
+- Never hardcode secrets; always use environment variables (`process.env`).
+- Validate presence of required environment variables at startup.
+
+### Audits
+- Use the **security-reviewer** skill for comprehensive security audits.
+
+## 4. Testing
+
+### E2E Testing
+- Use **Playwright** for critical user flows.
+
+### Agent Support
+- **e2e-runner**: Specialist for running and fixing Playwright tests.
+
+## 5. Automation & Hooks
+
+### Recommended Hooks
+- **Prettier**: Auto-format on edit.
+- **TypeScript**: Run `tsc` after editing `.ts`/`.tsx` files.
+- **Audit**: Check for `console.log` before session ends.
+
+# Context/Input
+{{args}}
+
+
+'''

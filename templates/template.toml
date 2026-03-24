@@ -1,29 +1,22 @@
-description      = "A concise, one-sentence description of the prompt's purpose."
+description = "A concise, one-sentence description of the prompt's purpose."
 args_description = "A friendly label for the input (e.g. 'Source Code')"
-version          = "1.0.0"
-last_updated     = "2026-03-21"
-tags             = ["example-tag", "category"]
-
-prompt       = """
+version = "1.0.0"
+last_updated = "2026-03-21"
+tags = ["example-tag", "category"]
+prompt = """
   # Expert Tool Name
-
 Provide a clear and descriptive high-level instruction here.
-
   ## 1. Context & Inputs
 Analyze the following input:
-
 ```
 {{args}}
 ```
-
   ## 2. Specific Instructions
 - Instruction 1: Focus on X.
 - Instruction 2: Ensure Y is followed.
 - Instruction 3: Handle edge cases for Z.
-
   ## 3. Output Format
 Specify exactly how the AI should structure its response (e.g., Markdown headers, code blocks, lists).
-
   ## 4. Examples (Optional)
 Provide a brief example of a good output if necessary.
 """
