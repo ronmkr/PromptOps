@@ -7,14 +7,14 @@ pub fn handle_navigation_input(app: &mut AppState, event: KeyEvent) {
     match event.code {
         KeyCode::Char('q') => app.should_quit = true,
         KeyCode::Down | KeyCode::Char('j') => {
-            if event.modifiers.contains(KeyModifiers::CONTROL) {
+            if app.focus == Focus::Details || event.modifiers.contains(KeyModifiers::CONTROL) {
                 handle_scroll_input(app, KeyCode::Down);
             } else {
                 app.next();
             }
         }
         KeyCode::Up | KeyCode::Char('k') => {
-            if event.modifiers.contains(KeyModifiers::CONTROL) {
+            if app.focus == Focus::Details || event.modifiers.contains(KeyModifiers::CONTROL) {
                 handle_scroll_input(app, KeyCode::Up);
             } else {
                 app.previous();
@@ -34,12 +34,16 @@ pub fn handle_navigation_input(app: &mut AppState, event: KeyEvent) {
         KeyCode::Char('b') if event.modifiers.contains(KeyModifiers::CONTROL) => {
             handle_scroll_input(app, KeyCode::PageUp)
         }
-        KeyCode::Right | KeyCode::Tab | KeyCode::Char('l') => {
-            app.focus = Focus::Prompts;
-        }
-        KeyCode::Left | KeyCode::Char('h') => {
-            app.focus = Focus::Categories;
-        }
+        KeyCode::Right | KeyCode::Tab | KeyCode::Char('l') => match app.focus {
+            Focus::Categories => app.focus = Focus::Prompts,
+            Focus::Prompts => app.focus = Focus::Details,
+            _ => app.focus = Focus::Categories,
+        },
+        KeyCode::Left | KeyCode::Char('h') => match app.focus {
+            Focus::Details => app.focus = Focus::Prompts,
+            Focus::Prompts => app.focus = Focus::Categories,
+            _ => app.focus = Focus::Details,
+        },
         KeyCode::Char('/') => {
             app.last_focus = app.focus.clone();
             app.focus = Focus::Search;
@@ -236,5 +240,70 @@ fn start_hydration(app: &mut AppState, prompt: Prompt) {
             error_message: None,
         });
         app.focus = Focus::InputModal;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::model::{AppState, Focus, Prompt};
+
+    fn mock_app() -> AppState {
+        let p = Prompt {
+            name: "test".to_string(),
+            version_id: None,
+            description: "desc".to_string(),
+            args_description: "args".to_string(),
+            version: "1.0.0".to_string(),
+            last_updated: "2024-01-01".to_string(),
+            tags: vec!["tag".to_string()],
+            sensitive: false,
+            prompt: "hello {{args}}".to_string(),
+            metadata: HashMap::new(),
+        };
+        AppState::new(vec![p])
+    }
+
+    #[test]
+    fn test_focus_navigation_cycle() {
+        let mut app = mock_app();
+        assert_eq!(app.focus, Focus::Categories);
+
+        // Right from Categories -> Prompts
+        handle_navigation_input(&mut app, KeyEvent::new(KeyCode::Right, KeyModifiers::NONE));
+        assert_eq!(app.focus, Focus::Prompts);
+
+        // Right from Prompts -> Details
+        handle_navigation_input(&mut app, KeyEvent::new(KeyCode::Right, KeyModifiers::NONE));
+        assert_eq!(app.focus, Focus::Details);
+
+        // Right from Details -> Categories (Cycle)
+        handle_navigation_input(&mut app, KeyEvent::new(KeyCode::Right, KeyModifiers::NONE));
+        assert_eq!(app.focus, Focus::Categories);
+
+        // Tab should also work
+        handle_navigation_input(&mut app, KeyEvent::new(KeyCode::Tab, KeyModifiers::NONE));
+        assert_eq!(app.focus, Focus::Prompts);
+    }
+
+    #[test]
+    fn test_details_scrolling() {
+        let mut app = mock_app();
+        app.focus = Focus::Details;
+        app.details_scroll = 0;
+
+        // j should scroll down when Details is focused
+        handle_navigation_input(
+            &mut app,
+            KeyEvent::new(KeyCode::Char('j'), KeyModifiers::NONE),
+        );
+        assert_eq!(app.details_scroll, 1);
+
+        // k should scroll up
+        handle_navigation_input(
+            &mut app,
+            KeyEvent::new(KeyCode::Char('k'), KeyModifiers::NONE),
+        );
+        assert_eq!(app.details_scroll, 0);
     }
 }

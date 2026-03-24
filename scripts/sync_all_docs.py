@@ -9,13 +9,38 @@ from promptbook import core  # noqa: E402
 
 README_FILE = "README.md"
 GEMINI_FILE = "GEMINI.md"
+CLAUDE_FILE = "CLAUDE.md"
 CATALOG_DIR = "docs/catalog"
 FULL_CATALOG_FILE = "docs/FULL_CATALOG.md"
+REGISTRY_FILE = "prompts.json"
 
 
 def get_prompts():
     """Wrapper around core.get_prompts to match the expected format for this script."""
     return core.get_prompts()
+
+
+def update_registry(prompts):
+    """Update the central prompts.json registry."""
+    import json
+
+    # Clean up the prompt data for the registry (remove raw prompt content to keep it lean)
+    registry_data = []
+    for p in sorted(prompts, key=lambda x: x["display_name"]):
+        registry_data.append(
+            {
+                "name": p["display_name"],
+                "description": p["description"],
+                "version": p["version"],
+                "last_updated": p["last_updated"],
+                "tags": p["tags"],
+                "args_description": p["args_description"],
+            }
+        )
+
+    with open(REGISTRY_FILE, "w", encoding="utf-8") as f:
+        json.dump(registry_data, f, indent=2)
+    print(f"✅ Registry updated: {REGISTRY_FILE}")
 
 
 def generate_domain_markdown(tag_name, display_name, prompts):
@@ -41,7 +66,7 @@ def generate_domain_markdown(tag_name, display_name, prompts):
                 f"> **Version**: `{p['version']}` | **Last Updated**: `{p['last_updated']}`\n",
                 f"> **Tags**: {', '.join([f'`{t}`' for t in p['tags']])}\n\n",
                 "<details>\n",
-                "<summary>Click to view template content</summary>\n\n",
+                f"<summary>🔍 View Full Template: {p['display_name']}</summary>\n\n",
                 "````markdown\n",
                 p["prompt"] + "\n",
                 "````\n",
@@ -119,17 +144,38 @@ def generate_catalog_index(domains):
 def update_docs(prompts):
     # Domain configuration for both README and Gemini
     domains = {
-        "Code Review & Analysis": {"tags": ["code-review", "debug"], "links": []},
-        "DevOps & Infrastructure": {"tags": ["devops", "infra"], "links": []},
-        "Security & Compliance": {"tags": ["security"], "links": []},
-        "Database & Data Engineering": {"tags": ["db"], "links": []},
-        "Testing & Debugging": {"tags": ["test", "debug"], "links": []},
-        "UI / UX & Frontend": {"tags": ["frontend"], "links": []},
+        "AI Agents & Infrastructure": {"tags": ["ai-agents", "ai-infra"], "links": []},
         "Architecture & Design": {"tags": ["architecture"], "links": []},
-        "Shell & Scripting": {"tags": ["shell"], "links": []},
-        "Project Management & Agile": {"tags": ["agile"], "links": []},
+        "Code Review & Analysis": {"tags": ["code-review", "engineering"], "links": []},
+        "DevOps & Infrastructure": {"tags": ["devops", "infra"], "links": []},
+        "Backend & Systems": {"tags": ["backend", "database", "db"], "links": []},
+        "Frontend & UI/UX": {"tags": ["frontend", "design"], "links": []},
+        "Security & Compliance": {"tags": ["security", "blockchain"], "links": []},
+        "Testing & QA": {"tags": ["test", "testing", "debug"], "links": []},
+        "Language Specialists": {
+            "tags": [
+                "python",
+                "rust",
+                "go",
+                "java",
+                "kotlin",
+                "swift",
+                "mobile",
+                "cpp",
+                "typescript",
+                "csharp",
+                "php",
+                "perl",
+            ],
+            "links": [],
+        },
+        "Shell & Scripting": {"tags": ["shell", "git"], "links": []},
+        "Engineering Management & Workflow": {
+            "tags": ["management", "workflow", "agile"],
+            "links": [],
+        },
         "Documentation & Learning": {
-            "tags": ["docs", "learning", "writing"],
+            "tags": ["docs", "learning", "writing", "academic"],
             "links": [],
         },
     }
@@ -167,14 +213,17 @@ def update_docs(prompts):
         with open(GEMINI_FILE, "r", encoding="utf-8") as f:
             gemini_content = f.read()
 
-        gemini_list = "## Available Prompts\n"
+        gemini_list = "## Template Catalog\nTemplates are organized by domain. When a user asks for help with a task, map it to the most relevant template below.\n\n"
         for domain_name, config in domains.items():
             if "prompts" in config:
                 gemini_list += f"### {domain_name}\n"
+                gemini_list += "| Command | Description |\n"
+                gemini_list += "|---|---|\n"
                 for p in config["prompts"]:
-                    gemini_list += f"- `/prompts:{p['display_name']}`: {p['description'].rstrip('.')}\n"
+                    gemini_list += f"| `/prompts:{p['display_name']}` | {p['description'].rstrip('.')} |\n"
+                gemini_list += "\n"
 
-        gemini_pattern = r"## Available Prompts.*?(?=## How to Use Prompts)"
+        gemini_pattern = r"## Template Catalog.*?(?=---.*?## Sensitive Templates)"
         gemini_content = re.sub(
             gemini_pattern, gemini_list, gemini_content, flags=re.DOTALL
         )
@@ -205,8 +254,33 @@ def update_docs(prompts):
         with open(README_FILE, "w", encoding="utf-8") as f:
             f.write(readme_content)
 
+    # 6. Update CLAUDE.md
+    if os.path.exists(CLAUDE_FILE):
+        with open(CLAUDE_FILE, "r", encoding="utf-8") as f:
+            claude_content = f.read()
+
+        claude_list = "## Template Catalog\nTemplates are organized by domain. When a user asks for help with a task, map it to the most relevant template below.\n\n"
+        for domain_name, config in domains.items():
+            if "prompts" in config:
+                claude_list += f"### {domain_name}\n"
+                for p in config["prompts"]:
+                    claude_list += (
+                        f"- `{p['display_name']}`: {p['description'].rstrip('.')}\n"
+                    )
+                claude_list += "\n"
+
+        claude_pattern = r"## Template Catalog.*?(?=---)"
+        claude_content = re.sub(
+            claude_pattern, claude_list, claude_content, flags=re.DOTALL
+        )
+        with open(CLAUDE_FILE, "w", encoding="utf-8") as f:
+            f.write(claude_content)
+
 
 if __name__ == "__main__":
     prompts = get_prompts()
+    # 1. Update the central registry
+    update_registry(prompts)
+    # 2. Update all documentation from the source
     update_docs(prompts)
     print(f"\n🚀 Distributed documentation synchronized in {CATALOG_DIR}/")

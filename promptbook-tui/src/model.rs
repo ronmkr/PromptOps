@@ -1,3 +1,4 @@
+use ratatui::widgets::ListState;
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::time::Instant;
@@ -37,6 +38,7 @@ pub struct PromptGroup {
 pub enum Focus {
     Categories,
     Prompts,
+    Details,
     VersionSelection,
     InputModal,
     Search,
@@ -82,6 +84,8 @@ pub struct AppState {
     pub search_query: String,
     pub show_preview: bool,
     pub details_scroll: u16,
+    pub category_list_state: ListState,
+    pub prompt_list_state: ListState,
 }
 
 impl AppState {
@@ -148,6 +152,8 @@ impl AppState {
             search_query: String::new(),
             show_preview: false,
             details_scroll: 0,
+            category_list_state: ListState::default().with_selected(Some(0)),
+            prompt_list_state: ListState::default().with_selected(Some(0)),
         };
         app.update_filter();
         app
@@ -197,6 +203,10 @@ impl AppState {
         if self.selected_prompt_index >= self.filter_groups.len() {
             self.selected_prompt_index = 0;
         }
+        self.category_list_state
+            .select(Some(self.selected_category_index));
+        self.prompt_list_state
+            .select(Some(self.selected_prompt_index));
         self.details_scroll = 0;
     }
 
@@ -206,6 +216,8 @@ impl AppState {
                 if !self.categories.is_empty() {
                     self.selected_category_index =
                         (self.selected_category_index + 1) % self.categories.len();
+                    self.category_list_state
+                        .select(Some(self.selected_category_index));
                     self.update_filter();
                 }
             }
@@ -213,6 +225,8 @@ impl AppState {
                 if !self.filter_groups.is_empty() {
                     self.selected_prompt_index =
                         (self.selected_prompt_index + 1) % self.filter_groups.len();
+                    self.prompt_list_state
+                        .select(Some(self.selected_prompt_index));
                     self.details_scroll = 0;
                 }
             }
@@ -234,6 +248,8 @@ impl AppState {
                     } else {
                         self.selected_category_index -= 1;
                     }
+                    self.category_list_state
+                        .select(Some(self.selected_category_index));
                     self.update_filter();
                 }
             }
@@ -244,6 +260,8 @@ impl AppState {
                     } else {
                         self.selected_prompt_index -= 1;
                     }
+                    self.prompt_list_state
+                        .select(Some(self.selected_prompt_index));
                     self.details_scroll = 0;
                 }
             }

@@ -1,9 +1,12 @@
 use crate::model::{AppState, Focus};
 use ratatui::{
-    layout::{Constraint, Direction, Layout, Rect},
+    layout::{Constraint, Direction, Layout, Margin, Rect},
     style::{Color, Modifier, Style},
-    text::{Line, Span, Text},
-    widgets::{Block, Borders, Clear, List, ListItem, Padding, Paragraph, Wrap},
+    text::{Line, Span},
+    widgets::{
+        Block, Borders, Clear, List, ListItem, ListState, Padding, Paragraph, Scrollbar,
+        ScrollbarOrientation, ScrollbarState, Wrap,
+    },
     Frame,
 };
 
@@ -19,19 +22,34 @@ pub fn render(f: &mut Frame, state: &mut AppState) {
 
     render_header(f, state, outer_layout[0]);
 
+    let main_constraints = if state.show_preview {
+        [
+            Constraint::Percentage(20),
+            Constraint::Percentage(20),
+            Constraint::Percentage(60),
+        ]
+    } else {
+        [
+            Constraint::Percentage(20),
+            Constraint::Percentage(30),
+            Constraint::Percentage(50),
+        ]
+    };
+
     let main_chunks = Layout::default()
         .direction(Direction::Horizontal)
-        .constraints([
-            Constraint::Percentage(25), // Categories
-            Constraint::Percentage(35), // Prompts
-            Constraint::Percentage(40), // Details
-        ])
+        .constraints(main_constraints)
         .split(outer_layout[1]);
 
     render_categories(f, state, main_chunks[0]);
     render_prompts(f, state, main_chunks[1]);
     render_details(f, state, main_chunks[2]);
     render_footer(f, state, outer_layout[2]);
+
+    // If modal is open, we can optionally draw a dimming layer here
+    // but usually it's better to handle it inside the panes or by drawing a semi-transparent box.
+    // However, Ratatui doesn't support alpha transparency well in all terminals.
+    // We will handle it by dimming the foreground colors in the panes.
 
     if state.focus == Focus::VersionSelection {
         render_version_modal(f, state);
@@ -46,8 +64,18 @@ pub fn render(f: &mut Frame, state: &mut AppState) {
     }
 }
 
-fn render_header(f: &mut Frame, state: &AppState, area: Rect) {
-    let focus_style = if state.focus == Focus::Search {
+fn is_modal_open(state: &AppState) -> bool {
+    matches!(
+        state.focus,
+        Focus::InputModal | Focus::VersionSelection | Focus::ConfirmationModal
+    )
+}
+
+fn render_header(f: &mut Frame, state: &mut AppState, area: Rect) {
+    let is_modal = is_modal_open(state);
+    let focus_style = if is_modal {
+        Style::default().fg(Color::Rgb(50, 50, 50)) // Deep dim
+    } else if state.focus == Focus::Search {
         Style::default()
             .fg(Color::Yellow)
             .add_modifier(Modifier::BOLD)
@@ -67,7 +95,13 @@ fn render_header(f: &mut Frame, state: &AppState, area: Rect) {
         format!(" > {}█", state.search_query)
     };
 
-    let header = Paragraph::new(search_content).block(
+    let content_style = if is_modal {
+        Style::default().fg(Color::DarkGray)
+    } else {
+        Style::default()
+    };
+
+    let header = Paragraph::new(search_content).style(content_style).block(
         Block::default()
             .borders(Borders::ALL)
             .title(title)
@@ -77,7 +111,7 @@ fn render_header(f: &mut Frame, state: &AppState, area: Rect) {
     f.render_widget(header, area);
 }
 
-fn render_footer(f: &mut Frame, state: &AppState, area: Rect) {
+fn render_footer(f: &mut Frame, state: &mut AppState, area: Rect) {
     if let Some(msg) = &state.status_message {
         let style = Style::default()
             .bg(Color::Green)
@@ -86,21 +120,24 @@ fn render_footer(f: &mut Frame, state: &AppState, area: Rect) {
         f.render_widget(Paragraph::new(format!(" {} ", msg)).style(style), area);
     } else {
         let help = match state.focus {
-            Focus::Categories => " [j/k/↑/↓] Navigate | [^u/^d] Scroll | [Tab/l/→] Select Prompts | [/] Search | [q] Quit ",
-            Focus::Prompts => " [j/k/↑/↓] Navigate | [^u/^d] Scroll | [Enter] Select | [v] Preview | [h/←] Categories | [/] Search ",
-            Focus::VersionSelection => " [j/k/↑/↓] Change Version | [Enter] Use | [Esc] Back ",
+            Focus::Categories => " [j/k/↑/↓] Navigate | [h/l/←/→/Tab] Panes | [^u/^d] Scroll Details | [/] Search | [q] Quit ",
+            Focus::Prompts => " [j/k/↑/↓] Navigate | [h/l/←/→/Tab] Panes | [Enter] Select | [v] Preview | [^u/^d] Scroll Details ",
+            Focus::Details => " [j/k/↑/↓] Scroll | [h/l/←/→/Tab] Panes | [Enter] Use | [v] Preview ",
+            Focus::VersionSelection => " [j/k/↑/↓] Version | [Enter] Use | [Esc] Back ",
             Focus::Search => " [Type] Search | [Enter] Confirm | [Esc] Cancel ",
             Focus::InputModal => " [Type] Input | [Enter] Next/Copy | [Alt+Enter] New Line | [Esc] Cancel ",
             Focus::ConfirmationModal => " [y] Confirm | [n/Esc] Cancel ",
         };
-        f.render_widget(
-            Paragraph::new(help).style(Style::default().fg(Color::DarkGray)),
-            area,
-        );
+        let style = if is_modal_open(state) {
+            Style::default().fg(Color::Rgb(50, 50, 50))
+        } else {
+            Style::default().fg(Color::DarkGray)
+        };
+        f.render_widget(Paragraph::new(help).style(style), area);
     }
 }
 
-fn render_confirmation_modal(f: &mut Frame, state: &AppState) {
+fn render_confirmation_modal(f: &mut Frame, state: &mut AppState) {
     if let Some(modal) = &state.confirmation_modal {
         let area = centered_rect(60, 30, f.size());
         f.render_widget(Clear, area);
@@ -143,8 +180,12 @@ fn render_confirmation_modal(f: &mut Frame, state: &AppState) {
     }
 }
 
-fn render_categories(f: &mut Frame, state: &AppState, area: Rect) {
-    let focus_style = if state.focus == Focus::Categories {
+fn render_categories(f: &mut Frame, state: &mut AppState, area: Rect) {
+    let is_modal = is_modal_open(state);
+    let is_focused = state.focus == Focus::Categories && !is_modal;
+    let focus_style = if is_modal {
+        Style::default().fg(Color::Rgb(50, 50, 50))
+    } else if is_focused {
         Style::default().fg(Color::Yellow)
     } else {
         Style::default().fg(Color::DarkGray)
@@ -156,13 +197,23 @@ fn render_categories(f: &mut Frame, state: &AppState, area: Rect) {
         .enumerate()
         .map(|(i, (name, count))| {
             let style = if i == state.selected_category_index {
-                Style::default()
-                    .fg(Color::Yellow)
-                    .add_modifier(Modifier::BOLD)
+                if is_modal {
+                    Style::default().fg(Color::Rgb(60, 60, 60))
+                } else if is_focused {
+                    Style::default()
+                        .fg(Color::Yellow)
+                        .add_modifier(Modifier::BOLD)
+                } else {
+                    Style::default().fg(Color::DarkGray) // Whisper, don't shout
+                }
             } else {
-                Style::default()
+                if is_modal {
+                    Style::default().fg(Color::Rgb(40, 40, 40))
+                } else {
+                    Style::default()
+                }
             };
-            let content = format!("{:<18} [{:>2}]", name, count);
+            let content = format!("{:<18} [{:>2}] ", name, count);
             ListItem::new(content).style(style)
         })
         .collect();
@@ -175,13 +226,37 @@ fn render_categories(f: &mut Frame, state: &AppState, area: Rect) {
                 .border_style(focus_style)
                 .padding(Padding::horizontal(1)),
         )
-        .highlight_style(Style::default().bg(Color::Rgb(40, 40, 40)));
+        .highlight_style(if is_modal {
+            Style::default()
+        } else {
+            Style::default().bg(Color::Rgb(40, 40, 40))
+        });
 
-    f.render_widget(list, area);
+    f.render_stateful_widget(list, area, &mut state.category_list_state);
+
+    let scrollbar = Scrollbar::new(ScrollbarOrientation::VerticalRight)
+        .begin_symbol(Some("↑"))
+        .end_symbol(Some("↓"));
+    let mut scrollbar_state =
+        ScrollbarState::new(state.categories.len()).position(state.selected_category_index);
+
+    f.render_stateful_widget(
+        scrollbar,
+        area.inner(&Margin {
+            vertical: 1,
+            horizontal: 0,
+        }),
+        &mut scrollbar_state,
+    );
 }
 
-fn render_prompts(f: &mut Frame, state: &AppState, area: Rect) {
-    let focus_style = if state.focus == Focus::Prompts || state.focus == Focus::VersionSelection {
+fn render_prompts(f: &mut Frame, state: &mut AppState, area: Rect) {
+    let is_modal = is_modal_open(state);
+    let is_focused =
+        (state.focus == Focus::Prompts || state.focus == Focus::VersionSelection) && !is_modal;
+    let focus_style = if is_modal {
+        Style::default().fg(Color::Rgb(50, 50, 50))
+    } else if is_focused {
         Style::default().fg(Color::Yellow)
     } else {
         Style::default().fg(Color::DarkGray)
@@ -193,18 +268,28 @@ fn render_prompts(f: &mut Frame, state: &AppState, area: Rect) {
         .enumerate()
         .map(|(i, g)| {
             let style = if i == state.selected_prompt_index {
-                Style::default()
-                    .fg(Color::Green)
-                    .add_modifier(Modifier::BOLD)
+                if is_modal {
+                    Style::default().fg(Color::Rgb(60, 60, 60))
+                } else if is_focused {
+                    Style::default()
+                        .fg(Color::Green)
+                        .add_modifier(Modifier::BOLD)
+                } else {
+                    Style::default().fg(Color::DarkGray) // Whisper, don't shout
+                }
             } else {
-                Style::default()
+                if is_modal {
+                    Style::default().fg(Color::Rgb(40, 40, 40))
+                } else {
+                    Style::default()
+                }
             };
 
             let v_count = g.versions.len();
             let label = if v_count > 1 {
-                format!("• {} ({} versions)", g.name, v_count)
+                format!("• {} ({} versions) ", g.name, v_count)
             } else {
-                format!("• {}", g.name)
+                format!("• {} ", g.name)
             };
 
             ListItem::new(label).style(style)
@@ -225,24 +310,53 @@ fn render_prompts(f: &mut Frame, state: &AppState, area: Rect) {
                 .border_style(focus_style)
                 .padding(Padding::horizontal(1)),
         )
-        .highlight_style(Style::default().bg(Color::Rgb(40, 40, 40)));
+        .highlight_style(if is_modal {
+            Style::default()
+        } else {
+            Style::default().bg(Color::Rgb(40, 40, 40))
+        });
 
-    f.render_widget(list, area);
+    f.render_stateful_widget(list, area, &mut state.prompt_list_state);
+
+    let scrollbar = Scrollbar::new(ScrollbarOrientation::VerticalRight)
+        .begin_symbol(Some("↑"))
+        .end_symbol(Some("↓"));
+    let mut scrollbar_state =
+        ScrollbarState::new(state.filter_groups.len()).position(state.selected_prompt_index);
+
+    f.render_stateful_widget(
+        scrollbar,
+        area.inner(&Margin {
+            vertical: 1,
+            horizontal: 0,
+        }),
+        &mut scrollbar_state,
+    );
 }
 
-fn render_details(f: &mut Frame, state: &AppState, area: Rect) {
-    let group = state.filter_groups.get(state.selected_prompt_index);
+fn render_details(f: &mut Frame, state: &mut AppState, area: Rect) {
+    let is_modal = is_modal_open(state);
+    let is_focused = state.focus == Focus::Details && !is_modal;
+    let focus_style = if is_modal {
+        Style::default().fg(Color::Rgb(50, 50, 50))
+    } else if is_focused {
+        Style::default().fg(Color::Yellow)
+    } else {
+        Style::default().fg(Color::DarkGray)
+    };
+
     let block = Block::default()
         .borders(Borders::ALL)
         .title(" Details ")
+        .border_style(focus_style)
         .padding(Padding::uniform(1));
 
-    if let Some(g) = group {
-        let p = &g.versions[g.selected_version_index];
+    if let Some(g) = state.filter_groups.get(state.selected_prompt_index) {
+        let p = g.versions[g.selected_version_index].clone();
         if state.show_preview {
-            render_preview(f, p, block, area, state);
+            render_preview(f, &p, block, area, state);
         } else {
-            render_metadata(f, p, block, area, state);
+            render_metadata(f, &p, block, area, state);
         }
     } else {
         f.render_widget(Paragraph::new(" No prompt selected ").block(block), area);
@@ -254,8 +368,53 @@ fn render_metadata(
     p: &crate::model::Prompt,
     block: Block,
     area: Rect,
-    state: &AppState,
+    state: &mut AppState,
 ) {
+    let is_modal = is_modal_open(state);
+    let is_focused = state.focus == Focus::Details && !is_modal;
+
+    let label_style = if is_modal {
+        Style::default().fg(Color::Rgb(50, 50, 50))
+    } else if is_focused {
+        Style::default().fg(Color::DarkGray)
+    } else {
+        Style::default().fg(Color::Rgb(60, 60, 60))
+    };
+
+    let value_style = if is_modal {
+        Style::default().fg(Color::Rgb(80, 80, 80))
+    } else if is_focused {
+        Style::default().fg(Color::White)
+    } else {
+        Style::default().fg(Color::Rgb(120, 120, 120))
+    };
+
+    let bold_value_style = if is_modal {
+        Style::default().fg(Color::Rgb(100, 100, 100))
+    } else if is_focused {
+        Style::default()
+            .add_modifier(Modifier::BOLD)
+            .fg(Color::White)
+    } else {
+        Style::default().fg(Color::Rgb(150, 150, 150))
+    };
+
+    let cyan_style = if is_modal {
+        Style::default().fg(Color::Rgb(60, 80, 80))
+    } else if is_focused {
+        Style::default().fg(Color::Cyan)
+    } else {
+        Style::default().fg(Color::Rgb(0, 120, 120))
+    };
+
+    let desc_style = if is_modal {
+        Style::default().fg(Color::Rgb(70, 70, 70))
+    } else if is_focused {
+        Style::default()
+    } else {
+        Style::default().fg(Color::Rgb(100, 100, 100))
+    };
+
     let mut text = Vec::new();
 
     let display_name = if let Some(v_id) = &p.version_id {
@@ -265,21 +424,16 @@ fn render_metadata(
     };
 
     text.push(Line::from(vec![
-        Span::styled("Name:    ", Style::default().fg(Color::DarkGray)),
-        Span::styled(
-            display_name,
-            Style::default()
-                .add_modifier(Modifier::BOLD)
-                .fg(Color::White),
-        ),
+        Span::styled("Name:      ", label_style),
+        Span::styled(display_name, bold_value_style),
     ]));
     text.push(Line::from(vec![
-        Span::styled("Version: ", Style::default().fg(Color::DarkGray)),
-        Span::raw(&p.version),
+        Span::styled("Version:   ", label_style),
+        Span::styled(&p.version, value_style),
     ]));
     text.push(Line::from(vec![
-        Span::styled("Updated: ", Style::default().fg(Color::DarkGray)),
-        Span::raw(&p.last_updated),
+        Span::styled("Updated:   ", label_style),
+        Span::styled(&p.last_updated, value_style),
     ]));
 
     for (key, value) in &p.metadata {
@@ -290,65 +444,91 @@ fn render_metadata(
             toml::Value::String(s) => s.clone(),
             _ => value.to_string(),
         };
+        let label = format!("{}:", key);
         text.push(Line::from(vec![
-            Span::styled(
-                format!("{:<8} ", format!("{}:", key)),
-                Style::default().fg(Color::DarkGray),
-            ),
-            Span::raw(val_str),
+            Span::styled(format!("{:<11}", label), label_style),
+            Span::styled(val_str, value_style),
         ]));
     }
 
     text.push(Line::from(""));
     text.push(Line::from(Span::styled(
         "Description:",
-        Style::default().add_modifier(Modifier::BOLD),
+        if is_modal {
+            label_style.add_modifier(Modifier::BOLD)
+        } else {
+            Style::default().add_modifier(Modifier::BOLD)
+        },
     )));
-    text.push(Line::from(p.description.as_str()));
+    text.push(Line::from(Span::styled(p.description.as_str(), desc_style)));
     text.push(Line::from(""));
     text.push(Line::from(vec![
-        Span::styled("Input:   ", Style::default().fg(Color::DarkGray)),
-        Span::styled(&p.args_description, Style::default().fg(Color::Cyan)),
+        Span::styled("Input:     ", label_style),
+        Span::styled(&p.args_description, cyan_style),
     ]));
 
     let tags_spans: Vec<Span> = p
         .tags
         .iter()
         .map(|t| {
-            Span::styled(
-                format!(" #{} ", t),
-                Style::default().bg(Color::Rgb(50, 50, 50)).fg(Color::Gray),
-            )
+            let style = if is_modal {
+                Style::default()
+                    .bg(Color::Rgb(30, 30, 30))
+                    .fg(Color::Rgb(60, 60, 60))
+            } else {
+                Style::default().bg(Color::Rgb(50, 50, 50)).fg(Color::Gray)
+            };
+            Span::styled(format!(" #{} ", t), style)
         })
         .collect();
     text.push(Line::from(""));
     text.push(Line::from(tags_spans));
 
     text.push(Line::from(""));
+    let key_instr_style = if is_modal {
+        Style::default().fg(Color::Rgb(40, 40, 40))
+    } else {
+        Style::default()
+            .fg(Color::Rgb(100, 100, 100))
+            .add_modifier(Modifier::BOLD)
+    };
+    let label_instr_style = if is_modal {
+        Style::default().fg(Color::Rgb(30, 30, 30))
+    } else {
+        Style::default().fg(Color::Rgb(80, 80, 80))
+    };
+
     text.push(Line::from(vec![
-        Span::styled(
-            " [v] ",
-            Style::default()
-                .fg(Color::Yellow)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::raw("Show Preview Content"),
+        Span::styled(" [v] ", key_instr_style),
+        Span::styled("Show Preview Content", label_instr_style),
     ]));
     text.push(Line::from(vec![
-        Span::styled(
-            " [Enter] ",
-            Style::default()
-                .fg(Color::Green)
-                .add_modifier(Modifier::BOLD),
-        ),
-        Span::raw("Hydrate & Copy"),
+        Span::styled(" [Enter] ", key_instr_style),
+        Span::styled("Hydrate & Copy", label_instr_style),
     ]));
 
+    let line_count = text.len();
     let paragraph = Paragraph::new(text)
         .block(block)
         .wrap(Wrap { trim: true })
         .scroll((state.details_scroll, 0));
     f.render_widget(paragraph, area);
+
+    // Render scrollbar for Details
+    let scrollbar = Scrollbar::new(ScrollbarOrientation::VerticalRight)
+        .begin_symbol(Some("↑"))
+        .end_symbol(Some("↓"));
+    let mut scrollbar_state =
+        ScrollbarState::new(line_count).position(state.details_scroll as usize);
+
+    f.render_stateful_widget(
+        scrollbar,
+        area.inner(&Margin {
+            vertical: 1,
+            horizontal: 0,
+        }),
+        &mut scrollbar_state,
+    );
 }
 
 fn render_preview(
@@ -356,33 +536,79 @@ fn render_preview(
     p: &crate::model::Prompt,
     block: Block,
     area: Rect,
-    state: &AppState,
+    state: &mut AppState,
 ) {
-    let mut spans = Vec::new();
+    let is_modal = is_modal_open(state);
+    let is_focused = state.focus == Focus::Details && !is_modal;
     let content = &p.prompt;
 
-    let mut last_idx = 0;
-    let re = regex::Regex::new(r"\{\{\s*(\w+)\s*\}\}").unwrap();
-    for cap in re.find_iter(content) {
-        spans.push(Span::raw(&content[last_idx..cap.start()]));
-        spans.push(Span::styled(
-            &content[cap.start()..cap.end()],
-            Style::default()
-                .fg(Color::Magenta)
-                .add_modifier(Modifier::BOLD),
-        ));
-        last_idx = cap.end();
-    }
-    spans.push(Span::raw(&content[last_idx..]));
+    let normal_style = if is_modal {
+        Style::default().fg(Color::Rgb(60, 60, 60))
+    } else if is_focused {
+        Style::default()
+    } else {
+        Style::default().fg(Color::Rgb(100, 100, 100))
+    };
+    let var_style = if is_modal {
+        Style::default().fg(Color::Rgb(80, 40, 80))
+    } else if is_focused {
+        Style::default()
+            .fg(Color::Magenta)
+            .add_modifier(Modifier::BOLD)
+    } else {
+        Style::default().fg(Color::Rgb(120, 60, 120))
+    };
 
-    let paragraph = Paragraph::new(Text::from(Line::from(spans)))
+    let re = regex::Regex::new(r"\{\{\s*(.+?)\s*\}\}").unwrap();
+    let mut lines = Vec::new();
+
+    for line_content in content.lines() {
+        let mut spans = Vec::new();
+        let mut last_idx = 0;
+        for cap in re.find_iter(line_content) {
+            if cap.start() > last_idx {
+                spans.push(Span::styled(
+                    &line_content[last_idx..cap.start()],
+                    normal_style,
+                ));
+            }
+            spans.push(Span::styled(
+                &line_content[cap.start()..cap.end()],
+                var_style,
+            ));
+            last_idx = cap.end();
+        }
+        if last_idx < line_content.len() {
+            spans.push(Span::styled(&line_content[last_idx..], normal_style));
+        }
+        lines.push(Line::from(spans));
+    }
+
+    let line_count = lines.len();
+    let paragraph = Paragraph::new(lines)
         .block(block.title(" Preview Content (v to hide) "))
-        .wrap(Wrap { trim: true })
+        .wrap(Wrap { trim: false })
         .scroll((state.details_scroll, 0));
     f.render_widget(paragraph, area);
+
+    // Render scrollbar for Preview
+    let scrollbar = Scrollbar::new(ScrollbarOrientation::VerticalRight)
+        .begin_symbol(Some("↑"))
+        .end_symbol(Some("↓"));
+    let mut scrollbar_state =
+        ScrollbarState::new(line_count).position(state.details_scroll as usize);
+
+    f.render_stateful_widget(
+        scrollbar,
+        area.inner(&Margin {
+            vertical: 1,
+            horizontal: 0,
+        }),
+        &mut scrollbar_state,
+    );
 }
 
-fn render_version_modal(f: &mut Frame, state: &AppState) {
+fn render_version_modal(f: &mut Frame, state: &mut AppState) {
     let group = &state.filter_groups[state.selected_prompt_index];
     let area = centered_rect(60, 40, f.size());
     f.render_widget(Clear, area);
@@ -414,10 +640,26 @@ fn render_version_modal(f: &mut Frame, state: &AppState) {
         .block(block)
         .highlight_style(Style::default().bg(Color::Rgb(50, 50, 50)));
 
-    f.render_widget(list, area);
+    let mut list_state = ListState::default().with_selected(Some(group.selected_version_index));
+    f.render_stateful_widget(list, area, &mut list_state);
+
+    let scrollbar = Scrollbar::new(ScrollbarOrientation::VerticalRight)
+        .begin_symbol(Some("↑"))
+        .end_symbol(Some("↓"));
+    let mut scrollbar_state =
+        ScrollbarState::new(group.versions.len()).position(group.selected_version_index);
+
+    f.render_stateful_widget(
+        scrollbar,
+        area.inner(&Margin {
+            vertical: 1,
+            horizontal: 0,
+        }),
+        &mut scrollbar_state,
+    );
 }
 
-fn render_modal(f: &mut Frame, state: &AppState) {
+fn render_modal(f: &mut Frame, state: &mut AppState) {
     if let Some(modal) = &state.input_modal {
         let area = centered_rect(80, 50, f.size());
         f.render_widget(Clear, area);

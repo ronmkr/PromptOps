@@ -17,7 +17,7 @@ This catalog contains the reference for all **UI / UX & Frontend** templates.
 > **Tags**: `frontend`
 
 <details>
-<summary>Click to view template content</summary>
+<summary>🔍 View Full Template: frontend-specialist</summary>
 
 ````markdown
 # Frontend Specialist

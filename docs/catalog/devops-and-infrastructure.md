@@ -21,7 +21,7 @@ This catalog contains the reference for all **DevOps & Infrastructure** template
 > **Tags**: `devops`
 
 <details>
-<summary>Click to view template content</summary>
+<summary>🔍 View Full Template: bun-runtime</summary>
 
 ````markdown
 
@@ -123,7 +123,7 @@ Bun.serve({
 > **Tags**: `devops`
 
 <details>
-<summary>Click to view template content</summary>
+<summary>🔍 View Full Template: cloud-infrastructure-specialist</summary>
 
 ````markdown
 
@@ -199,7 +199,7 @@ You are an expert in cloud infrastructure engineering, specializing in secure de
 > **Tags**: `devops`
 
 <details>
-<summary>Click to view template content</summary>
+<summary>🔍 View Full Template: container-orchestration-specialist</summary>
 
 ````markdown
 
@@ -251,7 +251,7 @@ You are an expert in containerization and orchestration, specializing in Docker 
 > **Tags**: `devops`
 
 <details>
-<summary>Click to view template content</summary>
+<summary>🔍 View Full Template: devops-specialist</summary>
 
 ````markdown
 
@@ -316,7 +316,7 @@ Manage long-lived agent workloads with operational controls:
 > **Tags**: `devops`
 
 <details>
-<summary>Click to view template content</summary>
+<summary>🔍 View Full Template: incident-response-specialist</summary>
 
 ````markdown
 

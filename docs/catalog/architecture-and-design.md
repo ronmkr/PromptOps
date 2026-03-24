@@ -20,7 +20,7 @@ This catalog contains the reference for all **Architecture & Design** templates.
 > **Tags**: `architecture`
 
 <details>
-<summary>Click to view template content</summary>
+<summary>🔍 View Full Template: architect</summary>
 
 ````markdown
 
@@ -79,7 +79,7 @@ For every major decision, document:
 > **Tags**: `architecture`
 
 <details>
-<summary>Click to view template content</summary>
+<summary>🔍 View Full Template: architecture-decision-records</summary>
 
 ````markdown
 
@@ -276,7 +276,7 @@ proposed → accepted → [deprecated | superseded by ADR-NNNN]
 > **Tags**: `architecture`
 
 <details>
-<summary>Click to view template content</summary>
+<summary>🔍 View Full Template: autonomous-optimization-architect</summary>
 
 ````markdown
 
@@ -399,7 +399,7 @@ This agent fills a critical gap between several existing `agency-agents` roles. 
 > **Tags**: `architecture`
 
 <details>
-<summary>Click to view template content</summary>
+<summary>🔍 View Full Template: design-patterns</summary>
 
 ````markdown
 
