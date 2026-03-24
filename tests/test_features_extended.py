@@ -105,23 +105,18 @@ class TestFeaturesExtended(unittest.TestCase):
     # --- 3. Secure Vault ---
 
     def test_vault_operations(self):
-        """Test setting and getting keys from the vault with mocked keyring."""
+        """Test setting and getting keys from the vault."""
         try:
-            import keyring
-            import cryptography
-
-            # Use them to satisfy linter
-            assert keyring is not None
-            assert cryptography is not None
+            # import cryptography to generate a key
+            from cryptography.fernet import Fernet
         except ImportError:
-            self.skipTest("Vault dependencies (keyring, cryptography) missing")
+            self.skipTest("Vault dependencies (cryptography) missing")
 
-        with patch("keyring.get_password", create=True) as mock_get, patch(
-            "keyring.set_password", create=True
-        ):
-            # Mock master key
-            mock_get.return_value = "fixed-master-key-for-testing-12345"
+        # Generate a valid key for testing
+        valid_key = Fernet.generate_key()
 
+        # Patch the master key retrieval to return our valid test key
+        with patch('promptbook.utils.Vault._get_master_key', return_value=valid_key):
             utils.Vault.set_key("openai", "sk-test-key")
 
             # Check if vault.json was created
@@ -138,6 +133,7 @@ class TestFeaturesExtended(unittest.TestCase):
             # Test delete
             utils.Vault.delete_key("openai")
             self.assertNotIn("openai", utils.Vault.list_keys())
+
 
     # --- 4. PII Masking ---
 
