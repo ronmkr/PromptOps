@@ -11,7 +11,7 @@ help:
 	@echo "make lint      - Run linting checks (Python & Rust)"
 	@echo "make fmt       - Format code (Python & Rust)"
 	@echo "make docs      - Synchronize all documentation and catalogs"
-	@echo "make evaluate  - Run Golden Tests using LLM-as-a-judge (Requires GEMINI_API_KEY)"
+	@echo "make evaluate  - Run Golden Tests using LLM-as-a-judge (Supports OpenAI/Gemini)"
 	@echo "make all       - Run validation, tests, linting, and sync documentation"
 	@echo "make tui       - Build and run the Rust-based TUI browser"
 	@echo "make clean     - Remove temporary files and __pycache__"
@@ -49,6 +49,10 @@ test:
 docs:
 	@echo "Syncing all documentation..."
 	@python3 scripts/sync_all_docs.py
+
+evaluate:
+	@echo "Running Golden Test evaluation..."
+	@python3 scripts/evaluate_prompts.py
 
 check-sync: docs
 	@if [ -n "$$(git status --porcelain docs/catalog/ README.md GEMINI.md CLAUDE.md prompts.json)" ]; then \

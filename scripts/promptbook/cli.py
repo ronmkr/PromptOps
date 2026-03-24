@@ -2,7 +2,7 @@ import sys
 import argparse
 from .core import list_prompts, list_tags, search_prompts, use_prompt, get_prompts
 from .ui import print_help
-from .utils import resolve_file_injection
+from .utils import resolve_file_injection, Vault, Colors
 
 
 def list_names(prompts_dir=None):
@@ -148,6 +148,23 @@ def main():
         action="store_true",
         help="Automatically confirm sensitive prompt warnings",
     )
+    use_p.add_argument(
+        "--mask",
+        action="store_true",
+        help="Mask PII (emails, phones, etc.) in input variables",
+    )
+
+    keys_p = subparsers.add_parser("keys", help="Manage secure API keys in the vault")
+    keys_sub = keys_p.add_subparsers(dest="keys_command")
+    
+    keys_set = keys_sub.add_parser("set", help="Set an API key for a provider")
+    keys_set.add_argument("provider", help="Provider name (e.g., openai, gemini)")
+    keys_set.add_argument("key", help="API key value")
+    
+    keys_sub.add_parser("list", help="List providers with stored keys")
+    
+    keys_del = keys_sub.add_parser("delete", help="Delete a key from the vault")
+    keys_del.add_argument("provider", help="Provider name to delete")
 
     comp_p = subparsers.add_parser(
         "completion", help="Generate shell completion script"
@@ -180,6 +197,7 @@ def main():
             version_hint=version_hint,
             no_copy=args.no_copy,
             auto_confirm=args.yes,
+            mask=args.mask,
         )
     else:
         args = parser.parse_args()
@@ -191,6 +209,25 @@ def main():
             search_prompts(args.term, args.tag)
         elif args.command == "completion":
             generate_completion(args.shell)
+        elif args.command == "keys":
+            if args.keys_command == "set":
+                Vault.set_key(args.provider, args.key)
+                print(f" {Colors.GREEN}[Done] API key for '{args.provider}' secured in vault.{Colors.RESET}")
+            elif args.keys_command == "list":
+                providers = Vault.list_keys()
+                if not providers:
+                    print("No keys stored in vault.")
+                else:
+                    print(f"{Colors.BOLD}Providers in vault:{Colors.RESET}")
+                    for p in providers:
+                        print(f"  - {p}")
+            elif args.keys_command == "delete":
+                if Vault.delete_key(args.provider):
+                    print(f" {Colors.GREEN}[Done] Key for '{args.provider}' removed.{Colors.RESET}")
+                else:
+                    print(f" {Colors.Colors.YELLOW}Warning: Key for '{args.provider}' not found in vault.{Colors.RESET}")
+            else:
+                keys_p.print_help()
         elif args.command == "_list_names":
             list_names()
         elif args.command == "_list_tags":

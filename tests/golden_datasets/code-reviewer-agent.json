@@ -1,5 +1,5 @@
 {
-  "prompt_name": "suggest-fixes",
+  "prompt_name": "code-reviewer-agent",
   "test_cases": [
     {
       "name": "SQL Injection Vulnerability",

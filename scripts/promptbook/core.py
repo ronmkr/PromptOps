@@ -4,7 +4,8 @@ import re
 import difflib
 import tomllib
 import subprocess
-from .utils import PROMPTS_DIR, Colors, copy_to_clipboard
+import shlex
+from .utils import PROMPTS_DIR, Colors, copy_to_clipboard, AuditLogger, USER_CONFIG_DIR
 from .ui import format_prompt_list, format_tag_list, print_interactive_header
 
 
@@ -203,59 +204,100 @@ def search_prompts(term, tag_filter=None, prompts_dir=None):
 
 
 def hydrate_prompt(template, variables_map):
-    # 0. Conditional Blocks: <if key="value">...</if>
     def handle_conditionals(text):
-        # Match <if key="value">content</if> (non-greedy content)
-        # Using DOTALL to match across multiple lines
-        pattern = r"<if\s+(\w+)\s*=\s*\"([^\"]+)\"\s*>(.*?)</if>"
-
+        cond_pattern = r"<if\s+(\w+)\s*=\s*\"([^\"]+)\"\s*>(.*?)</if>"
         def cond_substitute(match):
-            key = match.group(1)
-            expected_val = match.group(2)
-            content = match.group(3)
-
+            key, expected_val, content = match.group(1), match.group(2), match.group(3)
             actual_val = variables_map.get(key, "").strip().lower()
-            if actual_val == expected_val.strip().lower():
-                return content
-            return ""
-
-        return re.sub(pattern, cond_substitute, text, flags=re.DOTALL)
+            return content if actual_val == expected_val.strip().lower() else ""
+        return re.sub(cond_pattern, cond_substitute, text, flags=re.DOTALL)
 
     template = handle_conditionals(template)
 
-    def substitute(match):
-        escape_char = match.group(1)
-        full_content = match.group(2).strip()
+    # Regex for innermost blocks: no {{ or }} inside
+    inner_pattern = r"(\\)?\{\{\s*([^{}]+?)\s*\}\}"
 
+    def resolve_block(m):
+        escape_char, content = m.group(1), m.group(2).strip()
         if escape_char == "\\":
-            return f"{{{{{full_content}}}}}"
-
+            return f"{{{{{content}}}}}"
+        
         # 1. Shell Execution: {{$(command)}}
-        if full_content.startswith("$(") and full_content.endswith(")"):
-            cmd = full_content[2:-1].strip()
-            try:
-                # Use shell=True for complex commands/pipes, but handle with care
-                result = subprocess.check_output(
-                    cmd, shell=True, stderr=subprocess.STDOUT, text=True
-                )
-                return result.strip()
-            except subprocess.CalledProcessError as e:
-                return f"[Error executing command: {cmd}] -> {e.output.strip()}"
-            except Exception as e:
-                return f"[Error: {str(e)}]"
-
+        if content.startswith("$(") and content.endswith(")"):
+            inner_cmd = content[2:-1].strip()
+            # If inner_cmd still has {{ }}, we can't resolve yet (shouldn't happen with inner_pattern)
+            
+            # For shell blocks, we must ensure any standard variables inside were already resolved
+            # or we resolve them now WITH quoting.
+            # Since we are resolving innermost first, if there was a {{var}} inside,
+            # it would have been resolved in a previous iteration of the loop below.
+            # HOWEVER, that resolution would have been RAW (unquoted).
+            # So shell blocks are special: they should probably be resolved LAST
+            # and they should handle their own internal variable resolution with quoting.
+            return m.group(0) # Skip for now, handle in second phase
+            
         # 2. Environment Variables: {{env.VAR}}
-        if full_content.startswith("env."):
-            env_var = full_content[4:].strip()
-            return os.environ.get(env_var, f"[Env var {env_var} not found]")
-
+        if content.startswith("env."):
+            return os.environ.get(content[4:].strip(), f"[Env var {content[4:].strip()} not found]")
+            
         # 3. Standard Variables: {{var}}
-        return variables_map.get(full_content, match.group(0))
+        return variables_map.get(content, m.group(0))
 
-    # Pattern updated to allow $(...) and env. prefixes
-    # (\\)?\{\{\s*(.+?)\s*\}\}
-    pattern = r"(\\)?\{\{\s*(.+?)\s*\}\}"
-    return re.sub(pattern, substitute, template)
+    # Phase 1: Iteratively resolve standard variables and env vars (innermost first)
+    # BUT skip variables inside shell blocks to avoid unquoted injection.
+    current = template
+    for _ in range(10):
+        # Identify shell block ranges to skip them
+        shell_ranges = []
+        for sm in re.finditer(r"\{\{\s*\$\((.+?)\)\s*\}\}", current, flags=re.DOTALL):
+            shell_ranges.append(sm.span())
+
+        def std_env_resolver(m):
+            start, end = m.span()
+            # If this match is inside any shell block, skip it
+            for s_start, s_end in shell_ranges:
+                if start >= s_start and end <= s_end:
+                    return m.group(0)
+            
+            c = m.group(2).strip()
+            if c.startswith("$("): return m.group(0)
+            return resolve_block(m)
+            
+        next_text = re.sub(inner_pattern, std_env_resolver, current)
+        if next_text == current: break
+        current = next_text
+
+    # Phase 2: Resolve shell blocks. Now we can use a simpler pattern because 
+    # nested standard variables are still there (unresolved because we skipped them)
+    # OR they are resolved? Wait, if we skip them, they are still {{var}}.
+    # That's good! Now we can resolve them with quoting.
+    
+    # Update std_env_resolver to ONLY skip blocks that ARE shell blocks or ARE INSIDE shell blocks.
+    # This is getting complex. Let's simplify:
+    # A shell block is {{$( ... )}}.
+    
+    def shell_resolver(text):
+        # Find all {{$( ... )}}
+        # We use a greedy match to get the outermost shell block if they were nested (rare)
+        pattern = r"(\\)?\{\{\s*\$\((.+?)\)\s*\}\}"
+        
+        def sub_shell(m):
+            if m.group(1) == "\\": return f"{{{{$({m.group(2)})}}}}"
+            cmd_template = m.group(2).strip()
+            
+            # Resolve any {{var}} inside the command WITH quoting
+            def quote_fn(mm):
+                v_name = mm.group(1).strip()
+                return shlex.quote(variables_map.get(v_name, ""))
+            
+            safe_cmd = re.sub(r"\{\{\s*(.*?)\s*\}\}", quote_fn, cmd_template)
+            try:
+                return subprocess.check_output(safe_cmd, shell=True, stderr=subprocess.STDOUT, text=True).strip()
+            except Exception as e: return f"[Error: {str(e)}]"
+            
+        return re.sub(pattern, sub_shell, text)
+
+    return shell_resolver(current)
 
 
 def _collect_variables(display_name, variables, data, provided_vars):
@@ -264,12 +306,38 @@ def _collect_variables(display_name, variables, data, provided_vars):
     piped_data = sys.stdin.read().strip() if not sys.stdin.isatty() else None
 
     try:
-        # Filter out dynamic variables (shell exec or env vars)
-        user_vars = [
-            v for v in variables if not (v.startswith("$(") or v.startswith("env."))
-        ]
+        # Recursively find all standard user variables
+        user_vars = set()
+        
+        def find_vars(text):
+            # Use greedy to find outer blocks, then look inside
+            found = re.findall(r"\{\{\s*(.*?)\s*\}\}", text)
+            for v in found:
+                v = v.strip()
+                if v.startswith("$(") and v.endswith(")"):
+                    find_vars(v[2:-1])
+                elif v.startswith("env."):
+                    pass
+                else:
+                    # If it has {{ }}, it's still a shell block we missed? No.
+                    if "{{" not in v:
+                        user_vars.add(v)
+                    else:
+                        find_vars(v)
+        
+        for v in variables:
+            v = v.strip()
+            if v.startswith("$(") and v.endswith(")"):
+                find_vars(v[2:-1])
+            elif v.startswith("env."):
+                pass
+            else:
+                if "{{" not in v:
+                    user_vars.add(v)
+                else:
+                    find_vars(v)
 
-        for var in user_vars:
+        for var in sorted(list(user_vars)):
             if var in provided_vars:
                 final_vars[var] = provided_vars[var]
             elif piped_data is not None:
@@ -343,6 +411,7 @@ def use_prompt(
     version_hint=None,
     no_copy=False,
     auto_confirm=False,
+    mask=False,
 ):
     if provided_vars is None:
         provided_vars = {}
@@ -392,14 +461,54 @@ def use_prompt(
         display_name = (
             f"{name}:{selected['version_id']}" if selected["version_id"] else name
         )
-        variables = sorted(
-            list(set(re.findall(r"\{\{\s*(.*?)\s*\}\}", prompt_content)))
-        )
+        
+        # Recursive variable discovery
+        variables_set = set()
+        def discover_vars(text):
+            # Find innermost blocks first (no {{ or }} inside)
+            innermost = re.findall(r"\{\{\s*([^{}]+?)\s*\}\}", text)
+            for v in innermost:
+                v = v.strip()
+                variables_set.add(v)
+            
+            # Now replace innermost blocks with placeholders and recurse to find outer blocks
+            if innermost:
+                # Simple placeholder replacement to avoid infinite recursion
+                remaining_text = re.sub(r"\{\{\s*[^{}]+?\s*\}\}", "VAR", text)
+                if remaining_text != text:
+                    # Also need to capture the outer block itself if it was a shell block
+                    # Let's use a greedy regex for outer blocks now that we know we have them
+                    outer_blocks = re.findall(r"\{\{\s*(.+)\s*\}\}", text)
+                    for ob in outer_blocks:
+                        variables_set.add(ob.strip())
+                        # If outer block is shell, recurse on its content
+                        if ob.strip().startswith("$(") and ob.strip().endswith(")"):
+                            discover_vars(ob.strip()[2:-1])
+                    
+                    discover_vars(remaining_text)
+        
+        discover_vars(prompt_content)
+        variables = sorted(list(variables_set))
 
         if return_only:
             return prompt_content, variables
 
         final_vars = _collect_variables(display_name, variables, data, provided_vars)
+        
+        # PII Masking (GDPR/Compliance)
+        if mask:
+            try:
+                import scrubadub
+                for var_name, var_val in final_vars.items():
+                    if isinstance(var_val, str):
+                        final_vars[var_name] = scrubadub.clean(var_val)
+            except ImportError:
+                print(f"{Colors.YELLOW}Warning: 'scrubadub' not installed. Masking skipped.{Colors.RESET}", file=sys.stderr)
+
+        # Log sensitive prompt execution
+        if is_sensitive:
+            AuditLogger.log(name, selected.get("version_id"), final_vars)
+            
         prompt_content = hydrate_prompt(prompt_content, final_vars)
 
         do_copy = not no_copy

@@ -13,7 +13,7 @@ Get up and running in seconds with our universal installer:
 curl -fsSL https://raw.githubusercontent.com/ronmkr/Promptbook/main/scripts/install.sh | bash
 ```
 
-*This clonse the library to `~/.promptbook` and sets up the `pop` alias in `~/.local/bin`.*
+*This clones the library to `~/.promptbook` and sets up the `pop` alias in `~/.local/bin`.*
 
 ## 🔍 What is this?
 
@@ -34,7 +34,7 @@ Unlike loose collections of snippets, Promptbook treats prompts as **first-class
 ### The TUI Explorer
 Lightning-fast fuzzy search and interactive variable hydration directly in your terminal.
 
-![Promptbook TUI Demo](https://raw.githubusercontent.com/ronmkr/promptbook/main/docs/assets/tui-demo.gif)
+![Promptbook TUI Demo](https://raw.githubusercontent.com/ronmkr/Promptbook/main/docs/assets/tui-demo.gif)
 *(Run `make tui` to launch)*
 
 ### Usage Examples
@@ -59,7 +59,7 @@ cat server.log | pop use debug-error
 
 ## 🚀 Key Features
 
-- **Massive Catalog:** 180+ unique prompts across Engineering, Security, AI, DevOps, and specialized developer domains.
+- **Massive Catalog:** 150+ unique prompts across Engineering, Security, AI, DevOps, and specialized developer domains.
 - **Dynamic Context:** Support for dynamic shell execution `{{$(cmd)}}` and environment variables `{{env.VAR}}`.
 - **Conditional Extraction:** Surgical prompt pruning using `<if language="...">` blocks to minimize context bloat.
 - **TUI Browser:** A high-performance Rust-based TUI for browsing and previewing templates.
@@ -67,11 +67,23 @@ cat server.log | pop use debug-error
 
 ## 🛠 Installation
 
+### Automated Install (Recommended)
 ```bash
-git clone https://github.com/ronmkr/promptbook.git
-cd promptbook
+curl -fsSL https://raw.githubusercontent.com/ronmkr/Promptbook/main/scripts/install.sh | bash
+```
+
+### Manual Installation
+```bash
+git clone https://github.com/ronmkr/Promptbook.git
+cd Promptbook
+# Set up dependencies (venv recommended)
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+# Make executable and symlink
 chmod +x promptbook
-sudo ln -s $(pwd)/promptbook /usr/local/bin/pop
+mkdir -p ~/.local/bin
+ln -s $(pwd)/promptbook ~/.local/bin/pop
 ```
 
 ## 📂 Documentation
