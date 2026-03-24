@@ -4,7 +4,7 @@ import sys
 import json
 import glob
 import tomllib
-from typing import List, Optional
+from typing import List
 from pydantic import BaseModel
 from openai import OpenAI
 from promptbook.utils import Vault

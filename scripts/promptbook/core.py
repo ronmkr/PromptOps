@@ -5,7 +5,7 @@ import difflib
 import tomllib
 import subprocess
 import shlex
-from .utils import PROMPTS_DIR, Colors, copy_to_clipboard, AuditLogger, USER_CONFIG_DIR
+from .utils import PROMPTS_DIR, Colors, copy_to_clipboard, AuditLogger
 from .ui import format_prompt_list, format_tag_list, print_interactive_header
 
 
@@ -224,17 +224,8 @@ def hydrate_prompt(template, variables_map):
         
         # 1. Shell Execution: {{$(command)}}
         if content.startswith("$(") and content.endswith(")"):
-            inner_cmd = content[2:-1].strip()
-            # If inner_cmd still has {{ }}, we can't resolve yet (shouldn't happen with inner_pattern)
-            
-            # For shell blocks, we must ensure any standard variables inside were already resolved
-            # or we resolve them now WITH quoting.
-            # Since we are resolving innermost first, if there was a {{var}} inside,
-            # it would have been resolved in a previous iteration of the loop below.
-            # HOWEVER, that resolution would have been RAW (unquoted).
-            # So shell blocks are special: they should probably be resolved LAST
-            # and they should handle their own internal variable resolution with quoting.
-            return m.group(0) # Skip for now, handle in second phase
+            # Skip for now, handle in second phase
+            return m.group(0)
             
         # 2. Environment Variables: {{env.VAR}}
         if content.startswith("env."):
@@ -260,11 +251,13 @@ def hydrate_prompt(template, variables_map):
                     return m.group(0)
             
             c = m.group(2).strip()
-            if c.startswith("$("): return m.group(0)
+            if c.startswith("$("):
+                return m.group(0)
             return resolve_block(m)
             
         next_text = re.sub(inner_pattern, std_env_resolver, current)
-        if next_text == current: break
+        if next_text == current:
+            break
         current = next_text
 
     # Phase 2: Resolve shell blocks. Now we can use a simpler pattern because 
@@ -282,7 +275,8 @@ def hydrate_prompt(template, variables_map):
         pattern = r"(\\)?\{\{\s*\$\((.+?)\)\s*\}\}"
         
         def sub_shell(m):
-            if m.group(1) == "\\": return f"{{{{$({m.group(2)})}}}}"
+            if m.group(1) == "\\":
+                return f"{{{{$({m.group(2)})}}}}"
             cmd_template = m.group(2).strip()
             
             # Resolve any {{var}} inside the command WITH quoting
@@ -293,7 +287,8 @@ def hydrate_prompt(template, variables_map):
             safe_cmd = re.sub(r"\{\{\s*(.*?)\s*\}\}", quote_fn, cmd_template)
             try:
                 return subprocess.check_output(safe_cmd, shell=True, stderr=subprocess.STDOUT, text=True).strip()
-            except Exception as e: return f"[Error: {str(e)}]"
+            except Exception as e:
+                return f"[Error: {str(e)}]"
             
         return re.sub(pattern, sub_shell, text)
 
