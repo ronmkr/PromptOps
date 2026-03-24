@@ -1,67 +1,47 @@
 # promptbook
-
-**Promptbook is a structured library of 150+ expert prompt templates for AI CLI tools — organized, versioned, and ready to use.**
-
+**Promptbook is a structured library of expert prompt templates for AI CLI tools — organized, versioned, and ready to use.**
 [![Validated Prompts](https://github.com/ronmkr/promptbook/actions/workflows/validate-prompts.yml/badge.svg)](https://github.com/ronmkr/promptbook/actions/workflows/validate-prompts.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 ## 🚀 Quick Install
-
 Get up and running in seconds with our universal installer:
-
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ronmkr/Promptbook/main/scripts/install.sh | bash
 # Then run the setup wizard
 pop init
 ```
-
 *This clones the library to `~/.promptbook` and sets up the `pop` alias in `~/.local/bin`.*
-
 ## 🔍 What is this?
-
 **promptbook** is a curated collection of standardized, high-quality prompt templates designed specifically for **developers, architects, and data engineers**. It provides a unified interface to discover and use prompts across any AI agent or CLI tool (Gemini, Claude Code, Aider, etc.).
-
 Unlike loose collections of snippets, Promptbook treats prompts as **first-class code assets** with metadata, versioning, dynamic context resolution, and conditional extraction.
-
 ## 💡 Why do I need it?
-
 - **Consistency**: Stop reinventing the prompt. Use battle-tested templates for security audits, architectural reviews, and debugging.
 - **Context Awareness**: Templates use dynamic variables like `{{file}}`, `{{language}}`, and `{{context}}` to inject your project's state automatically.
 - **Dynamic Execution**: Pull live system context into your prompts using `{{$(git diff)}}` or `{{env.AWS_REGION}}`.
 - **Context Efficiency**: Surgical extraction using `<if language="...">` blocks ensures the AI only sees what it needs, reducing token bloat.
 - **Portability**: Write a prompt once, use it everywhere—in your terminal, in your IDE extension, or in web-based LLMs.
-
 ## 🖥 What does it look like?
-
 ### The TUI Explorer
 Lightning-fast fuzzy search and interactive variable hydration directly in your terminal.
-
 ![Promptbook TUI Demo](https://raw.githubusercontent.com/ronmkr/Promptbook/main/docs/assets/tui-demo.gif)
 *(Run `make tui` to launch)*
-
 ### Usage Examples
-
 **1. Security Audit (with Language Context)**
 ```bash
 # Review a Python file for vulnerabilities, ignoring irrelevant logic
 pop use security-scan --language python --args @main.py
 ```
-
 **2. Dynamic Architectural Context**
 ```bash
 # Generate a summary based on the current git state
 pop use pr-template --args "{{$(git diff HEAD)}}"
 ```
-
 **3. Debugging Stack Traces**
 ```bash
 # Analyze a log file to find root cause and suggest fixes
 cat server.log | pop use debug-error
 ```
-
 ## 🚀 Key Features
-
-- **Massive Catalog:** 150+ unique prompts across Engineering, Security, AI, DevOps, and specialized developer domains.
+- **Massive Catalog:** 167+ unique prompts across Engineering, Security, AI, DevOps, and specialized developer domains.
 - **Secure Vault:** Encrypted storage for API keys using OS-level keyring and AES encryption.
 - **Audit Logging:** Compliance-ready tracking of all sensitive prompt executions.
 - **PII Masking:** Automatic anonymization of emails, phones, and sensitive data (GDPR ready).
@@ -70,9 +50,7 @@ cat server.log | pop use debug-error
 - **Conditional Extraction:** Surgical prompt pruning using `<if language="...">` blocks to minimize context bloat.
 - **TUI Browser:** A high-performance Rust-based TUI for browsing and previewing templates.
 - **Native Integrations:** First-class support for Gemini CLI, Claude Code, and Aider.
-
 ## 🛠 Advanced Features
-
 ### 🔒 Secure API Key Vault
 Promptbook includes a built-in secure vault to manage your API keys without exposing them in environment variables or history.
 ```bash
@@ -81,30 +59,24 @@ pop keys set openai sk-...
 # List stored providers
 pop keys list
 ```
-
 ### 🎭 PII Masking (GDPR)
 Protect sensitive data by masking PII before it's sent to the LLM using the `--mask` flag.
 ```bash
 pop use security-reviewer --args @server_logs.txt --mask
 ```
-
 ### 📜 Audit Logging
 All executions of prompts marked as `sensitive` are automatically logged to `~/.promptbook/audit.log` for security auditing and compliance.
-
 ### 📊 Golden Test Evaluations
 Run automated evaluations using LLM-as-a-judge to ensure prompt quality. Supports OpenAI, Gemini, and local providers (Ollama/Llama.cpp).
 ```bash
 # Run the evaluation suite
 make evaluate
 ```
-
 ## 🛠 Installation
-
 ### Automated Install (Recommended)
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ronmkr/Promptbook/main/scripts/install.sh | bash
 ```
-
 ### Manual Installation
 ```bash
 git clone https://github.com/ronmkr/Promptbook.git
@@ -118,19 +90,14 @@ chmod +x promptbook
 mkdir -p ~/.local/bin
 ln -s $(pwd)/promptbook ~/.local/bin/pop
 ```
-
 ## 📂 Documentation
-
 - [Full Prompt Catalog](docs/FULL_CATALOG.md)
 - [Domain-Specific Catalogs](docs/catalog/README.md)
 - [Gemini CLI Extension Guide](docs/agents/gemini.md)
 - [Claude Code Integration](docs/agents/claude-code.md)
 - [Aider & Web-LLM Usage](docs/agents/aider.md)
-
 ## Available Templates
-
 Templates are categorized by domain. Click a category to view its full reference catalog.
-
 ### [AI Agents & Infrastructure](docs/catalog/ai-agents-and-infrastructure.md)
 - `/prompts:agent-harness-architect` - Expert-level design and optimization of AI agent action spaces, tool definitions, and observation formatting for high completion rates
 - `/prompts:agentic-identity-trust` - Architectural specialist for agentic identity, cryptographic trust verification, and verifiable audit trails in multi-agent environments
@@ -149,13 +116,11 @@ Templates are categorized by domain. Click a category to view its full reference
 - `/prompts:multi-agent-pipeline` - Unified Autonomous Pipeline Orchestration framework for high-velocity multi-agent development workflows
 - `/prompts:observer` - Background agent that analyzes session observations to detect patterns and create instincts. Uses Haiku for cost-efficiency. v2.1 adds project-sco
 - `/prompts:specialized-model-qa` - Independent model QA expert who audits ML and statistical models end-to-end - from documentation review and data reconstruction to replication, ca
-
 ### [Architecture & Design](docs/catalog/architecture-and-design.md)
 - `/prompts:architect` - Senior software architect for system design, domain-driven design, scalability, and technical decision-making with ADR and C4 support
 - `/prompts:architecture-decision-records` - Capture architectural decisions as structured ADR documents. Tracks context, alternatives, consequences, and decision status
 - `/prompts:autonomous-optimization-architect` - System governor for autonomous API shadow-testing and optimization with financial and security guardrails
 - `/prompts:design-patterns` - Comprehensive guide for selecting and implementing software design patterns. Includes code examples, trade-offs, and testing considerations
-
 ### [Code Review & Analysis](docs/catalog/code-review-and-analysis.md)
 - `/prompts:code-reviewer-agent` - Comprehensive code review specialist for quality, security, and performance. Provides actionable feedback and constructive refactoring suggestions
 - `/prompts:codebase-onboarding` - Analyze an unfamiliar codebase and generate a structured onboarding guide with architecture map, key entry points, conventions, and a starter CLAU
@@ -171,14 +136,12 @@ Templates are categorized by domain. Click a category to view its full reference
 - `/prompts:refactor-agent` - Expert refactoring specialist for code cleanup, dead code removal, duplicate elimination, and architectural improvements with a focus on safety
 - `/prompts:regex-builder` - Generate and explain complex Regular Expressions
 - `/prompts:regex-vs-llm-structured-text` - Decision framework for choosing between regex and LLM when parsing structured text — start with regex, add LLM only for low-confidence edge cases
-
 ### [DevOps & Infrastructure](docs/catalog/devops-and-infrastructure.md)
 - `/prompts:bun-runtime` - Bun as runtime, package manager, bundler, and test runner. When to choose Bun vs Node, migration notes, and Vercel support
 - `/prompts:cloud-infrastructure-specialist` - Expert in cloud infrastructure (AWS/GCP/Azure) using Terraform and IAM. Focuses on security, least-privilege policies, and modular IaC
 - `/prompts:container-orchestration-specialist` - Expert in containerization and orchestration using Docker and Kubernetes. Handles Dockerfiles, Compose, and Kubernetes manifests
 - `/prompts:devops-specialist` - Expert DevOps/SRE specialist for CI/CD, IaC, SLOs, observability, and lifecycle management of long-lived agent workloads
 - `/prompts:incident-response-specialist` - Expert incident commander for production management. Coordinates response, severity frameworks, blameless post-mortems, and on-call culture
-
 ### [Backend & Systems](docs/catalog/backend-and-systems.md)
 - `/prompts:backend-architect-agent` - Senior backend architect specializing in scalable system design, database architecture, API development, and cloud infrastructure
 - `/prompts:backend-specialist` - Expert backend architect for API design, database optimization, and scalable server-side patterns
@@ -186,14 +149,12 @@ Templates are categorized by domain. Click a category to view its full reference
 - `/prompts:content-hash-cache-pattern` - Cache expensive file processing results using SHA-256 content hashes — path-independent, auto-invalidating, with service layer separation
 - `/prompts:database-architect-agent` - Expert database architect for schema design, migrations, query optimization, and performance tuning. Specialized in SQL and NoSQL systems
 - `/prompts:postgres-patterns` - PostgreSQL database patterns for query optimization, schema design, indexing, and security. Based on Supabase best practices
-
 ### [Frontend & UI/UX](docs/catalog/frontend-and-ui-ux.md)
 - `/prompts:frontend-specialist` - Comprehensive frontend specialist for modern web apps. Covers Accessibility, Tailwind, Next.js, Nuxt 4, React patterns, and performance
 - `/prompts:image-prompt-engineer` - Expert in AI image prompt engineering and media generation via fal.ai MCP for images, video, and audio
 - `/prompts:ui-ux-specialist` - Expert UI/UX specialist for design systems, user research, and Storybook component generation
 - `/prompts:visual-design-specialist` - Comprehensive visual design expert covering brand identity, storytelling, inclusivity, Liquid Glass, and style presets
 - `/prompts:xr-specialist` - Expert XR specialist for immersive AR/VR/XR experiences, spatial interaction design, and browser-based 3D applications
-
 ### [Security & Compliance](docs/catalog/security-and-compliance.md)
 - `/prompts:blockchain-security-auditor` - Expert smart contract security auditor specializing in vulnerability detection, formal verification, and exploit analysis
 - `/prompts:security-architect` - Expert security architect specializing in threat modeling, secure code review, and defense-in-depth across the entire application stack
@@ -202,7 +163,6 @@ Templates are categorized by domain. Click a category to view its full reference
 - `/prompts:security-scan` - Comprehensive, tool-agnostic security audit for codebases, configurations, and dependencies. Focused on OWASP, secrets, and supply-chain risks
 - `/prompts:threat-modeling` - Generate a STRIDE threat model for a proposed architecture
 - `/prompts:zk-steward` - Knowledge-base steward in the spirit of Niklas Luhmann's Zettelkasten. Default perspective: Luhmann; switches to domain experts (Feynman, Munger,
-
 ### [Testing & QA](docs/catalog/testing-and-qa.md)
 - `/prompts:common-testing` - Testing requirements: 80% coverage, TDD workflow, test types
 - `/prompts:e2e-runner` - End-to-end testing specialist using Vercel Agent Browser and Playwright for creating and maintaining reliable browser-based test suites
@@ -218,7 +178,6 @@ Templates are categorized by domain. Click a category to view its full reference
 - `/prompts:test-edge-cases` - Identify and test edge cases
 - `/prompts:testing` - Python Testing
 - `/prompts:testing-specialist` - Comprehensive testing specialist covering AI regression patterns, accessibility, API validation, performance benchmarking, and QA workflows
-
 ### [Language Specialists](docs/catalog/language-specialists.md)
 - `/prompts:android-clean-architecture` - Clean Architecture patterns for Android and Kotlin Multiplatform projects — module structure, dependency rules, UseCases, Repositories, and data l
 - `/prompts:compose-multiplatform-patterns` - Compose Multiplatform and Jetpack Compose patterns for KMP projects — state management, navigation, theming, performance, and platform-specific UI
@@ -263,7 +222,6 @@ Templates are categorized by domain. Click a category to view its full reference
 - `/prompts:typescript-reviewer` - Expert TypeScript code reviewer ensuring type safety, async correctness, security, and idiomatic patterns in TS/JS codebases
 - `/prompts:typescript-specialist` - Expert TypeScript specialist providing guidance on coding style, hooks, patterns, security, and testing for high-quality TS/JS development
 - `/prompts:visionos-spatial-engineer` - Expert in native visionOS spatial computing, SwiftUI volumetric interfaces, and Liquid Glass design implementation
-
 ### [Shell & Scripting](docs/catalog/shell-and-scripting.md)
 - `/prompts:bash-script-generator` - Write robust, POSIX-compliant bash scripts
 - `/prompts:cli-command-explainer` - Deeply explain obscure terminal commands/flags
@@ -271,7 +229,6 @@ Templates are categorized by domain. Click a category to view its full reference
 - `/prompts:git-workflow` - Standard Git workflow: conventional commits, PR process, and recovery strategies
 - `/prompts:pr-template` - Generate a Pull Request template for a repository
 - `/prompts:terminal-integration-specialist` - Terminal emulation, text rendering optimization, and SwiftTerm integration for modern Swift applications
-
 ### [Engineering Management & Workflow](docs/catalog/engineering-management-and-workflow.md)
 - `/prompts:automation-governance-architect` - Governance-first architect for business automations (n8n-first) who audits value, risk, and maintainability before implementation
 - `/prompts:chief-of-staff` - Personal communication chief of staff for triaging email, Slack, and messaging apps into a 4-tier system with automated draft replies
@@ -295,7 +252,6 @@ Templates are categorized by domain. Click a category to view its full reference
 - `/prompts:unified-workflow-strategy` - Complete operational playbook for multi-agent orchestration and autonomous pipeline deployment
 - `/prompts:verification-loop` - A comprehensive verification system for the AI agent sessions
 - `/prompts:workflow-master` - Master workflow specialist for planning, handoffs, scenario runbooks, and cross-functional use cases
-
 ### [Documentation & Learning](docs/catalog/documentation-and-learning.md)
 - `/prompts:academic-researcher` - Multidisciplinary academic expert in anthropology, geography, history, narratology, and psychology for holistic world-building and analysis
 - `/prompts:article-writing` - Expert long-form writer specialized in blog posts, tutorials, and newsletters with a focus on distinct, human-sounding voices and structured copy
@@ -307,10 +263,7 @@ Templates are categorized by domain. Click a category to view its full reference
 - `/prompts:narrative-designer` - Story systems and dialogue architect - Masters GDD-aligned narrative design, branching dialogue, lore architecture, and environmental storytelling
 - `/prompts:simplify-jargon` - Simplify technical jargon
 - `/prompts:technical-writing-specialist` - Expert technical writer for developer docs, API references, tutorials, and technical blogs. Bridges the gap between engineers and users
-
 ## 🤝 Contributing
-
 Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on adding new templates to our hierarchical structure.
-
 ---
 *promptbook is open source under the MIT License.*
