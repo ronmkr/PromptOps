@@ -22,28 +22,63 @@ pub fn render(f: &mut Frame, state: &mut AppState) {
 
     render_header(f, state, outer_layout[0]);
 
-    let main_constraints = if state.show_preview {
-        [
-            Constraint::Percentage(20),
-            Constraint::Percentage(20),
-            Constraint::Percentage(60),
-        ]
+    let width = f.size().width;
+
+    if width >= 120 {
+        // --- 3-Pane Layout (Large Screens) ---
+        let main_constraints = if state.show_preview {
+            [
+                Constraint::Percentage(20),
+                Constraint::Percentage(20),
+                Constraint::Percentage(60),
+            ]
+        } else {
+            [
+                Constraint::Percentage(20),
+                Constraint::Percentage(30),
+                Constraint::Percentage(50),
+            ]
+        };
+
+        let main_chunks = Layout::default()
+            .direction(Direction::Horizontal)
+            .constraints(main_constraints)
+            .split(outer_layout[1]);
+
+        render_categories(f, state, main_chunks[0]);
+        render_prompts(f, state, main_chunks[1]);
+        render_details(f, state, main_chunks[2]);
+    } else if width >= 80 {
+        // --- 2-Pane Layout (Medium Screens) ---
+        // Context-aware: Show Categories+Prompts if focused on Categories, 
+        // otherwise show Prompts+Details.
+        if state.focus == Focus::Categories {
+            let main_chunks = Layout::default()
+                .direction(Direction::Horizontal)
+                .constraints([Constraint::Percentage(30), Constraint::Percentage(70)])
+                .split(outer_layout[1]);
+
+            render_categories(f, state, main_chunks[0]);
+            render_prompts(f, state, main_chunks[1]);
+        } else {
+            let main_chunks = Layout::default()
+                .direction(Direction::Horizontal)
+                .constraints([Constraint::Percentage(35), Constraint::Percentage(65)])
+                .split(outer_layout[1]);
+
+            render_prompts(f, state, main_chunks[0]);
+            render_details(f, state, main_chunks[1]);
+        }
     } else {
-        [
-            Constraint::Percentage(20),
-            Constraint::Percentage(30),
-            Constraint::Percentage(50),
-        ]
-    };
+        // --- 1-Pane Layout (Small Screens) ---
+        let area = outer_layout[1];
+        match state.focus {
+            Focus::Categories => render_categories(f, state, area),
+            Focus::Prompts | Focus::VersionSelection | Focus::Search => render_prompts(f, state, area),
+            _ => render_details(f, state, area),
+        }
+    }
 
-    let main_chunks = Layout::default()
-        .direction(Direction::Horizontal)
-        .constraints(main_constraints)
-        .split(outer_layout[1]);
-
-    render_categories(f, state, main_chunks[0]);
-    render_prompts(f, state, main_chunks[1]);
-    render_details(f, state, main_chunks[2]);
     render_footer(f, state, outer_layout[2]);
 
     // If modal is open, we can optionally draw a dimming layer here
@@ -119,13 +154,44 @@ fn render_footer(f: &mut Frame, state: &mut AppState, area: Rect) {
             .add_modifier(Modifier::BOLD);
         f.render_widget(Paragraph::new(format!(" {} ", msg)).style(style), area);
     } else {
+        let width = f.size().width;
         let help = match state.focus {
-            Focus::Categories => " [j/k/↑/↓] Navigate | [h/l/←/→/Tab] Panes | [^u/^d] Scroll Details | [/] Search | [q] Quit ",
-            Focus::Prompts => " [j/k/↑/↓] Navigate | [h/l/←/→/Tab] Panes | [Enter] Select | [v] Preview | [^u/^d] Scroll Details ",
-            Focus::Details => " [j/k/↑/↓] Scroll | [h/l/←/→/Tab] Panes | [Enter] Use | [v] Preview ",
+            Focus::Categories => {
+                if width >= 90 {
+                    " [j/k/↑/↓] Navigate | [h/l/←/→/Tab] Panes | [^u/^d] Scroll Details | [/] Search | [q] Quit "
+                } else if width >= 60 {
+                    " [↑/↓] Nav | [←/→] Panes | [^u/^d] Scroll | [/] Search | [q] Quit "
+                } else {
+                    " [↑/↓] Nav | [←/→] Panes | [/] Search "
+                }
+            }
+            Focus::Prompts => {
+                if width >= 90 {
+                    " [j/k/↑/↓] Navigate | [h/l/←/→/Tab] Panes | [Enter] Select | [v] Preview | [^u/^d] Scroll Details "
+                } else if width >= 60 {
+                    " [↑/↓] Nav | [←/→] Panes | [Enter] Sel | [v] Pre | [^u/^d] Scroll "
+                } else {
+                    " [↑/↓] Nav | [Enter] Sel | [v] Pre "
+                }
+            }
+            Focus::Details => {
+                if width >= 90 {
+                    " [j/k/↑/↓] Scroll | [h/l/←/→/Tab] Panes | [Enter] Use | [v] Preview "
+                } else if width >= 60 {
+                    " [↑/↓] Scroll | [←/→] Panes | [Enter] Use | [v] Pre "
+                } else {
+                    " [↑/↓] Scroll | [←] Back | [Enter] Use "
+                }
+            }
             Focus::VersionSelection => " [j/k/↑/↓] Version | [Enter] Use | [Esc] Back ",
             Focus::Search => " [Type] Search | [Enter] Confirm | [Esc] Cancel ",
-            Focus::InputModal => " [Type] Input | [Enter] Next/Copy | [Alt+Enter] New Line | [Esc] Cancel ",
+            Focus::InputModal => {
+                if width >= 60 {
+                    " [Type] Input | [Enter] Next/Copy | [Alt+Enter] New Line | [Esc] Cancel "
+                } else {
+                    " [Type] Input | [Enter] Next | [Esc] Cancel "
+                }
+            }
             Focus::ConfirmationModal => " [y] Confirm | [n/Esc] Cancel ",
         };
         let style = if is_modal_open(state) {
