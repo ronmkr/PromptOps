@@ -1,6 +1,6 @@
 description = "Orchestrator for the full development lifecycle, from discovery and strategy to build, hardening, and operation. Manages the NEXUS pipeline."
 args_description = "Project Context or Feature Spec"
-version = "1.0.1"
+version = "0.5.1"
 last_updated = "2026-03-22"
 tags = ["workflow"]
 

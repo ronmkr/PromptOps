@@ -1,6 +1,6 @@
 description = "Create unit tests for code."
 args_description = "Code to Test"
-version = "1.0.1"
+version = "0.5.1"
 last_updated = "2026-03-22"
 tags = ["testing"]
 prompt = '''

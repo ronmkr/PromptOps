@@ -1,6 +1,6 @@
 description = "Expert Rust reviewer specializing in safety, idiomatic patterns, and performance. Focuses on ownership, error handling, and unsafe usage."
 args_description = "Context or Source Code"
-version = "1.0.1"
+version = "0.5.1"
 last_updated = "2026-03-22"
 tags = ["rust"]
 prompt = '''

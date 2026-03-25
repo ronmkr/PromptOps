@@ -1,6 +1,6 @@
 description = "Comprehensive testing specialist covering AI regression patterns, accessibility, API validation, performance benchmarking, and QA workflows."
 args_description = "Context or Source Code"
-version = "1.0.1"
+version = "0.5.1"
 last_updated = "2026-03-24"
 tags = ["testing"]
 prompt = '''# Testing & QA Specialist

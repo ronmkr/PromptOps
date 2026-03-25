@@ -1,6 +1,6 @@
 description = "High-level executive summary of the Autonomous Pipeline orchestration framework and its strategic impact."
 args_description = "High-level executive summary of the Autonomous Pipeline orchestration framework and its strategic impact."
-version = "1.0.1"
+version = "0.5.1"
 last_updated = "2026-03-23"
 tags = ["management"]
 prompt = '''

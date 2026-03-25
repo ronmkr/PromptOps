@@ -1,6 +1,6 @@
 description = "Expert Go code reviewer for idiomatic code, concurrency, error handling, and performance. Ensures high standards and best practices in Go."
 args_description = "Context or Source Code"
-version = "1.0.1"
+version = "0.5.1"
 last_updated = "2026-03-22"
 tags = ["go"]
 prompt = '''

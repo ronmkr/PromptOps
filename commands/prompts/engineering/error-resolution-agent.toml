@@ -1,6 +1,6 @@
 description = "Master specialist for diagnosing and resolving build, type, and runtime errors. Expert in root cause analysis and minimal-diff error fixing."
 args_description = "Error Message or Stack Trace"
-version = "1.0.1"
+version = "0.5.1"
 last_updated = "2026-03-22"
 tags = ["engineering"]
 

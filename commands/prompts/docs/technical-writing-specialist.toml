@@ -1,6 +1,6 @@
 description = "Expert technical writer for developer docs, API references, tutorials, and technical blogs. Bridges the gap between engineers and users."
 args_description = "Context or Source Code"
-version = "1.0.1"
+version = "0.5.1"
 last_updated = "2024-05-20"
 tags = ["docs"]
 prompt = '''
