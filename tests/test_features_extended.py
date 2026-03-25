@@ -116,7 +116,7 @@ class TestFeaturesExtended(unittest.TestCase):
         valid_key = Fernet.generate_key()
 
         # Patch the master key retrieval to return our valid test key
-        with patch('promptbook.utils.Vault._get_master_key', return_value=valid_key):
+        with patch("promptbook.utils.Vault._get_master_key", return_value=valid_key):
             utils.Vault.set_key("openai", "sk-test-key")
 
             # Check if vault.json was created
@@ -133,7 +133,6 @@ class TestFeaturesExtended(unittest.TestCase):
             # Test delete
             utils.Vault.delete_key("openai")
             self.assertNotIn("openai", utils.Vault.list_keys())
-
 
     # --- 4. PII Masking ---
 

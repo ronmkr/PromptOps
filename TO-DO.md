@@ -43,6 +43,7 @@
 - [x] **Dynamic Context Execution**: Extended Python/Rust parser to evaluate `{{$(cmd)}}` and `{{env.VAR}}` right before hydration.
 - [x] **Responsive TUI Focus Feedback**: Implemented visual dimming for unfocused panes and highlighted selected items for better UX.
 - [x] **Responsive Layout for Small Terminals**: Implemented dynamic 3/2/1-pane switching and responsive footer based on terminal width (Issue #20).
+- [x] **Interactive Mode Undo Support**: Implemented a state machine for variable collection allowing Ctrl+B to go back (Issue #3).
 - [ ] **Expand the Pre-Commit Configuration**: Include strict TOML linting (taplo).
 - [x] **Breaking Downstream Workflows (The Pathing Issue)**: Implemented `redirects.json` strategy to handle directory reorganization without breaking old paths.
 

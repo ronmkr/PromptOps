@@ -1,6 +1,6 @@
 description = "Architectural specialist for agentic identity, cryptographic trust verification, and verifiable audit trails in multi-agent environments."
 args_description = "Context or Source Code"
-version = "1.0.0"
+version = "1.0.1"
 last_updated = "2026-03-22"
 tags = ["ai-agents"]
 prompt = '''

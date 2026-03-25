@@ -54,14 +54,14 @@ def create_wizard():
 
     print(f"\n{Colors.BOLD}2. Select Category:{Colors.RESET}")
     for i, cat in enumerate(categories):
-        print(f"  {i+1}) {cat}")
-    print(f"  {len(categories)+1}) [Create New Category]")
+        print(f"  {i + 1}) {cat}")
+    print(f"  {len(categories) + 1}) [Create New Category]")
 
     cat_choice = 0
     category = ""
     while cat_choice < 1 or cat_choice > len(categories) + 1:
         try:
-            choice = input(f"\nChoice (1-{len(categories)+1}): ")
+            choice = input(f"\nChoice (1-{len(categories) + 1}): ")
             cat_choice = int(choice)
         except ValueError:
             continue

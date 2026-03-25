@@ -1,6 +1,6 @@
 description = "Comprehensive guide for Swift development: coding style, patterns, security, testing, and automation hooks."
 args_description = "Context or Source Code"
-version = "1.0.0"
+version = "1.0.1"
 last_updated = "2026-03-22"
 tags = ["swift"]
 prompt = '''

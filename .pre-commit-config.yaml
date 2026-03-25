@@ -1,49 +1,36 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v6.0.0
     hooks:
       - id: trailing-whitespace
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-added-large-files
         args: ['--maxkb=2000']
-
   - repo: https://github.com/ComPWA/taplo-pre-commit
     rev: v0.9.3
     hooks:
       - id: taplo-format
       - id: taplo-lint
-
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.9
+    rev: v0.15.7
     hooks:
       - id: ruff
         args: [--fix]
       - id: ruff-format
-
   - repo: local
     hooks:
       - id: validate-prompts
         name: Validate Prompt Metadata
-        entry: python3 scripts/validate_prompts.py
-        language: python
+        entry: make validate
+        language: system
         files: ^commands/prompts/.*\.toml$
         pass_filenames: false
-
-      - id: rust-fmt
-        name: Rust Format
-        entry: bash -c "cd promptbook-tui && cargo fmt -- --check"
+      - id: lint-check
+        name: Lint Code
+        entry: make lint
         language: system
-        files: \.rs$
         pass_filenames: false
-
-      - id: rust-clippy
-        name: Rust Clippy
-        entry: bash -c "cd promptbook-tui && cargo clippy -- -D warnings"
-        language: system
-        files: \.rs$
-        pass_filenames: false
-
       - id: sync-docs
         name: Sync Documentation
         entry: make check-sync

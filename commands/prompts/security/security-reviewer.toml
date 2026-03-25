@@ -1,6 +1,6 @@
 description = "Internal security auditor specialized in project-wide vulnerability assessment and emergency response."
 args_description = "Scope or Incident Details"
-version = "1.0.0"
+version = "1.0.1"
 last_updated = "2026-03-24"
 tags = ["security"]
 sensitive = true
