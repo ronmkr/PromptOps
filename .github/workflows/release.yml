@@ -10,7 +10,7 @@ permissions:
 jobs:
   release:
     name: Build, Tag and Release
-    # Prevent the action from running on commits pushed BY the action itself (if any)
+    # Prevent the action from running on commits pushed BY the action itself
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: ubuntu-latest
     steps:
@@ -18,9 +18,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # Using GITHUB_TOKEN by default. 
-          # For pushing back to protected 'main', a PAT with 'bypass' permissions would be needed.
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # Using GH_PAT to bypass branch protection for version bumps
+          token: ${{ secrets.GH_PAT }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -40,7 +39,7 @@ jobs:
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.GH_PAT }}
           tag_prefix: ""
           dry_run: true
 
@@ -52,12 +51,12 @@ jobs:
           make sync-version ${{ steps.tag_version.outputs.new_tag }}
           git add .
           git commit -m "chore: bump version to ${{ steps.tag_version.outputs.new_tag }} [skip ci]" || echo "No changes to commit"
+          # Push back to main using the PAT (already configured via checkout)
+          git push origin main
 
-      - name: Push Tag
+      - name: Create Git Tag
         if: steps.tag_version.outputs.new_tag != ''
         run: |
-          # We push the specific tag. This contains the version bump.
-          # We don't push to 'main' to avoid Branch Protection violations.
           git tag ${{ steps.tag_version.outputs.new_tag }}
           git push origin ${{ steps.tag_version.outputs.new_tag }}
 
@@ -83,4 +82,4 @@ jobs:
           make_latest: true
           fail_on_unmatched_files: true
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
