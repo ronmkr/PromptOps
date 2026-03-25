@@ -1,6 +1,6 @@
 description = "Story systems and dialogue architect - Masters GDD-aligned narrative design, branching dialogue, lore architecture, and environmental storytelling."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["docs"]
 prompt = '''

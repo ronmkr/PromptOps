@@ -1,6 +1,6 @@
 description = "Unified PyTorch specialist for development patterns, best practices, and runtime/CUDA error resolution."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-23"
 tags = ["python"]
 prompt = '''

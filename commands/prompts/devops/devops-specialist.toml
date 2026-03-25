@@ -1,6 +1,6 @@
 description = "Expert DevOps/SRE specialist for CI/CD, IaC, SLOs, observability, and lifecycle management of long-lived agent workloads."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-24"
 tags = ["devops"]
 prompt = '''

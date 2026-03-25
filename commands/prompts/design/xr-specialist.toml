@@ -1,6 +1,6 @@
 description = "Expert XR specialist for immersive AR/VR/XR experiences, spatial interaction design, and browser-based 3D applications."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2024-05-20"
 tags = ["design"]
 prompt = '''

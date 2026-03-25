@@ -1,6 +1,6 @@
 description = "Solution architecture for Salesforce platform — multi-cloud design, integration patterns, governor limits, deployment strategy, and data model gov."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["integrations"]
 prompt = '''

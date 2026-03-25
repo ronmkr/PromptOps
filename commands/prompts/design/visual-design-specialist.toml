@@ -1,6 +1,6 @@
 description = "Comprehensive visual design expert covering brand identity, storytelling, inclusivity, Liquid Glass, and style presets."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["design"]
 prompt = '''

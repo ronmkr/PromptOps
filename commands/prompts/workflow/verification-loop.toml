@@ -1,6 +1,6 @@
 description = "A comprehensive verification system for the AI agent sessions."
 args_description = "A comprehensive verification system for the AI agent sessions"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["workflow"]
 prompt = '''

@@ -1,6 +1,6 @@
 description = "Senior software architect for system design, domain-driven design, scalability, and technical decision-making with ADR and C4 support."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-24"
 tags = ["architecture"]
 prompt = '''

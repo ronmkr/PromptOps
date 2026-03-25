@@ -1,6 +1,6 @@
 description = "Master specialist for the Continuous Learning system. Manages session observation, atomic instinct extraction, and knowledge evolution."
 args_description = "Session Context or Instinct ID"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["engineering"]
 

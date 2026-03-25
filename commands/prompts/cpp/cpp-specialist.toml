@@ -1,6 +1,6 @@
 description = "Unified C++ specialist for coding standards, style, patterns, security, and testing. Covers Modern C++, RAII, GoogleTest, and memory safety."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-23"
 tags = ["cpp"]
 prompt = '''

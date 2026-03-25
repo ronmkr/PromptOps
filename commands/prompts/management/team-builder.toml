@@ -1,6 +1,6 @@
 description = "Interactive agent picker for composing and dispatching parallel teams."
 args_description = "Interactive agent picker for composing and dispatching parallel teams."
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["management"]
 prompt = '''

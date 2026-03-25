@@ -1,6 +1,6 @@
 description = "Expert financial analyst and controller specializing in financial planning, budget management, and business performance analysis. Maintains financ."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["support"]
 prompt = '''

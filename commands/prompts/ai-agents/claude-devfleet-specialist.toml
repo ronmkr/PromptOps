@@ -1,6 +1,6 @@
 description = "Orchestrate multi-agent coding tasks via Claude DevFleet, enabling project planning, parallel agent dispatch, and automated progress monitoring."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["ai-agents"]
 prompt = '''# DevFleet Orchestrator

@@ -1,6 +1,6 @@
 description = "Holistic product leader managing the full lifecycle from discovery and strategy to roadmap, stakeholder alignment, and go-to-market."
 args_description = "Holistic product leader managing the full lifecycle from discovery and strategy to roadmap, stakeholder alignment, and go-to-market."
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["management"]
 prompt = '''

@@ -1,6 +1,6 @@
 description = "Expert in resolving C++ build errors, CMake configuration issues, and linker warnings using surgical, minimal changes to restore project stability."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["cpp"]
 prompt = '''

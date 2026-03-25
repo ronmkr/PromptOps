@@ -1,6 +1,6 @@
 description = "AI specialist for consolidating sales metrics into real-time reporting dashboards with territory, representative, and pipeline summaries."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["ai-agents"]
 prompt = '''# Data Consolidation Agent

@@ -1,6 +1,6 @@
 description = "Expert in containerization and orchestration using Docker and Kubernetes. Handles Dockerfiles, Compose, and Kubernetes manifests."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-24"
 tags = ["devops"]
 prompt = '''

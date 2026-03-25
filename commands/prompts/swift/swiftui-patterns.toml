@@ -1,6 +1,6 @@
 description = "SwiftUI architecture patterns: state management with @Observable, view composition, navigation, and performance optimization."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["swift"]
 prompt = '''

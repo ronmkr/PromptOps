@@ -1,6 +1,6 @@
 description = "ClickHouse database patterns, query optimization, analytics, and data engineering best practices for high-performance analytical workloads."
 args_description = "Context or Source Code"
-version = "0.5.3"
+version = "0.5.4"
 last_updated = "2026-03-22"
 tags = ["database"]
 prompt = '''
