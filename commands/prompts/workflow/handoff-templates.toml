@@ -1,6 +1,6 @@
 description = "NEXUS Handoff Templates for standardized agent-to-agent work transfers, QA feedback, escalations, and phase gates."
 args_description = "Context or Source Code"
-version = "1.0.0"
+version = "1.0.1"
 last_updated = "2026-03-22"
 tags = ["workflow"]
 prompt = '''

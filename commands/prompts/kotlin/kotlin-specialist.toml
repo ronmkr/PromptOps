@@ -1,6 +1,6 @@
 description = "Unified Kotlin specialist for style, architecture, coroutines, security, and testing. Covers ktlint, MVVM, Flows, and Kotest."
 args_description = "Context or Source Code"
-version = "1.1.0"
+version = "1.0.1"
 last_updated = "2026-03-23"
 tags = ["kotlin"]
 prompt = '''

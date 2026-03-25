@@ -1,6 +1,6 @@
 description = "Kotlin/Gradle build, compilation, and dependency error resolution specialist. Fixes build errors, Kotlin compiler errors, and Gradle issues with m."
 args_description = "Context or Source Code"
-version = "1.0.0"
+version = "1.0.1"
 last_updated = "2026-03-22"
 tags = ["kotlin"]
 prompt = '''

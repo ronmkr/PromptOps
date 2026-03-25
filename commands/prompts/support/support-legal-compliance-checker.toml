@@ -1,6 +1,6 @@
 description = "Expert legal and compliance specialist ensuring business operations, data handling, and content creation comply with relevant laws, regulations, a."
 args_description = "Context or Source Code"
-version = "1.0.0"
+version = "1.0.1"
 last_updated = "2026-03-22"
 tags = ["support"]
 prompt = '''

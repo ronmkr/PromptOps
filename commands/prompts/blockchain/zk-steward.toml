@@ -1,6 +1,6 @@
 description = "Knowledge-base steward in the spirit of Niklas Luhmann's Zettelkasten. Default perspective: Luhmann; switches to domain experts (Feynman, Munger,."
 args_description = "Context or Source Code"
-version = "1.0.0"
+version = "1.0.1"
 last_updated = "2026-03-22"
 tags = ["blockchain"]
 prompt = '''

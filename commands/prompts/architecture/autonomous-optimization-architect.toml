@@ -1,6 +1,6 @@
 description = "System governor for autonomous API shadow-testing and optimization with financial and security guardrails."
 args_description = "Context or Source Code"
-version = "1.0.0"
+version = "1.0.1"
 last_updated = "2026-03-22"
 tags = ["architecture"]
 prompt = '''

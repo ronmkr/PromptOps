@@ -1,6 +1,6 @@
 description = "Expert database architect for schema design, migrations, query optimization, and performance tuning. Specialized in SQL and NoSQL systems."
 args_description = "Context or Source Code"
-version = "1.0.0"
+version = "1.0.1"
 last_updated = "2024-05-21"
 tags = ["database"]
 prompt = '''
