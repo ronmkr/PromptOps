@@ -30,11 +30,14 @@ pub fn render_details(f: &mut Frame, state: &mut AppState, area: Rect) {
         .padding(Padding::uniform(1));
 
     if let Some(g) = state.filter_groups.get(state.selected_prompt_index) {
-        let p = g.versions[g.selected_version_index].clone();
-        if state.show_preview {
-            render_preview(f, &p, block, area, state);
+        if let Some(p) = g.versions.get(g.selected_version_index).cloned() {
+            if state.show_preview {
+                render_preview(f, &p, block, area, state);
+            } else {
+                render_metadata(f, &p, block, area, state);
+            }
         } else {
-            render_metadata(f, &p, block, area, state);
+            f.render_widget(Paragraph::new(" No version selected ").block(block), area);
         }
     } else {
         f.render_widget(Paragraph::new(" No prompt selected ").block(block), area);
@@ -92,10 +95,10 @@ fn render_metadata(f: &mut Frame, p: &Prompt, block: Block, area: Rect, state: &
 
     let mut text = Vec::new();
 
-    let display_name = if let Some(v_id) = &p.version_id {
-        format!("{}:{}", p.name, v_id)
+    let display_name = if let Some(v_id) = &p.metadata.version_id {
+        format!("{}:{}", p.metadata.name, v_id)
     } else {
-        p.name.clone()
+        p.metadata.name.clone()
     };
 
     text.push(Line::from(vec![
@@ -104,19 +107,30 @@ fn render_metadata(f: &mut Frame, p: &Prompt, block: Block, area: Rect, state: &
     ]));
     text.push(Line::from(vec![
         Span::styled("Version:   ", label_style),
-        Span::styled(&p.version, value_style),
+        Span::styled(&p.metadata.version, value_style),
     ]));
     text.push(Line::from(vec![
         Span::styled("Updated:   ", label_style),
-        Span::styled(&p.last_updated, value_style),
+        Span::styled(&p.metadata.last_updated, value_style),
     ]));
 
-    for (key, value) in &p.metadata {
-        if key == "prompt" || key == "name" || key == "version_id" {
+    for (key, value) in &p.raw_data {
+        if key == "prompt"
+            || key == "name"
+            || key == "version_id"
+            || key == "system_prompt"
+            || key == "user_prompt"
+            || key == "description"
+            || key == "args_description"
+            || key == "version"
+            || key == "last_updated"
+            || key == "tags"
+            || key == "sensitive"
+        {
             continue;
         }
         let val_str = match value {
-            toml::Value::String(s) => s.clone(),
+            serde_json::Value::String(s) => s.clone(),
             _ => value.to_string(),
         };
         let label = format!("{}:", key);
@@ -135,14 +149,18 @@ fn render_metadata(f: &mut Frame, p: &Prompt, block: Block, area: Rect, state: &
             Style::default().add_modifier(Modifier::BOLD)
         },
     )));
-    text.push(Line::from(Span::styled(p.description.as_str(), desc_style)));
+    text.push(Line::from(Span::styled(
+        p.metadata.description.as_str(),
+        desc_style,
+    )));
     text.push(Line::from(""));
     text.push(Line::from(vec![
         Span::styled("Input:     ", label_style),
-        Span::styled(&p.args_description, cyan_style),
+        Span::styled(&p.metadata.args_description, cyan_style),
     ]));
 
     let tags_spans: Vec<Span> = p
+        .metadata
         .tags
         .iter()
         .map(|t| {
@@ -206,6 +224,13 @@ fn render_metadata(f: &mut Frame, p: &Prompt, block: Block, area: Rect, state: &
     );
 }
 
+use once_cell::sync::Lazy;
+
+static RE_VARS: Lazy<regex::Regex> = Lazy::new(|| {
+    #[allow(clippy::expect_used)]
+    regex::Regex::new(r"\{\{\s*(.+?)\s*\}\}").expect("Invalid regex for prompt variables")
+});
+
 fn render_preview(f: &mut Frame, p: &Prompt, block: Block, area: Rect, state: &mut AppState) {
     let is_modal = matches!(
         state.focus,
@@ -237,7 +262,6 @@ fn render_preview(f: &mut Frame, p: &Prompt, block: Block, area: Rect, state: &m
         Style::default().fg(Color::Rgb(150, 150, 50))
     };
 
-    let re = regex::Regex::new(r"\{\{\s*(.+?)\s*\}\}").unwrap();
     let mut lines = Vec::new();
 
     if !p.system_prompt.is_empty() || !p.user_prompt.is_empty() {
@@ -249,7 +273,8 @@ fn render_preview(f: &mut Frame, p: &Prompt, block: Block, area: Rect, state: &m
             for line_content in p.system_prompt.lines() {
                 let mut spans = Vec::new();
                 let mut last_idx = 0;
-                for cap in re.find_iter(line_content) {
+                for cap in RE_VARS.find_iter(line_content) {
+                    let cap: regex::Match = cap;
                     if cap.start() > last_idx {
                         spans.push(Span::styled(
                             &line_content[last_idx..cap.start()],
@@ -278,7 +303,8 @@ fn render_preview(f: &mut Frame, p: &Prompt, block: Block, area: Rect, state: &m
             for line_content in p.user_prompt.lines() {
                 let mut spans = Vec::new();
                 let mut last_idx = 0;
-                for cap in re.find_iter(line_content) {
+                for cap in RE_VARS.find_iter(line_content) {
+                    let cap: regex::Match = cap;
                     if cap.start() > last_idx {
                         spans.push(Span::styled(
                             &line_content[last_idx..cap.start()],
@@ -307,7 +333,8 @@ fn render_preview(f: &mut Frame, p: &Prompt, block: Block, area: Rect, state: &m
             for line_content in p.prompt.lines() {
                 let mut spans = Vec::new();
                 let mut last_idx = 0;
-                for cap in re.find_iter(line_content) {
+                for cap in RE_VARS.find_iter(line_content) {
+                    let cap: regex::Match = cap;
                     if cap.start() > last_idx {
                         spans.push(Span::styled(
                             &line_content[last_idx..cap.start()],
@@ -331,7 +358,8 @@ fn render_preview(f: &mut Frame, p: &Prompt, block: Block, area: Rect, state: &m
         for line_content in p.prompt.lines() {
             let mut spans = Vec::new();
             let mut last_idx = 0;
-            for cap in re.find_iter(line_content) {
+            for cap in RE_VARS.find_iter(line_content) {
+                let cap: regex::Match = cap;
                 if cap.start() > last_idx {
                     spans.push(Span::styled(
                         &line_content[last_idx..cap.start()],

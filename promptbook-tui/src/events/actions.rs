@@ -23,30 +23,30 @@ pub fn start_hydration(app: &mut AppState, prompt: Prompt) {
             prompt.prompt.clone()
         };
 
-        if prompt.sensitive {
+        if prompt.metadata.sensitive {
             app.confirmation_modal = Some(ConfirmationModal {
                 title: " Security Confirmation ".to_string(),
                 message: format!(
                     "⚠️  SECURITY WARNING: '{}' is sensitive. Copy?",
-                    prompt.name
+                    prompt.metadata.name
                 ),
                 action: Action::CopyPrompt(content),
             });
             app.focus = Focus::ConfirmationModal;
         } else {
             let _ = clipboard::copy_to_clipboard(&content);
-            app.set_status(format!("Success: '{}' copied!", prompt.name), 3);
+            app.set_status(format!("Success: '{}' copied!", prompt.metadata.name), 3);
             app.focus = Focus::Prompts;
         }
     } else {
         app.input_modal = Some(InputModal {
-            prompt_name: prompt.name.clone(),
-            version_id: prompt.version_id.clone(),
+            prompt_name: prompt.metadata.name.clone(),
+            version_id: prompt.metadata.version_id.clone(),
             variables: vars,
             current_var_index: 0,
             values: HashMap::new(),
             input_buffer: String::new(),
-            args_description: prompt.args_description.clone(),
+            args_description: prompt.metadata.args_description.clone(),
             error_message: None,
         });
         app.focus = Focus::InputModal;

@@ -44,8 +44,9 @@ pub fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
                     }
 
                     let resolved_val = crate::utils::resolve_file_injection(&modal.input_buffer);
-                    let var_name = modal.variables[modal.current_var_index].clone();
-                    modal.values.insert(var_name, resolved_val);
+                    if let Some(var_name) = modal.variables.get(modal.current_var_index) {
+                        modal.values.insert(var_name.clone(), resolved_val);
+                    }
                     modal.input_buffer.clear();
                     modal.error_message = None;
 
@@ -53,14 +54,15 @@ pub fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
                         modal.current_var_index += 1;
                     } else {
                         if let Some(prompt) = app.all_prompts.iter().find(|p| {
-                            p.name == modal.prompt_name && p.version_id == modal.version_id
+                            p.metadata.name == modal.prompt_name
+                                && p.metadata.version_id == modal.version_id
                         }) {
                             let hydrated_legacy =
-                                hydrate::hydrate_prompt(&prompt.prompt, &modal.values);
+                                hydrate::hydrate_prompt(&prompt.prompt, &modal.values, false);
                             let hydrated_system =
-                                hydrate::hydrate_prompt(&prompt.system_prompt, &modal.values);
+                                hydrate::hydrate_prompt(&prompt.system_prompt, &modal.values, false);
                             let hydrated_user =
-                                hydrate::hydrate_prompt(&prompt.user_prompt, &modal.values);
+                                hydrate::hydrate_prompt(&prompt.user_prompt, &modal.values, false);
 
                             let final_hydrated =
                                 if !hydrated_system.is_empty() || !hydrated_user.is_empty() {
@@ -76,19 +78,22 @@ pub fn handle_modal_input(app: &mut AppState, event: KeyEvent) {
                                     hydrated_legacy
                                 };
 
-                            if prompt.sensitive {
+                            if prompt.metadata.sensitive {
                                 app.confirmation_modal = Some(ConfirmationModal {
                                     title: " Security Confirmation ".to_string(),
                                     message: format!(
                                         "⚠️  SECURITY WARNING: '{}' is sensitive. Copy?",
-                                        prompt.name
+                                        prompt.metadata.name
                                     ),
                                     action: Action::CopyPrompt(final_hydrated),
                                 });
                                 app.focus = Focus::ConfirmationModal;
                             } else {
                                 let _ = clipboard::copy_to_clipboard(&final_hydrated);
-                                app.set_status(format!("Success: '{}' copied!", prompt.name), 4);
+                                app.set_status(
+                                    format!("Success: '{}' copied!", prompt.metadata.name),
+                                    4,
+                                );
                                 app.focus = Focus::Prompts;
                             }
                         }

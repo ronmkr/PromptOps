@@ -42,7 +42,7 @@ fn main() -> Result<()> {
         return Ok(());
     }
 
-    let prompts = loader::load_prompts(&prompts_path)?;
+    let prompts = loader::load_prompts(&prompts_path.to_string_lossy())?;
     let mut app = AppState::new(prompts);
 
     // 3. Main loop

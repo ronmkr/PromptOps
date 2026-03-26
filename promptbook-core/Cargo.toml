@@ -1,0 +1,23 @@
+[package]
+name = "promptbook-core"
+version = "0.5.7"
+edition = "2021"
+
+[lib]
+name = "promptbook_core"
+crate-type = ["rlib"]
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+toml = "0.8"
+regex = "1.10"
+walkdir = "2.4"
+anyhow = "1.0"
+shlex = "1.3"
+reqwest = { version = "0.12", features = ["json", "blocking"] }
+keyring = "2.3"
+dirs = "5.0"
+chrono = "0.4"
+arboard = "3.3"
+whoami = "1.5"

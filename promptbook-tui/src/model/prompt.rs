@@ -1,33 +1,5 @@
-use serde::Deserialize;
 use std::collections::HashMap;
-
-#[derive(Debug, Clone, Deserialize)]
-pub struct Prompt {
-    #[serde(default)]
-    pub name: String,
-    #[serde(default)]
-    pub version_id: Option<String>, // e.g. "v1", "v2"
-    #[serde(default)]
-    pub description: String,
-    #[serde(default)]
-    pub args_description: String,
-    #[serde(default)]
-    pub version: String,
-    #[serde(default)]
-    pub last_updated: String,
-    #[serde(default)]
-    pub tags: Vec<String>,
-    #[serde(default)]
-    pub sensitive: bool,
-    #[serde(default)]
-    pub prompt: String,
-    #[serde(default)]
-    pub system_prompt: String,
-    #[serde(default)]
-    pub user_prompt: String,
-    #[serde(flatten)]
-    pub metadata: HashMap<String, toml::Value>,
-}
+pub use promptbook_core::Prompt;
 
 #[derive(Debug, Clone)]
 pub struct PromptGroup {

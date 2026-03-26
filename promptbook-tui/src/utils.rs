@@ -19,7 +19,7 @@ pub fn resolve_file_injection(val: &str) -> String {
     let mut files = Vec::<PathBuf>::new();
 
     if let Ok(entries) = glob(pattern) {
-        for entry in entries.filter_map(Result::ok) {
+        for entry in entries.filter_map(|e: Result<std::path::PathBuf, _>| e.ok()) {
             if entry.is_file() {
                 files.push(entry);
             }

@@ -1,0 +1,92 @@
+[config]
+skip_core_tasks = true
+
+[tasks.help]
+description = "Display help information"
+script = [
+    "echo \"promptbook Developer Tools (cargo-make)\"",
+    "echo \"-------------------------------------\"",
+    "echo \"  cargo make build          - Build all crates (CLI and TUI)\"",
+    "echo \"  cargo make test           - Run all unit tests across the workspace\"",
+    "echo \"  cargo make lint           - Run clippy on all crates\"",
+    "echo \"  cargo make fmt            - Format all Rust code\"",
+    "echo \"  cargo make validate       - Validate all prompt templates\"",
+    "echo \"  cargo make docs           - Synchronize template catalog (CATALOG.md)\"",
+    "echo \"  cargo make tui            - Launch the TUI Explorer\"",
+    "echo \"  cargo make clean          - Remove build artifacts\"",
+    "echo \"  cargo make release-binary - Build and package release binaries\"",
+]
+
+[tasks.build]
+description = "Build all crates"
+command = "cargo"
+args = ["build", "--release"]
+
+[tasks.test]
+description = "Run all tests"
+command = "cargo"
+args = ["test", "--workspace"]
+
+[tasks.lint]
+description = "Run clippy"
+command = "cargo"
+args = [
+    "clippy",
+    "--workspace",
+    "--",
+    "-D", "warnings",
+    "-W", "clippy::unwrap_used",
+    "-W", "clippy::expect_used",
+    "-W", "clippy::panic",
+    "-W", "clippy::indexing_slicing",
+]
+
+[tasks.fmt]
+description = "Format code"
+command = "cargo"
+args = ["fmt", "--all"]
+
+[tasks.validate]
+description = "Validate prompt templates"
+command = "cargo"
+args = ["run", "--bin", "pop", "--", "validate"]
+
+[tasks.docs]
+description = "Sync documentation"
+command = "cargo"
+args = ["run", "--bin", "pop", "--", "sync-docs"]
+
+[tasks.tui]
+description = "Run TUI"
+command = "cargo"
+args = ["run", "--bin", "promptbook-tui"]
+
+[tasks.clean]
+description = "Clean build artifacts"
+command = "cargo"
+args = ["clean"]
+
+[tasks.all]
+dependencies = ["lint", "test", "validate", "docs", "build"]
+
+[tasks.ci-flow]
+description = "Full CI flow: lint, test, validate, and build"
+dependencies = ["lint", "test", "validate", "build"]
+
+# --- Release Tasks ---
+
+[tasks.release-binary]
+description = "Build and package release binaries"
+dependencies = ["build"]
+script = [
+    "rm -rf dist",
+    "mkdir -p dist",
+    "cp target/release/pop dist/",
+    "cp target/release/promptbook-tui dist/",
+    "cp target/release/promptbook-mcp dist/",
+    "tar -czvf promptbook-release.tar.gz -C dist pop promptbook-tui promptbook-mcp",
+    "echo \"Release binaries packaged in promptbook-release.tar.gz\"",
+]
+
+[tasks.default]
+alias = "help"

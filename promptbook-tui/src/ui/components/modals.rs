@@ -12,7 +12,10 @@ use ratatui::{
 };
 
 pub fn render_version_modal(f: &mut Frame, state: &mut AppState) {
-    let group = &state.filter_groups[state.selected_prompt_index];
+    let group = match state.filter_groups.get(state.selected_prompt_index) {
+        Some(g) => g,
+        None => return,
+    };
     let area = centered_rect(60, 40, f.size());
     f.render_widget(Clear, area);
 
@@ -34,8 +37,8 @@ pub fn render_version_modal(f: &mut Frame, state: &mut AppState) {
             } else {
                 Style::default()
             };
-            let v_id = v.version_id.as_deref().unwrap_or("default");
-            ListItem::new(format!(" > {:<10} | {}", v_id, v.description)).style(style)
+            let v_id = v.metadata.version_id.as_deref().unwrap_or("default");
+            ListItem::new(format!(" > {:<10} | {}", v_id, v.metadata.description)).style(style)
         })
         .collect();
 
@@ -67,7 +70,8 @@ pub fn render_input_modal(f: &mut Frame, state: &mut AppState) {
         let area = centered_rect(80, 50, f.size());
         f.render_widget(Clear, area);
 
-        let var_name = &modal.variables[modal.current_var_index];
+        let var_name_fallback = "args".to_string();
+        let var_name = modal.variables.get(modal.current_var_index).unwrap_or(&var_name_fallback);
         let progress = format!(
             "Step {} of {}",
             modal.current_var_index + 1,

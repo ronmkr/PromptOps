@@ -55,8 +55,8 @@ pub fn handle_navigation_input(app: &mut AppState, event: KeyEvent) {
             if let Some(group) = app.filter_groups.get(app.selected_prompt_index) {
                 if group.versions.len() > 1 {
                     app.focus = Focus::VersionSelection;
-                } else {
-                    start_hydration(app, group.versions[0].clone());
+                } else if let Some(version) = group.versions.first() {
+                    start_hydration(app, version.clone());
                 }
             }
         }
@@ -88,9 +88,11 @@ pub fn handle_version_selection(app: &mut AppState, code: KeyCode) {
             app.focus = Focus::Prompts;
         }
         KeyCode::Enter => {
-            let group = app.filter_groups[app.selected_prompt_index].clone();
-            let version = group.versions[group.selected_version_index].clone();
-            start_hydration(app, version);
+            if let Some(group) = app.filter_groups.get(app.selected_prompt_index) {
+                if let Some(version) = group.versions.get(group.selected_version_index) {
+                    start_hydration(app, version.clone());
+                }
+            }
         }
         KeyCode::Down | KeyCode::Char('j') => app.next(),
         KeyCode::Up | KeyCode::Char('k') => app.previous(),

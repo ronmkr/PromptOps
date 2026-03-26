@@ -32,10 +32,10 @@ When using a promptbook template, follow this pipeline:
 claude "Read commands/prompts/architecture/design-api.toml and design a REST API for a task management app"
 
 # Use pop CLI to hydrate and copy to clipboard, then paste
-pop use security-scan --args @main.py
+cargo run --bin pop -- use security-scan --args @main.py
 
-# Pipe file content into a template
-cat main.py | pop use refactor-suggestions
+# Chain multiple prompts (sequentially execute)
+cargo run --bin pop -- chain prompt-specialist refactor-agent --args @main.rs
 ```
 
 ---
@@ -63,9 +63,10 @@ The `promptbook` binary is aliased as `pop`.
 | `pop list` | List all available templates with descriptions |
 | `pop search <term>` | Full-text search across names and descriptions |
 | `pop use <tool>` | Interactively run a template, prompting for variable values |
-| `pop use <tool> --language <lang>` | Inject language context for surgical extraction |
-| `pop use <tool> --args @file.py` | Inject file content directly into `{{args}}` |
-| `pop tags` | List all unique category tags |
+| `pop profile set/list` | Manage named context profiles |
+| `pop chain p1 p2` | Sequentially execute multiple prompts |
+| `pop validate` | Validate all prompts follow the schema |
+| `pop sync-docs` | Synchronize template catalog (CATALOG.md) |
 
 ---
 
@@ -76,16 +77,6 @@ The promptbook TUI is a high-performance, Rust-based terminal interface for brow
 ```bash
 make tui
 ```
-
----
-
-## 📂 Discovery & Usage
-Templates are organized hierarchically in `commands/prompts/`. You can explore them via:
-
-1. **Terminal Overview**: Run `make docs` for a categorized list.
-2. **Web Catalog**: Browse the [Full Template Catalog](docs/CATALOG.md).
-3. **Interactive TUI**: Run `make tui` for the full browser.
-4. **CLI Helper**: Use `pop list` or `pop search <term>`.
 
 ---
 

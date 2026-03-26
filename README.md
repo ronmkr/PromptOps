@@ -8,15 +8,29 @@
 
 ## 🚀 Quick Install
 
-Get up and running in seconds with our universal installer:
-
+### From Source (Rust required)
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ronmkr/Promptbook/main/scripts/install.sh | bash
-# Then run the setup wizard
-pop init
+git clone https://github.com/ronmkr/PromptBook.git
+cd PromptBook
+make build
+# Binary will be at target/release/pop (CLI) and target/release/promptbook-tui (TUI)
 ```
 
-*This clones the library to `~/.promptbook` and sets up the `pop` alias in `~/.local/bin`.*
+## 🛠 Usage
+
+**1. CLI Helper (pop)**
+```bash
+# List all templates
+cargo run --bin pop -- list
+
+# Use a prompt (hydrates variables interactively)
+cargo run --bin pop -- use refactor-agent
+```
+
+**2. Interactive Explorer (TUI)**
+```bash
+make tui
+```
 
 ## 🔍 What is this?
 
@@ -40,6 +54,32 @@ Lightning-fast fuzzy search and interactive variable hydration directly in your 
 ![Promptbook TUI Demo](https://raw.githubusercontent.com/ronmkr/Promptbook/main/docs/assets/tui-demo.gif)
 
 *(Run `make tui` to launch)*
+
+### MCP Server (Model Context Protocol)
+Expose the entire PromptBook library to AI agents like Claude Desktop or Gemini as **Tools** and **Resources**.
+
+**1. Build the server:**
+```bash
+make mcp
+```
+
+**2. Configure Claude Desktop:**
+Add this to your `claude_desktop_config.json`:
+```json
+{
+  "mcpServers": {
+    "promptbook": {
+      "command": "/absolute/path/to/PromptBook/target/debug/promptbook-mcp",
+      "args": []
+    }
+  }
+}
+```
+
+**3. AI Tools provided:**
+- `list_prompts`: Search and discover templates.
+- `get_prompt`: Hydrate and retrieve a prompt (e.g., "Use 'architect' with arguments {'args': 'my app'}")
+- **Resources**: Direct access to raw templates via `promptbook://prompts/name` URIs.
 
 ### Usage Examples
 
@@ -94,17 +134,20 @@ The project uses a `Makefile` to simplify common development tasks:
 
 | Command | Description |
 |---|---|
-| `make docs` | Generate the terminal overview and update `docs/CATALOG.md` |
-| `make tui` | Build and launch the Rust-based interactive TUI |
-| `make validate` | Run metadata and structure validation on all prompts |
-| `make test` | Run Python unit tests for the CLI helper |
-| `make evaluate [name]` | Run Golden Tests for all or a specific prompt |
-| `make sync-version [v]` | Sync version strings across all templates and manifests |
-| `make all` | Run validation, linting, tests, and doc sync in one go |
+| `make build` | Build all crates (CLI and TUI) |
+| `make test` | Run all unit tests across the workspace |
+| `make lint` | Run clippy on all crates |
+| `make fmt` | Format all Rust code |
+| `make validate` | Validate all prompt templates |
+| `make docs` | Synchronize template catalog (CATALOG.md) |
+| `make tui` | Launch the TUI Explorer |
+| `make mcp` | Build the MCP server |
 
 ## 📂 Documentation
 
 - [Full Prompt Catalog](docs/CATALOG.md)
+- [Template Changelog (TEMPLATES.md)](TEMPLATES.md)
+- [Model Context Protocol (MCP) Guide](docs/agents/mcp.md)
 - [Gemini CLI Extension Guide](docs/agents/gemini.md)
 - [Claude Code Integration](docs/agents/claude-code.md)
 - [Aider & Web-LLM Usage](docs/agents/aider.md)

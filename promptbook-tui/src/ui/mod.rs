@@ -18,9 +18,13 @@ pub fn render(f: &mut Frame, state: &mut AppState) {
         ])
         .split(f.size());
 
-    render_header(f, state, outer_layout[0]);
+    if let Some(header_area) = outer_layout.first() {
+        render_header(f, state, *header_area);
+    }
 
     let width = f.size().width;
+    let main_content_area = outer_layout.get(1).cloned().unwrap_or(f.size());
+    let footer_area = outer_layout.get(2).cloned().unwrap_or(f.size());
 
     if width >= 120 {
         // --- 3-Pane Layout (Large Screens) ---
@@ -41,43 +45,42 @@ pub fn render(f: &mut Frame, state: &mut AppState) {
         let main_chunks = Layout::default()
             .direction(Direction::Horizontal)
             .constraints(main_constraints)
-            .split(outer_layout[1]);
+            .split(main_content_area);
 
-        render_categories(f, state, main_chunks[0]);
-        render_prompts(f, state, main_chunks[1]);
-        render_details(f, state, main_chunks[2]);
+        if let Some(area) = main_chunks.first() { render_categories(f, state, *area); }
+        if let Some(area) = main_chunks.get(1) { render_prompts(f, state, *area); }
+        if let Some(area) = main_chunks.get(2) { render_details(f, state, *area); }
     } else if width >= 80 {
         // --- 2-Pane Layout (Medium Screens) ---
         if state.focus == Focus::Categories {
             let main_chunks = Layout::default()
                 .direction(Direction::Horizontal)
                 .constraints([Constraint::Percentage(30), Constraint::Percentage(70)])
-                .split(outer_layout[1]);
+                .split(main_content_area);
 
-            render_categories(f, state, main_chunks[0]);
-            render_prompts(f, state, main_chunks[1]);
+            if let Some(area) = main_chunks.first() { render_categories(f, state, *area); }
+            if let Some(area) = main_chunks.get(1) { render_prompts(f, state, *area); }
         } else {
             let main_chunks = Layout::default()
                 .direction(Direction::Horizontal)
                 .constraints([Constraint::Percentage(35), Constraint::Percentage(65)])
-                .split(outer_layout[1]);
+                .split(main_content_area);
 
-            render_prompts(f, state, main_chunks[0]);
-            render_details(f, state, main_chunks[1]);
+            if let Some(area) = main_chunks.first() { render_prompts(f, state, *area); }
+            if let Some(area) = main_chunks.get(1) { render_details(f, state, *area); }
         }
     } else {
         // --- 1-Pane Layout (Small Screens) ---
-        let area = outer_layout[1];
         match state.focus {
-            Focus::Categories => render_categories(f, state, area),
+            Focus::Categories => render_categories(f, state, main_content_area),
             Focus::Prompts | Focus::VersionSelection | Focus::Search => {
-                render_prompts(f, state, area)
+                render_prompts(f, state, main_content_area)
             }
-            _ => render_details(f, state, area),
+            _ => render_details(f, state, main_content_area),
         }
     }
 
-    render_footer(f, state, outer_layout[2]);
+    render_footer(f, state, footer_area);
 
     if state.focus == Focus::VersionSelection {
         render_version_modal(f, state);

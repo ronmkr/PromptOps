@@ -43,6 +43,13 @@ Instructions...
 If you add a new prompt or category, ensure it is correctly listed in:
 - `GEMINI.md` (for Gemini CLI extension users).
 - `README.md` (under the "Available Templates" section).
+- `docs/agents/mcp.md` (if adding new MCP-specific tools).
+
+### 4. Contributing to MCP Server
+The MCP server is located in `promptbook-mcp/`. To add new tools or resources:
+1.  Implement the logic in `promptbook-mcp/src/main.rs` within the `ServerHandler` trait.
+2.  Update the `list_tools` or `list_resources` methods to expose your new functionality.
+3.  Add an integration test in `promptbook-mcp/tests/integration.rs`.
 ---
 ## Validation Rules
 To maintain consistency, all prompts must follow these rules:
@@ -85,15 +92,16 @@ The output of each step is passed as `{{args}}` to the next.
 2.  **Create a Feature Branch**: `git checkout -b feature/your-feature-name`.
 3.  **Setup Your Environment**: Install dependencies and pre-commit hooks to automate validation:
     ```bash
-    make setup
+    make setup  # or: cargo make setup
     ```
     This will ensure that Python linting (ruff), prompt metadata validation, and Rust formatting are automatically checked whenever you commit.
 4.  **Validate Locally**: You can also run individual checks manually:
     ```bash
-    make validate # Check prompt metadata
-    make lint     # Run all linters (Python & Rust)
-    make test     # Run unit tests
-    make docs     # Synchronize documentation
+    make validate        # or: cargo make validate
+    make lint            # or: cargo make lint
+    make test            # or: cargo make test
+    make docs            # or: cargo make docs
+    make release-binary  # Build and package release binaries
     ```
 ### Golden Tests (Optional)
 If you are making significant changes to a prompt's logic, evaluate its quality using the evaluation framework.

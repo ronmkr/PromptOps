@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "promptbook-core",
+    "promptbook-tui",
+    "promptbook-cli",
+    "promptbook-mcp",
+]
+resolver = "2"

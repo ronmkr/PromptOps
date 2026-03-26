@@ -40,7 +40,10 @@ impl AppState {
         // Group prompts by name
         let mut group_map: HashMap<String, Vec<Prompt>> = HashMap::new();
         for p in prompts.iter() {
-            group_map.entry(p.name.clone()).or_default().push(p.clone());
+            group_map
+                .entry(p.metadata.name.clone())
+                .or_default()
+                .push(p.clone());
         }
 
         let mut groups: Vec<PromptGroup> = group_map
@@ -49,12 +52,12 @@ impl AppState {
                 // Sort: None (default) first, then by ID
                 versions.sort_by(|a, b| {
                     (
-                        a.version_id.is_some(),
-                        a.version_id.as_ref().unwrap_or(&String::new()),
+                        a.metadata.version_id.is_some(),
+                        a.metadata.version_id.as_ref().unwrap_or(&String::new()),
                     )
                         .cmp(&(
-                            b.version_id.is_some(),
-                            b.version_id.as_ref().unwrap_or(&String::new()),
+                            b.metadata.version_id.is_some(),
+                            b.metadata.version_id.as_ref().unwrap_or(&String::new()),
                         ))
                 });
                 PromptGroup {
@@ -70,12 +73,13 @@ impl AppState {
         for g in &groups {
             let mut tags = std::collections::HashSet::new();
             for v in &g.versions {
-                for t in &v.tags {
+                for t in &v.metadata.tags {
                     tags.insert(t.clone());
                 }
             }
             for tag in tags {
-                *counts.entry(tag).or_insert(0) += 1;
+                let tag_str: String = tag;
+                *counts.entry(tag_str).or_insert(0) += 1;
             }
         }
 
@@ -129,8 +133,11 @@ impl AppState {
                 .filter(|g| {
                     g.name.to_lowercase().contains(&query)
                         || g.versions.iter().any(|v| {
-                            v.description.to_lowercase().contains(&query)
-                                || v.tags.iter().any(|t| t.to_lowercase().contains(&query))
+                            v.metadata.description.to_lowercase().contains(&query)
+                                || v.metadata
+                                    .tags
+                                    .iter()
+                                    .any(|t: &String| t.to_lowercase().contains(&query))
                         })
                 })
                 .cloned()
@@ -138,11 +145,17 @@ impl AppState {
         } else if self.categories.is_empty() {
             self.filter_groups = Vec::new();
         } else {
-            let category = &self.categories[self.selected_category_index].0;
+            let category = self.categories.get(self.selected_category_index)
+                .map(|(c, _)| c.clone())
+                .unwrap_or_default();
             self.filter_groups = self
                 .groups
                 .iter()
-                .filter(|g| g.versions.iter().any(|v| v.tags.contains(category)))
+                .filter(|g| {
+                    g.versions
+                        .iter()
+                        .any(|v| v.metadata.tags.contains(&category))
+                })
                 .cloned()
                 .collect();
         }
@@ -178,9 +191,10 @@ impl AppState {
                 }
             }
             Focus::VersionSelection => {
-                let group = &mut self.filter_groups[self.selected_prompt_index];
-                group.selected_version_index =
-                    (group.selected_version_index + 1) % group.versions.len();
+                if let Some(group) = self.filter_groups.get_mut(self.selected_prompt_index) {
+                    group.selected_version_index =
+                        (group.selected_version_index + 1) % group.versions.len();
+                }
             }
             _ => {}
         }
@@ -213,11 +227,12 @@ impl AppState {
                 }
             }
             Focus::VersionSelection => {
-                let group = &mut self.filter_groups[self.selected_prompt_index];
-                if group.selected_version_index == 0 {
-                    group.selected_version_index = group.versions.len() - 1;
-                } else {
-                    group.selected_version_index -= 1;
+                if let Some(group) = self.filter_groups.get_mut(self.selected_prompt_index) {
+                    if group.selected_version_index == 0 {
+                        group.selected_version_index = group.versions.len() - 1;
+                    } else {
+                        group.selected_version_index -= 1;
+                    }
                 }
             }
             _ => {}

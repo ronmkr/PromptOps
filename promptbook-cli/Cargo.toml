@@ -1,0 +1,23 @@
+[package]
+name = "promptbook-cli"
+version = "0.5.7"
+edition = "2021"
+
+[[bin]]
+name = "pop"
+path = "src/main.rs"
+
+[dependencies]
+promptbook-core = { path = "../promptbook-core" }
+clap = { version = "4.4", features = ["derive", "string"] }
+clap_complete = "4.4"
+anyhow = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+inquire = "0.7"
+atty = "0.2"
+chrono = "0.4"
+colored = "2.1"
+walkdir = "2.4"
+toml = "0.8"
+regex = "1.10"

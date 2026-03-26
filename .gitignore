@@ -24,6 +24,10 @@ target/
 Cargo.lock.bak
 **/*.rs.bk
 
+# Release Artifacts
+dist/
+*.tar.gz
+
 # IDEs / Editors
 .vscode/
 .idea/
