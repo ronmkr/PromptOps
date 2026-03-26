@@ -1,7 +1,7 @@
 import os
+import re
 import sys
 import tomllib
-import re
 from datetime import datetime
 
 
@@ -74,9 +74,7 @@ class PromptValidator:
         version = self.data.get("version")
         if isinstance(version, str):
             if not re.match(r"^\d+\.\d+\.\d+$", version):
-                self.errors.append(
-                    f"Invalid version '{version}'. Must follow SemVer (e.g., 1.0.0)"
-                )
+                self.errors.append(f"Invalid version '{version}'. Must follow SemVer (e.g., 1.0.0)")
 
     def _check_date(self):
         date_str = self.data.get("last_updated")
@@ -87,9 +85,7 @@ class PromptValidator:
                 try:
                     datetime.strptime(date_str, "%Y-%m-%d")
                 except ValueError:
-                    self.errors.append(
-                        f"Date '{date_str}' is not a valid calendar date"
-                    )
+                    self.errors.append(f"Date '{date_str}' is not a valid calendar date")
 
     def _check_tags(self):
         tags = self.data.get("tags")
@@ -104,9 +100,7 @@ class PromptValidator:
                     continue
 
                 if tag != tag.lower() or " " in tag:
-                    self.errors.append(
-                        f"Tag '{tag}' must be lowercase and contain no spaces"
-                    )
+                    self.errors.append(f"Tag '{tag}' must be lowercase and contain no spaces")
 
                 if tag in seen:
                     self.errors.append(f"Duplicate tag found: '{tag}'")
@@ -118,9 +112,7 @@ class PromptValidator:
             if len(desc) > 150:
                 self.errors.append("Description is too long (max 150 characters)")
             if not desc.endswith("."):
-                self.errors.append(
-                    "Description should end with a period for consistency"
-                )
+                self.errors.append("Description should end with a period for consistency")
 
     def _check_prompt_content(self):
         # Gather all prompt content
@@ -140,9 +132,7 @@ class PromptValidator:
         # Updated regex to match more complex variable patterns
         vars_found = re.findall(r"\{\{\s*(.+?)\s*\}\}", full_content)
         if not vars_found:
-            self.errors.append(
-                "Prompt contains no variables. Did you forget '{{args}}'?"
-            )
+            self.errors.append("Prompt contains no variables. Did you forget '{{args}}'?")
 
 
 def main():

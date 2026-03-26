@@ -28,7 +28,17 @@ This document defines the unified engineering standards for development, includi
 ### Python Specifics
 - Follow **PEP 8** conventions.
 - Use **type annotations** for all function signatures.
-- Tooling: `black` for formatting, `ruff` for linting.
+- Prefer `tomllib` (Python 3.11+) or `tomli` for TOML parsing.
+- Tooling: `ruff` for both linting and formatting.
+</if>
+
+<if language="rust">
+### Rust Standards
+- Ownership & Borrowing: Avoid unnecessary clones; use references where possible.
+- Error Handling: Use `Result` and `Option`; avoid `unwrap()` in production.
+- Formatting: Use `cargo fmt` (standard Rust style).
+- Linting: Use `cargo clippy` for idiomatic improvements.
+- TUI: Use `ratatui` for terminal interfaces.
 </if>
 
 <if language="go">

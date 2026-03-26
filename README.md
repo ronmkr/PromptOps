@@ -61,8 +61,23 @@ pop use pr-template --args "{{$(git diff HEAD)}}"
 cat server.log | pop use debug-error
 ```
 
+**4. Context Profiles**
+```bash
+# Save common variables to a profile and reuse them
+pop profile set my-project project=PromptBook lang=python
+pop use refactor-agent --profile my-project
+```
+
+**5. Prompt Chaining**
+```bash
+# Chain multiple prompts (output of step 1 becomes input for step 2)
+pop chain prompt-specialist refactor-agent --args "initial code"
+```
+
 ## 🚀 Key Features
 
+- **Context Profiles:** Save and manage named sets of variables to reuse across different prompts.
+- **Prompt Chaining:** Create complex multi-step workflows by piping the output of one prompt into the input of the next.
 - **Massive Catalog:** 167+ unique prompts across Engineering, Security, AI, DevOps, and specialized developer domains.
 - **Secure Vault:** Encrypted storage for API keys using OS-level keyring and AES encryption.
 - **Audit Logging:** Compliance-ready tracking of all sensitive prompt executions.

@@ -61,7 +61,25 @@ promptbook supports a set of variables that are substituted when the prompt is e
 - `{{language}}`: The programming language of the context.
 - `{{context}}`: Additional project or system context.
 > **Note**: In most CLI tools, `{{args}}` is the default variable for input provided after the command name.
+
 ---
+
+## Advanced Features
+### 1. Context Profiles
+Use named context profiles to pre-fill variables for repetitive tasks:
+```bash
+pop profile set my-project project=PromptBook lang=python
+pop use refactor-agent --profile my-project
+```
+### 2. Prompt Chaining
+Chain multiple prompts together to create complex workflows:
+```bash
+pop chain prompt-specialist refactor-agent --args "initial code"
+```
+The output of each step is passed as `{{args}}` to the next.
+
+---
+
 ## Development Workflow
 1.  **Fork the Repository**: Create your own copy of promptbook.
 2.  **Create a Feature Branch**: `git checkout -b feature/your-feature-name`.

@@ -1,11 +1,14 @@
-import unittest
 import os
+import shutil
 import sys
 import tempfile
-import shutil
+import unittest
 
 # Add current directory to path
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+base_dir = os.path.dirname(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+)
+sys.path.append(os.path.join(base_dir, "scripts"))
 import validate_prompts  # noqa: E402
 
 

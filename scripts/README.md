@@ -4,11 +4,16 @@ This directory contains the Python core and CLI logic for the promptbook extensi
 
 ## Directory Structure
 
-- `promptbook/`: Python package containing core library logic.
-  - `cli.py`: Command-line interface logic.
-  - `core.py`: Library functions (discovery, parsing, injection).
-  - `ui.py`: CLI formatting and terminal colors.
-  - `utils.py`: Constants and shared utilities.
+- `promptbook/`: Modular Python package containing core library logic.
+  - `cli/`: Command-line interface logic (parsers and handlers).
+  - `engine/`: Core logic for template discovery, hydration, and session management.
+  - `providers/`: Integration with LLM providers and secure storage (Vault).
+  - `config.py`: Centralized configuration, paths, and constants.
+  - `models.py`: Structured data models for prompts and profiles.
+  - `core.py`: Main orchestrator for library functions.
+  - `core_wizards.py`: Interactive wizards for setup and prompt creation.
+  - `ui.py`: CLI formatting and terminal styling.
+  - `utils.py`: Shared utility functions.
 - `evaluate_prompts.py`: Script to run automated evals for prompt quality.
 - `sync_all_docs.py`: Syncs catalog notebooks with current prompt files.
 - `validate_prompts.py`: Schema validation for TOML prompt files.

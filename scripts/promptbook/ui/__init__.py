@@ -1,5 +1,6 @@
 import sys
-from .utils import Colors
+
+from ..utils import Colors
 
 
 def print_help():
@@ -30,9 +31,7 @@ def print_help():
 
 
 def format_prompt_list(grouped):
-    print(
-        f"{Colors.BOLD}{Colors.CYAN}{'PROMPT NAME':<35} | {'DESCRIPTION'}{Colors.RESET}"
-    )
+    print(f"{Colors.BOLD}{Colors.CYAN}{'PROMPT NAME':<35} | {'DESCRIPTION'}{Colors.RESET}")
     print("-" * 100)
     for name in sorted(grouped.keys()):
         versions = grouped[name]
@@ -51,12 +50,7 @@ def format_tag_list(unique_names):
 
 def print_interactive_header(display_name, label):
     print(
-        "\n"
-        + f"{Colors.BOLD}{Colors.YELLOW}"
-        + "╭"
-        + "─" * 68
-        + "╮"
-        + f"{Colors.RESET}",
+        "\n" + f"{Colors.BOLD}{Colors.YELLOW}" + "╭" + "─" * 68 + "╮" + f"{Colors.RESET}",
         file=sys.stderr,
     )
     print(

@@ -1,6 +1,6 @@
+import json
 import os
 import re
-import json
 
 
 def sync_versions(new_version):
@@ -9,7 +9,7 @@ def sync_versions(new_version):
     # 1. Update gemini-extension.json
     extension_path = "gemini-extension.json"
     if os.path.exists(extension_path):
-        with open(extension_path, "r") as f:
+        with open(extension_path) as f:
             data = json.load(f)
         data["version"] = new_version
         with open(extension_path, "w") as f:
@@ -19,7 +19,7 @@ def sync_versions(new_version):
     # 2. Update Cargo.toml
     cargo_path = "promptbook-tui/Cargo.toml"
     if os.path.exists(cargo_path):
-        with open(cargo_path, "r") as f:
+        with open(cargo_path) as f:
             content = f.read()
         content = re.sub(
             r'^version\s*=\s*".*?"',
@@ -39,7 +39,7 @@ def sync_versions(new_version):
             for f_name in fs:
                 if f_name.endswith(".toml"):
                     path = os.path.join(root, f_name)
-                    with open(path, "r") as file:
+                    with open(path) as file:
                         content = file.read()
                     # Only replace the top-level version field
                     new_content = re.sub(

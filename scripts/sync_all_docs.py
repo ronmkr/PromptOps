@@ -3,8 +3,7 @@ import sys
 
 # Add current directory to path so we can import our package
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from promptbook import core  # noqa: E402
-from promptbook.utils import Colors
+from promptbook import Colors, core  # noqa: E402
 
 CATALOG_FILE = "docs/CATALOG.md"
 
@@ -37,9 +36,7 @@ def generate_catalog():
         cat_prompts = categories[cat]
 
         # Terminal print
-        print(
-            f"\n{Colors.BOLD}{Colors.YELLOW}📂 {cat}{Colors.RESET} ({len(cat_prompts)} prompts)"
-        )
+        print(f"\n{Colors.BOLD}{Colors.YELLOW}📂 {cat}{Colors.RESET} ({len(cat_prompts)} prompts)")
         print("-" * 80)
 
         for p in sorted(cat_prompts, key=lambda x: x["display_name"]):
@@ -58,9 +55,7 @@ def generate_catalog():
     with open(CATALOG_FILE, "w", encoding="utf-8") as f:
         f.write("".join(md_content).strip() + "\n")
 
-    print(
-        f"\n{Colors.BOLD}{Colors.GREEN}✅ Catalog updated: {CATALOG_FILE}{Colors.RESET}"
-    )
+    print(f"\n{Colors.BOLD}{Colors.GREEN}✅ Catalog updated: {CATALOG_FILE}{Colors.RESET}")
 
 
 if __name__ == "__main__":

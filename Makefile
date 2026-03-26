@@ -42,12 +42,12 @@ fmt:
 	@cd promptbook-tui && cargo fmt
 
 test:
-	@echo "Running CLI helper tests..."
-	@python3 scripts/test_promptbook.py
-	@echo "Running extended feature tests..."
-	@python3 tests/test_features_extended.py
-	@echo "Running validation unit tests..."
-	@python3 scripts/test_validation.py
+	@echo "Running Python unit tests..."
+	@python3 -m unittest discover -s tests/python/unit
+	@echo "Running Python integration tests..."
+	@python3 -m unittest discover -s tests/python/integration
+	@echo "Running metadata validation tests..."
+	@python3 tests/python/metadata/test_validation.py
 
 rust-build:
 	@echo "Building Rust TUI (Debug)..."
