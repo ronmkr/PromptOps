@@ -1,6 +1,6 @@
 description = "Unified specialist for LLM API integration and cost-aware pipelines. Covers Claude API, SDK patterns, model routing, and budget optimization."
 args_description = "Context or Source Code"
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2026-03-23"
 tags = ["ai-agents"]
 prompt = '''

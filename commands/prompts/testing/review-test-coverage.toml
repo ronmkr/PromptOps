@@ -1,6 +1,6 @@
 description = "Analyze test coverage gaps."
 args_description = "Code to Test"
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2026-03-22"
 tags = ["testing"]
 prompt = '''

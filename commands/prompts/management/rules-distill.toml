@@ -1,6 +1,6 @@
 description = "Scan skills to extract cross-cutting principles and distill them into rules — append, revise, or create new rule files."
 args_description = "Scan skills to extract cross-cutting principles and distill them into rules — append, revise, or create new rule files."
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2026-03-22"
 tags = ["management"]
 prompt = '''

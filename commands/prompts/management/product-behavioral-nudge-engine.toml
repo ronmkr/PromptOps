@@ -1,6 +1,6 @@
 description = "Behavioral psychology specialist that adapts software interaction cadences and styles to maximize user motivation and success."
 args_description = "Behavioral psychology specialist that adapts software interaction cadences and styles to maximize user motivation and success."
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2026-03-22"
 tags = ["management"]
 prompt = '''

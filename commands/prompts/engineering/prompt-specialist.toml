@@ -1,6 +1,6 @@
 description = "Master specialist for prompt engineering: optimize, create, improve, and manage the lifecycle of high-quality prompts and templates."
 args_description = "Draft Prompt or Task Description"
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2026-03-22"
 tags = ["engineering"]
 

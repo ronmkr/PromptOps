@@ -1,6 +1,6 @@
 description = "Expert UI/UX specialist for design systems, user research, and Storybook component generation."
 args_description = "Context or Source Code"
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2024-05-20"
 tags = ["design"]
 prompt = '''

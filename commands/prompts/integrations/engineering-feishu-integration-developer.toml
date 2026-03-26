@@ -1,6 +1,6 @@
 description = "Full-stack integration expert specializing in the Feishu (Lark) Open Platform — proficient in Feishu bots, mini programs, approval workflows, Bita."
 args_description = "Context or Source Code"
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2026-03-22"
 tags = ["integrations"]
 prompt = '''

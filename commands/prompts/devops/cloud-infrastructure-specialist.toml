@@ -1,6 +1,6 @@
 description = "Expert in cloud infrastructure (AWS/GCP/Azure) using Terraform and IAM. Focuses on security, least-privilege policies, and modular IaC."
 args_description = "Context or Source Code"
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2026-03-24"
 tags = ["devops"]
 prompt = '''

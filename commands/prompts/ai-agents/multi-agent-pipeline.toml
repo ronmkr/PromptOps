@@ -1,6 +1,6 @@
 description = "Unified Autonomous Pipeline Orchestration framework for high-velocity multi-agent development workflows."
 args_description = "Context or Source Code"
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2026-03-23"
 tags = ["ai-agents"]
 prompt = '''

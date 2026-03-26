@@ -1,6 +1,6 @@
 description = "Comprehensive, tool-agnostic security audit for codebases, configurations, and dependencies. Focused on OWASP, secrets, and supply-chain risks."
 args_description = "Context or Source Code"
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2026-03-24"
 tags = ["security"]
 prompt = '''

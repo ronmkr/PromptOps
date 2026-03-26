@@ -1,6 +1,6 @@
 description = "Agent orchestration: available agents, parallel execution, multi-perspective analysis."
 args_description = "Context or Source Code"
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2026-03-22"
 tags = ["ai-agents"]
 prompt = '''

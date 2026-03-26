@@ -1,6 +1,6 @@
 description = "Unified evaluation framework for AI agents, implementing eval-driven development (EDD), head-to-head benchmarking, and harness optimization."
 args_description = "Context or Source Code"
-version = "0.5.7"
+version = "0.5.8"
 last_updated = "2026-03-23"
 tags = ["ai-agents"]
 prompt = '''
