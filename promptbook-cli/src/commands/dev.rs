@@ -13,6 +13,10 @@ pub fn validate_prompts() -> Result<()> {
     println!("Validating {} prompts...", prompts.len());
     let mut errors = 0;
 
+    // Semantic Checks: Pre-compile regexes outside the loop
+    let open_tag = regex::Regex::new(r"\{\{[^}]*($|\{)")?;
+    let open_block = regex::Regex::new(r"\{%[^%]*($|\{)")?;
+
     for p_meta in prompts {
         let p = match engine.load_prompt(&p_meta.name, p_meta.version_id.as_deref()) {
             Ok(p) => p,
@@ -38,15 +42,11 @@ pub fn validate_prompts() -> Result<()> {
         }
 
         // 2. Semantic Checks: Unclosed Tags
-        // Check for {{ without matching }}
-        let open_tag = regex::Regex::new(r"\{\{[^}]*($|\{)")?;
         if open_tag.is_match(&p.prompt) {
             println!("  ❌ {}: Found unclosed {{{{ tag", p.metadata.name.red());
             errors += 1;
         }
 
-        // Check for {% without matching %}
-        let open_block = regex::Regex::new(r"\{%[^%]*($|\{)")?;
         if open_block.is_match(&p.prompt) {
             println!("  ❌ {}: Found unclosed {{% block", p.metadata.name.red());
             errors += 1;
