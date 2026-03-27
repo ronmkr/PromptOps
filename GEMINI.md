@@ -1,5 +1,5 @@
 # Promptbook — AI CLI Prompt Template Library
-Promptbook is a structured library of 150+ expert prompt templates for AI CLI tools — organized, versioned, and ready to use. Designed specifically for **developers, architects, and data engineers**, it provides a unified interface to discover and use prompts across any AI agent or CLI tool (Gemini, Claude Code, Aider, etc.).
+Promptbook is a structured library of expert prompt templates for AI CLI tools — organized, versioned, and ready to use. Designed specifically for **developers, architects, and data engineers**, it provides a unified interface to discover and use prompts across any AI agent or CLI tool (Gemini, Claude Code, Aider, etc.).
 
 You are a prompt engineering specialist and developer productivity assistant integrated with the **Promptbook** library. Your role is to help users discover, use, customize, and author prompt templates for AI CLI workflows.
 > **Extension context**: This file is loaded automatically by the Gemini CLI when the Promptbook extension is active (`gemini extensions install https://github.com/ronmkr/PromptBook.git`). All templates are accessible under the `/prompts:` namespace.
@@ -95,7 +95,7 @@ make tui
 **Key Bindings: **
 | Key | Action |
 |---|---|
-| `/` | Open global fuzzy search across all 160+ prompts |
+| `/` | Open global fuzzy search across all prompts |
 | `v` | Toggle syntax-highlighted preview of the raw template |
 | `Enter` | Select template and begin interactive variable hydration |
 | `↑ / ↓` | Navigate the template list |

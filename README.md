@@ -118,7 +118,7 @@ pop chain prompt-specialist refactor-agent --args "initial code"
 
 - **Context Profiles:** Save and manage named sets of variables to reuse across different prompts.
 - **Prompt Chaining:** Create complex multi-step workflows by piping the output of one prompt into the input of the next.
-- **Massive Catalog:** 167+ unique prompts across Engineering, Security, AI, DevOps, and specialized developer domains.
+- **Massive Catalog:** Unique prompts across Engineering, Security, AI, DevOps, and specialized developer domains.
 - **Secure Vault:** Encrypted storage for API keys using OS-level keyring and AES encryption.
 - **Audit Logging:** Compliance-ready tracking of all sensitive prompt executions.
 - **PII Masking:** Automatic anonymization of emails, phones, and sensitive data (GDPR ready).

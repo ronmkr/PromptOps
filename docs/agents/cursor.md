@@ -14,7 +14,7 @@ pop use python-testing --no-copy
 Then paste it into Cursor's composer or chat.
 
 ## Native Catalog
-Browse all 437+ prompts in the [Full Catalog](../catalog/FULL_CATALOG.md).
+Browse all prompts in the [Full Catalog](../catalog/FULL_CATALOG.md).
 
 ---
 

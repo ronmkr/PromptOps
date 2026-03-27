@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+**/node_modules/
+target/
+**/target/
+.venv/
+venv/
+env/
+
+# Build artifacts
+dist/
+**/dist/
+build/
+
+# Cache
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.next/
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# Logs
+*.log
+
+# Sensitive
+.env
+.env.*
+*.pem
+*.key
+
+# Project Specific
+docs/catalog.json
+web/dist/
+web/node_modules/

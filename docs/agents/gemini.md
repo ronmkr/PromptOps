@@ -15,7 +15,7 @@ Use the `/prompts:` prefix to trigger any prompt:
 ```
 
 ## Explorer
-Launch the TUI to browse all 437+ prompts:
+Launch the TUI to browse all prompts:
 ```bash
 pop
 # or
