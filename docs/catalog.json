@@ -1,0 +1,2492 @@
+[
+  {
+    "name": "academic-researcher",
+    "display_name": "academic-researcher",
+    "description": "Multidisciplinary academic expert in anthropology, geography, history, narratology, and psychology for holistic world-building and analysis.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "academic"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/academic/academic-researcher.toml",
+    "category": "academic"
+  },
+  {
+    "name": "agentic-identity-trust",
+    "display_name": "agentic-identity-trust",
+    "description": "Architectural specialist for agentic identity, cryptographic trust verification, and verifiable audit trails in multi-agent environments.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/agentic-identity-trust.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "agentic-principles",
+    "display_name": "agentic-principles",
+    "description": "Unified model for Agentic and AI-First Engineering. Focuses on eval-driven execution, task decomposition, and AI-assisted architecture.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/agentic-principles.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "ai-engineer-agent",
+    "display_name": "ai-engineer-agent",
+    "description": "Expert AI/ML engineer for model development, deployment, and production integration. Focuses on scalable features and intelligent data pipelines.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/ai-engineer-agent.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "autonomous-loop",
+    "display_name": "autonomous-loop",
+    "description": "Unified guide for autonomous AI agent loops. Covers sequential pipelines, REPLs, infinite generation, PR loops, and RFC-driven DAG orchestration.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/autonomous-loop.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "claude-devfleet-specialist",
+    "display_name": "claude-devfleet-specialist",
+    "description": "Orchestrate multi-agent coding tasks via Claude DevFleet, enabling project planning, parallel agent dispatch, and automated progress monitoring.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/claude-devfleet-specialist.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "common-agents",
+    "display_name": "common-agents",
+    "description": "Agent orchestration: available agents, parallel execution, multi-perspective analysis.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/common-agents.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "content-engine-specialist",
+    "display_name": "content-engine-specialist",
+    "description": "Create platform-native content systems for social media, newsletters, and repurposed campaigns. Ensures consistency and high impact across channels.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/content-engine-specialist.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "context-budget-specialist",
+    "display_name": "context-budget-specialist",
+    "description": "Audits the AI agent context window consumption across agents, skills, MCP servers, and rules. Identifies bloat, redundant components, and produces.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/context-budget-specialist.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "data-consolidation-agent",
+    "display_name": "data-consolidation-agent",
+    "description": "AI specialist for consolidating sales metrics into real-time reporting dashboards with territory, representative, and pipeline summaries.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/data-consolidation-agent.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "eval-harness",
+    "display_name": "eval-harness",
+    "description": "Unified evaluation framework for AI agents, implementing eval-driven development (EDD), head-to-head benchmarking, and harness optimization.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/eval-harness.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "llm-pipeline-specialist",
+    "display_name": "llm-pipeline-specialist",
+    "description": "Unified specialist for LLM API integration and cost-aware pipelines. Covers Claude API, SDK patterns, model routing, and budget optimization.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/llm-pipeline-specialist.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "multi-agent-pipeline",
+    "display_name": "multi-agent-pipeline",
+    "description": "Unified Autonomous Pipeline Orchestration framework for high-velocity multi-agent development workflows.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/multi-agent-pipeline.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "observer",
+    "display_name": "observer",
+    "description": "Background agent that analyzes session observations to detect patterns and create instincts. Uses Haiku for cost-efficiency. v2.1 adds project-sco.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/observer.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "specialized-model-qa",
+    "display_name": "specialized-model-qa",
+    "description": "Independent model QA expert who audits ML and statistical models end-to-end - from documentation review and data reconstruction to replication, ca.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-agents/specialized-model-qa.toml",
+    "category": "ai-agents"
+  },
+  {
+    "name": "agent-harness-architect",
+    "display_name": "agent-harness-architect",
+    "description": "Expert-level design and optimization of AI agent action spaces, tool definitions, and observation formatting for high completion rates.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-infra"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-infra/agent-harness-architect.toml",
+    "category": "ai-infra"
+  },
+  {
+    "name": "mcp-master",
+    "display_name": "mcp-master",
+    "description": "Unified MCP Master for designing, building, and deploying Model Context Protocol servers. Covers SDK patterns, tool design, and transport.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-infra"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/ai-infra/mcp-master.toml",
+    "category": "ai-infra"
+  },
+  {
+    "name": "architect",
+    "display_name": "architect",
+    "description": "Senior software architect for system design, domain-driven design, scalability, and technical decision-making with ADR and C4 support.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "architecture"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/architecture/architect.toml",
+    "category": "architecture"
+  },
+  {
+    "name": "architecture-decision-records",
+    "display_name": "architecture-decision-records",
+    "description": "Capture architectural decisions as structured ADR documents. Tracks context, alternatives, consequences, and decision status.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "architecture"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/architecture/architecture-decision-records.toml",
+    "category": "architecture"
+  },
+  {
+    "name": "autonomous-optimization-architect",
+    "display_name": "autonomous-optimization-architect",
+    "description": "System governor for autonomous API shadow-testing and optimization with financial and security guardrails.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "architecture"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/architecture/autonomous-optimization-architect.toml",
+    "category": "architecture"
+  },
+  {
+    "name": "design-patterns",
+    "display_name": "design-patterns",
+    "description": "Comprehensive guide for selecting and implementing software design patterns. Includes code examples, trade-offs, and testing considerations.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "architecture"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/architecture/design-patterns.toml",
+    "category": "architecture"
+  },
+  {
+    "name": "backend-architect-agent",
+    "display_name": "backend-architect-agent",
+    "description": "Senior backend architect specializing in scalable system design, database architecture, API development, and cloud infrastructure.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "backend"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/backend/backend-architect-agent.toml",
+    "category": "backend"
+  },
+  {
+    "name": "backend-specialist",
+    "display_name": "backend-specialist",
+    "description": "Expert backend architect for API design, database optimization, and scalable server-side patterns.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "backend"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/backend/backend-specialist.toml",
+    "category": "backend"
+  },
+  {
+    "name": "content-hash-cache-pattern",
+    "display_name": "content-hash-cache-pattern",
+    "description": "Cache expensive file processing results using SHA-256 content hashes — path-independent, auto-invalidating, with service layer separation.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "backend"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/backend/content-hash-cache-pattern.toml",
+    "category": "backend"
+  },
+  {
+    "name": "blockchain-security-auditor",
+    "display_name": "blockchain-security-auditor",
+    "description": "Expert smart contract security auditor specializing in vulnerability detection, formal verification, and exploit analysis.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "blockchain"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/blockchain/blockchain-security-auditor.toml",
+    "category": "blockchain"
+  },
+  {
+    "name": "zk-steward",
+    "display_name": "zk-steward",
+    "description": "Knowledge-base steward in the spirit of Niklas Luhmann's Zettelkasten. Default perspective: Luhmann; switches to domain experts (Feynman, Munger,.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "blockchain"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/blockchain/zk-steward.toml",
+    "category": "blockchain"
+  },
+  {
+    "name": "security",
+    "display_name": "security",
+    "description": "Common Security Guidelines and Mandatory Checks.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "common"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/common/security.toml",
+    "category": "common"
+  },
+  {
+    "name": "cpp-build-resolver",
+    "display_name": "cpp-build-resolver",
+    "description": "Expert in resolving C++ build errors, CMake configuration issues, and linker warnings using surgical, minimal changes to restore project stability.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "cpp"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/cpp/cpp-build-resolver.toml",
+    "category": "cpp"
+  },
+  {
+    "name": "cpp-reviewer",
+    "display_name": "cpp-reviewer",
+    "description": "Senior C++ code reviewer focused on modern idioms, memory safety, concurrency, and performance to ensure high-quality and secure codebases.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "cpp"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/cpp/cpp-reviewer.toml",
+    "category": "cpp"
+  },
+  {
+    "name": "cpp-specialist",
+    "display_name": "cpp-specialist",
+    "description": "Unified C++ specialist for coding standards, style, patterns, security, and testing. Covers Modern C++, RAII, GoogleTest, and memory safety.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "cpp"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/cpp/cpp-specialist.toml",
+    "category": "cpp"
+  },
+  {
+    "name": "csharp-specialist",
+    "display_name": "csharp-specialist",
+    "description": "Unified C# specialist for coding style, architectural patterns, security, and testing. Covers .NET conventions, async, xUnit, and security.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "csharp"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/csharp/csharp-specialist.toml",
+    "category": "csharp"
+  },
+  {
+    "name": "data-engineer-specialist",
+    "display_name": "data-engineer-specialist",
+    "description": "Expert in reliable data pipelines, lakehouse architectures, database performance optimization, and AI-driven data remediation and anomaly fixing.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "data"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/data/data-engineer-specialist.toml",
+    "category": "data"
+  },
+  {
+    "name": "data-scraper-specialist",
+    "display_name": "data-scraper-specialist",
+    "description": "Framework for building automated AI-powered data collection agents for public sources like job boards, prices, news, and GitHub repositories.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "data"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/data/data-scraper-specialist.toml",
+    "category": "data"
+  },
+  {
+    "name": "identity-graph-specialist",
+    "display_name": "identity-graph-specialist",
+    "description": "Operates a shared identity graph that multiple AI agents resolve against for canonical entity resolution and multi-agent coordination.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "data"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/data/identity-graph-specialist.toml",
+    "category": "data"
+  },
+  {
+    "name": "clickhouse-io",
+    "display_name": "clickhouse-io",
+    "description": "ClickHouse database patterns, query optimization, analytics, and data engineering best practices for high-performance analytical workloads.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "database"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/database/clickhouse-io.toml",
+    "category": "database"
+  },
+  {
+    "name": "database-architect-agent",
+    "display_name": "database-architect-agent",
+    "description": "Expert database architect for schema design, migrations, query optimization, and performance tuning. Specialized in SQL and NoSQL systems.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "database"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/database/database-architect-agent.toml",
+    "category": "database"
+  },
+  {
+    "name": "postgres-patterns",
+    "display_name": "postgres-patterns",
+    "description": "PostgreSQL database patterns for query optimization, schema design, indexing, and security. Based on Supabase best practices.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "database"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/database/postgres-patterns.toml",
+    "category": "database"
+  },
+  {
+    "name": "image-prompt-engineer",
+    "display_name": "image-prompt-engineer",
+    "description": "Expert in AI image prompt engineering and media generation via fal.ai MCP for images, video, and audio.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "design"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/design/image-prompt-engineer.toml",
+    "category": "design"
+  },
+  {
+    "name": "ui-ux-specialist",
+    "display_name": "ui-ux-specialist",
+    "description": "Expert UI/UX specialist for design systems, user research, and Storybook component generation.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "design"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/design/ui-ux-specialist.toml",
+    "category": "design"
+  },
+  {
+    "name": "visual-design-specialist",
+    "display_name": "visual-design-specialist",
+    "description": "Comprehensive visual design expert covering brand identity, storytelling, inclusivity, Liquid Glass, and style presets.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "design"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/design/visual-design-specialist.toml",
+    "category": "design"
+  },
+  {
+    "name": "xr-specialist",
+    "display_name": "xr-specialist",
+    "description": "Expert XR specialist for immersive AR/VR/XR experiences, spatial interaction design, and browser-based 3D applications.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "design"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/design/xr-specialist.toml",
+    "category": "design"
+  },
+  {
+    "name": "bun-runtime",
+    "display_name": "bun-runtime",
+    "description": "Bun as runtime, package manager, bundler, and test runner. When to choose Bun vs Node, migration notes, and Vercel support.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "devops"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/devops/bun-runtime.toml",
+    "category": "devops"
+  },
+  {
+    "name": "cloud-infrastructure-specialist",
+    "display_name": "cloud-infrastructure-specialist",
+    "description": "Expert in cloud infrastructure (AWS/GCP/Azure) using Terraform and IAM. Focuses on security, least-privilege policies, and modular IaC.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "devops"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/devops/cloud-infrastructure-specialist.toml",
+    "category": "devops"
+  },
+  {
+    "name": "container-orchestration-specialist",
+    "display_name": "container-orchestration-specialist",
+    "description": "Expert in containerization and orchestration using Docker and Kubernetes. Handles Dockerfiles, Compose, and Kubernetes manifests.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "devops"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/devops/container-orchestration-specialist.toml",
+    "category": "devops"
+  },
+  {
+    "name": "devops-specialist",
+    "display_name": "devops-specialist",
+    "description": "Expert DevOps/SRE specialist for CI/CD, IaC, SLOs, observability, and lifecycle management of long-lived agent workloads.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "devops"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/devops/devops-specialist.toml",
+    "category": "devops"
+  },
+  {
+    "name": "enterprise-agent-ops-specialist",
+    "display_name": "enterprise-agent-ops-specialist",
+    "description": "Operate long-lived agent workloads with observability, security boundaries, and lifecycle management.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "ai-agents"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/devops/enterprise-agent-ops-specialist.toml",
+    "category": "devops"
+  },
+  {
+    "name": "incident-response-specialist",
+    "display_name": "incident-response-specialist",
+    "description": "Expert incident commander for production management. Coordinates response, severity frameworks, blameless post-mortems, and on-call culture.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "devops"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/devops/incident-response-specialist.toml",
+    "category": "devops"
+  },
+  {
+    "name": "article-writing",
+    "display_name": "article-writing",
+    "description": "Expert long-form writer specialized in blog posts, tutorials, and newsletters with a focus on distinct, human-sounding voices and structured copy.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "docs"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/docs/article-writing.toml",
+    "category": "docs"
+  },
+  {
+    "name": "crosspost",
+    "display_name": "crosspost",
+    "description": "Multi-platform content distribution across X, LinkedIn, Threads, and Bluesky. Adapts content per platform using content-engine patterns. Never pos.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "docs"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/docs/crosspost.toml",
+    "category": "docs"
+  },
+  {
+    "name": "doc-updater",
+    "display_name": "doc-updater",
+    "description": "Documentation and codemap specialist. Use PROACTIVELY for updating codemaps and documentation. Runs /update-codemaps and /update-docs, generates d.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "docs"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/docs/doc-updater.toml",
+    "category": "docs"
+  },
+  {
+    "name": "docs-lookup",
+    "display_name": "docs-lookup",
+    "description": "When the user asks how to use a library, framework, or API or needs up-to-date code examples, use Context7 MCP to fetch current documentation and.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "docs"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/docs/docs-lookup.toml",
+    "category": "docs"
+  },
+  {
+    "name": "eli5",
+    "display_name": "eli5",
+    "description": "Explain like I'm 5 (simple explanations).",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "docs"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/docs/eli5.toml",
+    "category": "docs"
+  },
+  {
+    "name": "learning-path",
+    "display_name": "learning-path",
+    "description": "Create learning roadmaps.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "docs"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/docs/learning-path.toml",
+    "category": "docs"
+  },
+  {
+    "name": "narrative-designer",
+    "display_name": "narrative-designer",
+    "description": "Story systems and dialogue architect - Masters GDD-aligned narrative design, branching dialogue, lore architecture, and environmental storytelling.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "docs"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/docs/narrative-designer.toml",
+    "category": "docs"
+  },
+  {
+    "name": "simplify-jargon",
+    "display_name": "simplify-jargon",
+    "description": "Simplify technical jargon.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "docs"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/docs/simplify-jargon.toml",
+    "category": "docs"
+  },
+  {
+    "name": "technical-writing-specialist",
+    "display_name": "technical-writing-specialist",
+    "description": "Expert technical writer for developer docs, API references, tutorials, and technical blogs. Bridges the gap between engineers and users.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "docs"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/docs/technical-writing-specialist.toml",
+    "category": "docs"
+  },
+  {
+    "name": "code-reviewer-agent",
+    "display_name": "code-reviewer-agent",
+    "description": "Comprehensive code review specialist for quality, security, and performance. Provides actionable feedback and constructive refactoring suggestions.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/code-reviewer-agent.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "codebase-onboarding",
+    "display_name": "codebase-onboarding",
+    "description": "Analyze an unfamiliar codebase and generate a structured onboarding guide with architecture map, key entry points, conventions, and a starter CLAU.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/codebase-onboarding.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "compare-technologies",
+    "display_name": "compare-technologies",
+    "description": "Framework for comparing software technologies, frameworks, and libraries with a focus on trade-offs, syntax, and performance.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/compare-technologies.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "continuous-learning-specialist",
+    "display_name": "continuous-learning-specialist",
+    "description": "Master specialist for the Continuous Learning system. Manages session observation, atomic instinct extraction, and knowledge evolution.",
+    "args_description": "Session Context or Instinct ID",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/continuous-learning-specialist.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "documentation-lookup",
+    "display_name": "documentation-lookup",
+    "description": "Use up-to-date library and framework docs via Context7 MCP instead of training data. Activates for setup questions, API references, code examples,.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/documentation-lookup.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "engineering-standards-specialist",
+    "display_name": "engineering-standards-specialist",
+    "description": "Unified engineering standards for coding style, design patterns, automation hooks, and performance optimization across the development lifecycle.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/engineering-standards-specialist.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "error-resolution-agent",
+    "display_name": "error-resolution-agent",
+    "description": "Master specialist for diagnosing and resolving build, type, and runtime errors. Expert in root cause analysis and minimal-diff error fixing.",
+    "args_description": "Error Message or Stack Trace",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/error-resolution-agent.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "lsp-specialist",
+    "display_name": "lsp-specialist",
+    "description": "Language Server Protocol specialist building unified code intelligence systems through LSP client orchestration and semantic indexing.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/lsp-specialist.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "performance-profile",
+    "display_name": "performance-profile",
+    "description": "Expert guide for performance profiling, bottleneck identification, and optimization across frontend, backend, and database layers.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/performance-profile.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "prompt-specialist",
+    "display_name": "prompt-specialist",
+    "description": "Master specialist for prompt engineering: optimize, create, improve, and manage the lifecycle of high-quality prompts and templates.",
+    "args_description": "Draft Prompt or Task Description",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/prompt-specialist.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "refactor-agent",
+    "display_name": "refactor-agent",
+    "description": "Expert refactoring specialist for code cleanup, dead code removal, duplicate elimination, and architectural improvements with a focus on safety.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/refactor-agent.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "regex-builder",
+    "display_name": "regex-builder",
+    "description": "Generate and explain complex Regular Expressions.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/regex-builder.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "regex-vs-llm-structured-text",
+    "display_name": "regex-vs-llm-structured-text",
+    "description": "Decision framework for choosing between regex and LLM when parsing structured text — start with regex, add LLM only for low-confidence edge cases.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/engineering/regex-vs-llm-structured-text.toml",
+    "category": "engineering"
+  },
+  {
+    "name": "frontend-specialist",
+    "display_name": "frontend-specialist",
+    "description": "Comprehensive frontend specialist for modern web apps. Covers Accessibility, Tailwind, Next.js, Nuxt 4, React patterns, and performance.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "frontend"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/frontend/frontend-specialist.toml",
+    "category": "frontend"
+  },
+  {
+    "name": "engineering-git-workflow-master",
+    "display_name": "engineering-git-workflow-master",
+    "description": "Expert in Git workflows, branching strategies, and version control best practices including conventional commits, rebasing, worktrees, and CI-frie.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "git"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/git/engineering-git-workflow-master.toml",
+    "category": "git"
+  },
+  {
+    "name": "git-workflow",
+    "display_name": "git-workflow",
+    "description": "Standard Git workflow: conventional commits, PR process, and recovery strategies.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "git"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/git/git-workflow.toml",
+    "category": "git"
+  },
+  {
+    "name": "pr-template",
+    "display_name": "pr-template",
+    "description": "Generate a Pull Request template for a repository.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "git"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/git/pr-template.toml",
+    "category": "git"
+  },
+  {
+    "name": "go-build-resolver",
+    "display_name": "go-build-resolver",
+    "description": "Go build and compilation error resolution specialist. Fixes build errors, vet issues, and linter warnings with minimal, surgical changes.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "go"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/go/go-build-resolver.toml",
+    "category": "go"
+  },
+  {
+    "name": "go-reviewer",
+    "display_name": "go-reviewer",
+    "description": "Expert Go code reviewer for idiomatic code, concurrency, error handling, and performance. Ensures high standards and best practices in Go.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "go"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/go/go-reviewer.toml",
+    "category": "go"
+  },
+  {
+    "name": "go-specialist",
+    "display_name": "go-specialist",
+    "description": "Expert Go specialist for idiomatic coding, patterns, security, testing, and automation. Your go-to guide for robust Go development.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "go"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/go/go-specialist.toml",
+    "category": "go"
+  },
+  {
+    "name": "engineering-feishu-integration-developer",
+    "display_name": "engineering-feishu-integration-developer",
+    "description": "Full-stack integration expert specializing in the Feishu (Lark) Open Platform — proficient in Feishu bots, mini programs, approval workflows, Bita.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "integrations"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/integrations/engineering-feishu-integration-developer.toml",
+    "category": "integrations"
+  },
+  {
+    "name": "specialized-salesforce-architect",
+    "display_name": "specialized-salesforce-architect",
+    "description": "Solution architecture for Salesforce platform — multi-cloud design, integration patterns, governor limits, deployment strategy, and data model gov.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "integrations"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/integrations/specialized-salesforce-architect.toml",
+    "category": "integrations"
+  },
+  {
+    "name": "x-api",
+    "display_name": "x-api",
+    "description": "X/Twitter API integration for tweets, threads, timelines, search, and analytics.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "integrations"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/integrations/x-api.toml",
+    "category": "integrations"
+  },
+  {
+    "name": "java-build-resolver",
+    "display_name": "java-build-resolver",
+    "description": "Java/Maven/Gradle build, compilation, and dependency error resolution specialist. Fixes build errors, Java compiler errors, and Maven/Gradle issue.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "java"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/java/java-build-resolver.toml",
+    "category": "java"
+  },
+  {
+    "name": "java-reviewer",
+    "display_name": "java-reviewer",
+    "description": "Expert Java and Spring Boot code reviewer specializing in layered architecture, JPA patterns, security, and concurrency. Use for all Java code cha.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "java"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/java/java-reviewer.toml",
+    "category": "java"
+  },
+  {
+    "name": "java-specialist",
+    "display_name": "java-specialist",
+    "description": "Unified Java specialist for coding style, patterns, security, and testing. Covers Java 17+, Records, Streams, JUnit 5, and security best practices.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "java"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/java/java-specialist.toml",
+    "category": "java"
+  },
+  {
+    "name": "jpa-patterns",
+    "display_name": "jpa-patterns",
+    "description": "JPA/Hibernate patterns for entity design, query optimization, transactions, auditing, indexing, and pagination in Spring Boot.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "java"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/java/jpa-patterns.toml",
+    "category": "java"
+  },
+  {
+    "name": "springboot-specialist",
+    "display_name": "springboot-specialist",
+    "description": "Unified Spring Boot specialist for architecture, security, TDD, and verification. Covers REST APIs, Spring Security, and production verification.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "java"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/java/springboot-specialist.toml",
+    "category": "java"
+  },
+  {
+    "name": "android-clean-architecture",
+    "display_name": "android-clean-architecture",
+    "description": "Clean Architecture patterns for Android and Kotlin Multiplatform projects — module structure, dependency rules, UseCases, Repositories, and data l.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "kotlin"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/kotlin/android-clean-architecture.toml",
+    "category": "kotlin"
+  },
+  {
+    "name": "kotlin-build-resolver",
+    "display_name": "kotlin-build-resolver",
+    "description": "Kotlin/Gradle build, compilation, and dependency error resolution specialist. Fixes build errors, Kotlin compiler errors, and Gradle issues with m.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "kotlin"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/kotlin/kotlin-build-resolver.toml",
+    "category": "kotlin"
+  },
+  {
+    "name": "kotlin-exposed-patterns",
+    "display_name": "kotlin-exposed-patterns",
+    "description": "JetBrains Exposed ORM patterns including DSL queries, DAO pattern, transactions, HikariCP connection pooling, Flyway migrations, and repository pa.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "kotlin"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/kotlin/kotlin-exposed-patterns.toml",
+    "category": "kotlin"
+  },
+  {
+    "name": "kotlin-ktor-patterns",
+    "display_name": "kotlin-ktor-patterns",
+    "description": "Ktor server patterns including routing DSL, plugins, authentication, Koin DI, kotlinx.serialization, WebSockets, and testApplication testing.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "kotlin"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/kotlin/kotlin-ktor-patterns.toml",
+    "category": "kotlin"
+  },
+  {
+    "name": "kotlin-reviewer",
+    "display_name": "kotlin-reviewer",
+    "description": "Kotlin and Android/KMP code reviewer. Reviews Kotlin code for idiomatic patterns, coroutine safety, Compose best practices, clean architecture vio.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "kotlin"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/kotlin/kotlin-reviewer.toml",
+    "category": "kotlin"
+  },
+  {
+    "name": "kotlin-specialist",
+    "display_name": "kotlin-specialist",
+    "description": "Unified Kotlin specialist for style, architecture, coroutines, security, and testing. Covers ktlint, MVVM, Flows, and Kotest.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "kotlin"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/kotlin/kotlin-specialist.toml",
+    "category": "kotlin"
+  },
+  {
+    "name": "automation-governance-architect",
+    "display_name": "automation-governance-architect",
+    "description": "Governance-first architect for business automations (n8n-first) who audits value, risk, and maintainability before implementation.",
+    "args_description": "Governance-first architect for business automations (n8n-first) who audits value, risk, and maintainability before implementation.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/automation-governance-architect.toml",
+    "category": "management"
+  },
+  {
+    "name": "chief-of-staff",
+    "display_name": "chief-of-staff",
+    "description": "Personal communication chief of staff for triaging email, Slack, and messaging apps into a 4-tier system with automated draft replies.",
+    "args_description": "Personal communication chief of staff for triaging email, Slack, and messaging apps into a 4-tier system with automated draft replies.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/chief-of-staff.toml",
+    "category": "management"
+  },
+  {
+    "name": "compliance-auditor",
+    "display_name": "compliance-auditor",
+    "description": "Technical compliance auditor specializing in SOC 2, ISO 27001, HIPAA, and PCI-DSS readiness assessments and evidence collection.",
+    "args_description": "Technical compliance auditor specializing in SOC 2, ISO 27001, HIPAA, and PCI-DSS readiness assessments and evidence collection.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/compliance-auditor.toml",
+    "category": "management"
+  },
+  {
+    "name": "executive-brief",
+    "display_name": "executive-brief",
+    "description": "High-level executive summary of the Autonomous Pipeline orchestration framework and its strategic impact.",
+    "args_description": "High-level executive summary of the Autonomous Pipeline orchestration framework and its strategic impact.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/executive-brief.toml",
+    "category": "management"
+  },
+  {
+    "name": "product-behavioral-nudge-engine",
+    "display_name": "product-behavioral-nudge-engine",
+    "description": "Behavioral psychology specialist that adapts software interaction cadences and styles to maximize user motivation and success.",
+    "args_description": "Behavioral psychology specialist that adapts software interaction cadences and styles to maximize user motivation and success.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/product-behavioral-nudge-engine.toml",
+    "category": "management"
+  },
+  {
+    "name": "product-feedback-synthesizer",
+    "display_name": "product-feedback-synthesizer",
+    "description": "Expert in collecting, analyzing, and synthesizing user feedback from multiple channels to extract actionable product insights.",
+    "args_description": "Expert in collecting, analyzing, and synthesizing user feedback from multiple channels to extract actionable product insights.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/product-feedback-synthesizer.toml",
+    "category": "management"
+  },
+  {
+    "name": "product-manager",
+    "display_name": "product-manager",
+    "description": "Holistic product leader managing the full lifecycle from discovery and strategy to roadmap, stakeholder alignment, and go-to-market.",
+    "args_description": "Holistic product leader managing the full lifecycle from discovery and strategy to roadmap, stakeholder alignment, and go-to-market.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/product-manager.toml",
+    "category": "management"
+  },
+  {
+    "name": "product-trend-researcher",
+    "display_name": "product-trend-researcher",
+    "description": "Expert market intelligence analyst specializing in identifying emerging trends, competitive analysis, and opportunity assessment.",
+    "args_description": "Expert market intelligence analyst specializing in identifying emerging trends, competitive analysis, and opportunity assessment.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/product-trend-researcher.toml",
+    "category": "management"
+  },
+  {
+    "name": "project-guidelines",
+    "display_name": "project-guidelines",
+    "description": "Example project-specific skill template based on a real production application.",
+    "args_description": "Example project-specific skill template based on a real production application.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/project-guidelines.toml",
+    "category": "management"
+  },
+  {
+    "name": "project-management-master",
+    "display_name": "project-management-master",
+    "description": "Comprehensive project management lead specializing in agile, Jira/Git workflows, experimentation, operations, and portfolio strategy.",
+    "args_description": "Project specifications, sprint data, Jira IDs, or operational goals",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/project-management-master.toml",
+    "category": "management"
+  },
+  {
+    "name": "project-manager-senior",
+    "display_name": "project-manager-senior",
+    "description": "Converts specs to tasks and remembers previous projects.",
+    "args_description": "Converts specs to tasks and remembers previous projects.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/project-manager-senior.toml",
+    "category": "management"
+  },
+  {
+    "name": "rules-distill",
+    "display_name": "rules-distill",
+    "description": "Scan skills to extract cross-cutting principles and distill them into rules — append, revise, or create new rule files.",
+    "args_description": "Scan skills to extract cross-cutting principles and distill them into rules — append, revise, or create new rule files.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/rules-distill.toml",
+    "category": "management"
+  },
+  {
+    "name": "specialized-cultural-intelligence-strategist",
+    "display_name": "specialized-cultural-intelligence-strategist",
+    "description": "CQ specialist detecting invisible exclusion and ensuring software resonates authentically across diverse global and intersectional identities.",
+    "args_description": "CQ specialist detecting invisible exclusion and ensuring software resonates authentically across diverse global and intersectional identities.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/specialized-cultural-intelligence-strategist.toml",
+    "category": "management"
+  },
+  {
+    "name": "specialized-developer-advocate",
+    "display_name": "specialized-developer-advocate",
+    "description": "Expert developer advocate specializing in community building, technical content creation, and optimizing developer experience (DX).",
+    "args_description": "Expert developer advocate specializing in community building, technical content creation, and optimizing developer experience (DX).",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/specialized-developer-advocate.toml",
+    "category": "management"
+  },
+  {
+    "name": "strategic-compact",
+    "display_name": "strategic-compact",
+    "description": "Suggests manual context compaction at logical intervals to preserve context through task phases rather than arbitrary auto-compaction.",
+    "args_description": "Suggests manual context compaction at logical intervals to preserve context through task phases rather than arbitrary auto-compaction.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/strategic-compact.toml",
+    "category": "management"
+  },
+  {
+    "name": "team-builder",
+    "display_name": "team-builder",
+    "description": "Interactive agent picker for composing and dispatching parallel teams.",
+    "args_description": "Interactive agent picker for composing and dispatching parallel teams.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/team-builder.toml",
+    "category": "management"
+  },
+  {
+    "name": "unified-workflow-strategy",
+    "display_name": "unified-workflow-strategy",
+    "description": "Complete operational playbook for multi-agent orchestration and autonomous pipeline deployment.",
+    "args_description": "Complete operational playbook for multi-agent orchestration and autonomous pipeline deployment.",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "management"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/management/unified-workflow-strategy.toml",
+    "category": "management"
+  },
+  {
+    "name": "compose-multiplatform-patterns",
+    "display_name": "compose-multiplatform-patterns",
+    "description": "Compose Multiplatform and Jetpack Compose patterns for KMP projects — state management, navigation, theming, performance, and platform-specific UI.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "mobile"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/mobile/compose-multiplatform-patterns.toml",
+    "category": "mobile"
+  },
+  {
+    "name": "engineering-embedded-firmware-engineer",
+    "display_name": "engineering-embedded-firmware-engineer",
+    "description": "Specialist in bare-metal and RTOS firmware - ESP32/ESP-IDF, PlatformIO, Arduino, ARM Cortex-M, STM32 HAL/LL, Nordic nRF5/nRF Connect SDK, FreeRTOS.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "mobile"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/mobile/engineering-embedded-firmware-engineer.toml",
+    "category": "mobile"
+  },
+  {
+    "name": "flutter-dart-code-review",
+    "display_name": "flutter-dart-code-review",
+    "description": "Library-agnostic Flutter/Dart code review checklist covering widget best practices, state management patterns (BLoC, Riverpod, Provider, GetX, Mob.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "mobile"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/mobile/flutter-dart-code-review.toml",
+    "category": "mobile"
+  },
+  {
+    "name": "flutter-reviewer",
+    "display_name": "flutter-reviewer",
+    "description": "Flutter and Dart code reviewer. Reviews Flutter code for widget best practices, state management patterns, Dart idioms, performance pitfalls, acce.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "mobile"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/mobile/flutter-reviewer.toml",
+    "category": "mobile"
+  },
+  {
+    "name": "macos-spatial-metal-engineer",
+    "display_name": "macos-spatial-metal-engineer",
+    "description": "Native Swift and Metal specialist building high-performance 3D rendering systems and spatial computing experiences for macOS and Vision Pro.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "mobile"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/mobile/macos-spatial-metal-engineer.toml",
+    "category": "mobile"
+  },
+  {
+    "name": "mobile-specialist",
+    "display_name": "mobile-specialist",
+    "description": "Expert mobile developer for native (iOS/Android) and cross-platform apps, including on-device AI integration with Apple's FoundationModels.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "mobile"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/mobile/mobile-specialist.toml",
+    "category": "mobile"
+  },
+  {
+    "name": "visionos-spatial-engineer",
+    "display_name": "visionos-spatial-engineer",
+    "description": "Expert in native visionOS spatial computing, SwiftUI volumetric interfaces, and Liquid Glass design implementation.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "mobile"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/mobile/visionos-spatial-engineer.toml",
+    "category": "mobile"
+  },
+  {
+    "name": "perl-specialist",
+    "display_name": "perl-specialist",
+    "description": "Comprehensive Perl specialist for modern Perl 5.36+, including coding style, patterns, security, testing, and architecture.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "perl"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/perl/perl-specialist.toml",
+    "category": "perl"
+  },
+  {
+    "name": "laravel-patterns",
+    "display_name": "laravel-patterns",
+    "description": "Laravel architecture patterns, routing/controllers, Eloquent ORM, service layers, queues, events, caching, and API resources for production apps.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "php"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/php/laravel-patterns.toml",
+    "category": "php"
+  },
+  {
+    "name": "laravel-security",
+    "display_name": "laravel-security",
+    "description": "Laravel security best practices for authn/authz, validation, CSRF, mass assignment, file uploads, secrets, rate limiting, and secure deployment.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "php"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/php/laravel-security.toml",
+    "category": "php"
+  },
+  {
+    "name": "laravel-tdd",
+    "display_name": "laravel-tdd",
+    "description": "Test-driven development for Laravel with PHPUnit and Pest, factories, database testing, fakes, and coverage targets.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "php"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/php/laravel-tdd.toml",
+    "category": "php"
+  },
+  {
+    "name": "laravel-verification",
+    "display_name": "laravel-verification",
+    "description": "Verification loop for Laravel projects: env checks, linting, static analysis, tests with coverage, security scans, and deployment readiness.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "php"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/php/laravel-verification.toml",
+    "category": "php"
+  },
+  {
+    "name": "php-specialist",
+    "display_name": "php-specialist",
+    "description": "Unified PHP specialist for coding style, architecture, security, and testing. Covers PSR-12, DTOs, PHPUnit/Pest, and security best practices.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "php"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/php/php-specialist.toml",
+    "category": "php"
+  },
+  {
+    "name": "django-specialist",
+    "display_name": "django-specialist",
+    "description": "Expert Django specialist for architecture patterns, REST APIs, TDD, security best practices, and comprehensive verification workflows.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "python"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/python/django-specialist.toml",
+    "category": "python"
+  },
+  {
+    "name": "python-reviewer",
+    "display_name": "python-reviewer",
+    "description": "Expert Python code reviewer specializing in PEP 8 compliance, Pythonic idioms, type hints, security, and performance for all Python code changes.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "python"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/python/python-reviewer.toml",
+    "category": "python"
+  },
+  {
+    "name": "python-specialist",
+    "display_name": "python-specialist",
+    "description": "Comprehensive Python specialist for coding style, patterns, testing, security, and automation hooks following PEP 8 and modern best practices.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "python"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/python/python-specialist.toml",
+    "category": "python"
+  },
+  {
+    "name": "pytorch-specialist",
+    "display_name": "pytorch-specialist",
+    "description": "Unified PyTorch specialist for development patterns, best practices, and runtime/CUDA error resolution.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "python"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/python/pytorch-specialist.toml",
+    "category": "python"
+  },
+  {
+    "name": "rust-build-resolver",
+    "display_name": "rust-build-resolver",
+    "description": "Specialist in resolving Rust build, compilation, and dependency errors. Fixes borrow checker, lifetime, and Cargo.toml issues with surgical chan...",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "rust"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/rust/rust-build-resolver.toml",
+    "category": "rust"
+  },
+  {
+    "name": "rust-reviewer",
+    "display_name": "rust-reviewer",
+    "description": "Expert Rust reviewer specializing in safety, idiomatic patterns, and performance. Focuses on ownership, error handling, and unsafe usage.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "rust"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/rust/rust-reviewer.toml",
+    "category": "rust"
+  },
+  {
+    "name": "rust-specialist",
+    "display_name": "rust-specialist",
+    "description": "Expert Rust developer proficient in ownership, error handling, traits, async, and performance optimization. Adheres to strict safety and idiomat...",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "rust"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/rust/rust-specialist.toml",
+    "category": "rust"
+  },
+  {
+    "name": "search-specialist",
+    "display_name": "search-specialist",
+    "description": "Comprehensive search specialist combining deep multi-source research, neural web exploration with Exa, and search-first development workflows.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "search"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/search/search-specialist.toml",
+    "category": "search"
+  },
+  {
+    "name": "engineering-threat-detection-engineer",
+    "display_name": "engineering-threat-detection-engineer",
+    "description": "Expert detection engineer specializing in SIEM rule development, MITRE ATT&CK coverage mapping, threat hunting, alert tuning, and detection-as-cod.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "engineering"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/security/engineering-threat-detection-engineer.toml",
+    "category": "security"
+  },
+  {
+    "name": "security-architect",
+    "display_name": "security-architect",
+    "description": "Expert security architect specializing in threat modeling, secure code review, and defense-in-depth across the entire application stack.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "security"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/security/security-architect.toml",
+    "category": "security"
+  },
+  {
+    "name": "security-policy",
+    "display_name": "security-policy",
+    "description": "Draft a SECURITY.md or vulnerability disclosure policy.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "security"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/security/security-policy.toml",
+    "category": "security"
+  },
+  {
+    "name": "security-reviewer",
+    "display_name": "security-reviewer",
+    "description": "Internal security auditor specialized in project-wide vulnerability assessment and emergency response.",
+    "args_description": "Scope or Incident Details",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "security"
+    ],
+    "sensitive": true,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/security/security-reviewer.toml",
+    "category": "security"
+  },
+  {
+    "name": "security-scan",
+    "display_name": "security-scan",
+    "description": "Comprehensive, tool-agnostic security audit for codebases, configurations, and dependencies. Focused on OWASP, secrets, and supply-chain risks.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "security"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/security/security-scan.toml",
+    "category": "security"
+  },
+  {
+    "name": "threat-modeling",
+    "display_name": "threat-modeling",
+    "description": "Generate a STRIDE threat model for a proposed architecture.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "security"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/security/threat-modeling.toml",
+    "category": "security"
+  },
+  {
+    "name": "bash-script-generator",
+    "display_name": "bash-script-generator",
+    "description": "Write robust, POSIX-compliant bash scripts.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "shell"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/shell/bash-script-generator.toml",
+    "category": "shell"
+  },
+  {
+    "name": "cli-command-explainer",
+    "display_name": "cli-command-explainer",
+    "description": "Deeply explain obscure terminal commands/flags.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "shell"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/shell/cli-command-explainer.toml",
+    "category": "shell"
+  },
+  {
+    "name": "terminal-integration-specialist",
+    "display_name": "terminal-integration-specialist",
+    "description": "Terminal emulation, text rendering optimization, and SwiftTerm integration for modern Swift applications.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "shell"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/shell/terminal-integration-specialist.toml",
+    "category": "shell"
+  },
+  {
+    "name": "support-analytics-reporter",
+    "display_name": "support-analytics-reporter",
+    "description": "Expert data analyst transforming raw data into actionable business insights. Creates dashboards, performs statistical analysis, tracks KPIs, and p.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "support"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/support/support-analytics-reporter.toml",
+    "category": "support"
+  },
+  {
+    "name": "support-executive-summary-generator",
+    "display_name": "support-executive-summary-generator",
+    "description": "Consultant-grade AI specialist trained to think and communicate like a senior strategy consultant. Transforms complex business inputs into concise.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "support"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/support/support-executive-summary-generator.toml",
+    "category": "support"
+  },
+  {
+    "name": "support-finance-tracker",
+    "display_name": "support-finance-tracker",
+    "description": "Expert financial analyst and controller specializing in financial planning, budget management, and business performance analysis. Maintains financ.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "support"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/support/support-finance-tracker.toml",
+    "category": "support"
+  },
+  {
+    "name": "support-infrastructure-maintainer",
+    "display_name": "support-infrastructure-maintainer",
+    "description": "Expert infrastructure specialist focused on system reliability, performance optimization, and technical operations management. Maintains robust, s.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "support"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/support/support-infrastructure-maintainer.toml",
+    "category": "support"
+  },
+  {
+    "name": "support-legal-compliance-checker",
+    "display_name": "support-legal-compliance-checker",
+    "description": "Expert legal and compliance specialist ensuring business operations, data handling, and content creation comply with relevant laws, regulations, a.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "support"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/support/support-legal-compliance-checker.toml",
+    "category": "support"
+  },
+  {
+    "name": "support-support-responder",
+    "display_name": "support-support-responder",
+    "description": "Expert customer support specialist delivering exceptional customer service, issue resolution, and user experience optimization. Specializes in mul.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "support"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/support/support-support-responder.toml",
+    "category": "support"
+  },
+  {
+    "name": "swift-advanced-patterns",
+    "display_name": "swift-advanced-patterns",
+    "description": "Advanced Swift patterns: actor-based persistence, Swift 6.2 concurrency, and protocol-based dependency injection for testing.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "swift"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/swift/swift-advanced-patterns.toml",
+    "category": "swift"
+  },
+  {
+    "name": "swift-specialist",
+    "display_name": "swift-specialist",
+    "description": "Comprehensive guide for Swift development: coding style, patterns, security, testing, and automation hooks.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "swift"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/swift/swift-specialist.toml",
+    "category": "swift"
+  },
+  {
+    "name": "swiftui-patterns",
+    "display_name": "swiftui-patterns",
+    "description": "SwiftUI architecture patterns: state management with @Observable, view composition, navigation, and performance optimization.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "swift"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/swift/swiftui-patterns.toml",
+    "category": "swift"
+  },
+  {
+    "name": "common-testing",
+    "display_name": "common-testing",
+    "description": "Testing requirements: 80% coverage, TDD workflow, test types.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/common-testing.toml",
+    "category": "testing"
+  },
+  {
+    "name": "e2e-runner",
+    "display_name": "e2e-runner",
+    "description": "End-to-end testing specialist using Vercel Agent Browser and Playwright for creating and maintaining reliable browser-based test suites.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/e2e-runner.toml",
+    "category": "testing"
+  },
+  {
+    "name": "e2e-testing",
+    "display_name": "e2e-testing",
+    "description": "Playwright E2E testing patterns, Page Object Model, configuration, CI/CD integration, artifact management, and flaky test strategies.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/e2e-testing.toml",
+    "category": "testing"
+  },
+  {
+    "name": "generate-e2e-tests",
+    "display_name": "generate-e2e-tests",
+    "description": "Create end-to-end tests.",
+    "args_description": "Code to Test",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/generate-e2e-tests.toml",
+    "category": "testing"
+  },
+  {
+    "name": "generate-unit-tests",
+    "display_name": "generate-unit-tests",
+    "description": "Create unit tests for code.",
+    "args_description": "Code to Test",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/generate-unit-tests.toml",
+    "category": "testing"
+  },
+  {
+    "name": "mock-data-gen",
+    "display_name": "mock-data-gen",
+    "description": "Create realistic JSON/CSV mock data schemas for testing.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/mock-data-gen.toml",
+    "category": "testing"
+  },
+  {
+    "name": "research",
+    "display_name": "research",
+    "description": "Research Context.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/research.toml",
+    "category": "testing"
+  },
+  {
+    "name": "review",
+    "display_name": "review",
+    "description": "Code Review Context.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/review.toml",
+    "category": "testing"
+  },
+  {
+    "name": "review-test-coverage",
+    "display_name": "review-test-coverage",
+    "description": "Analyze test coverage gaps.",
+    "args_description": "Code to Test",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/review-test-coverage.toml",
+    "category": "testing"
+  },
+  {
+    "name": "tdd-guide",
+    "display_name": "tdd-guide",
+    "description": "TDD specialist enforcing the write-tests-first methodology for new features, bug fixes, and refactoring with high coverage standards.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/tdd-guide.toml",
+    "category": "testing"
+  },
+  {
+    "name": "tdd-workflow",
+    "display_name": "tdd-workflow",
+    "description": "Enforces TDD with 80%+ coverage for unit, integration, and E2E tests during feature development, bug fixes, and refactors.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/tdd-workflow.toml",
+    "category": "testing"
+  },
+  {
+    "name": "test-edge-cases",
+    "display_name": "test-edge-cases",
+    "description": "Identify and test edge cases.",
+    "args_description": "Code to Test",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/test-edge-cases.toml",
+    "category": "testing"
+  },
+  {
+    "name": "testing",
+    "display_name": "testing",
+    "description": "Python Testing.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/testing.toml",
+    "category": "testing"
+  },
+  {
+    "name": "testing-specialist",
+    "display_name": "testing-specialist",
+    "description": "Comprehensive testing specialist covering AI regression patterns, accessibility, API validation, performance benchmarking, and QA workflows.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "testing"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/testing/testing-specialist.toml",
+    "category": "testing"
+  },
+  {
+    "name": "typescript-reviewer",
+    "display_name": "typescript-reviewer",
+    "description": "Expert TypeScript code reviewer ensuring type safety, async correctness, security, and idiomatic patterns in TS/JS codebases.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "typescript"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/typescript/typescript-reviewer.toml",
+    "category": "typescript"
+  },
+  {
+    "name": "typescript-specialist",
+    "display_name": "typescript-specialist",
+    "description": "Expert TypeScript specialist providing guidance on coding style, hooks, patterns, security, and testing for high-quality TS/JS development.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "typescript"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/typescript/typescript-specialist.toml",
+    "category": "typescript"
+  },
+  {
+    "name": "handoff-templates",
+    "display_name": "handoff-templates",
+    "description": "NEXUS Handoff Templates for standardized agent-to-agent work transfers, QA feedback, escalations, and phase gates.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "workflow"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/workflow/handoff-templates.toml",
+    "category": "workflow"
+  },
+  {
+    "name": "nexus-orchestrator",
+    "display_name": "nexus-orchestrator",
+    "description": "Master orchestrator for the full development lifecycle, from planning and strategy to handoffs and operations. Manages the NEXUS pipeline.",
+    "args_description": "Project Context or Feature Spec",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "workflow"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/workflow/nexus-orchestrator.toml",
+    "category": "workflow"
+  },
+  {
+    "name": "rapid-prototyper",
+    "display_name": "rapid-prototyper",
+    "description": "Senior rapid prototyping engineer specializing in high-fidelity prototypes, interaction design, and iterative front-end development.",
+    "args_description": "Context or Source Code",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "workflow"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/workflow/rapid-prototyper.toml",
+    "category": "workflow"
+  },
+  {
+    "name": "verification-loop",
+    "display_name": "verification-loop",
+    "description": "A comprehensive verification system for the AI agent sessions.",
+    "args_description": "A comprehensive verification system for the AI agent sessions",
+    "version": "0.6.1",
+    "last_updated": "2026-03-27",
+    "tags": [
+      "workflow"
+    ],
+    "sensitive": false,
+    "version_id": null,
+    "path": "/Users/raunak/Documents/projects/PromptBook/commands/prompts/workflow/verification-loop.toml",
+    "category": "workflow"
+  }
+]
