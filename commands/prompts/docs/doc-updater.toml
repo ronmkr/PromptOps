@@ -1,6 +1,6 @@
 description = "Documentation and codemap specialist. Use PROACTIVELY for updating codemaps and documentation. Runs /update-codemaps and /update-docs, generates d."
 args_description = "Context or Source Code"
-version = "0.6.1"
+version = "0.6.3"
 last_updated = "2026-03-27"
 tags = ["docs"]
 prompt = '''

@@ -1,6 +1,6 @@
 description = "Expert refactoring specialist for code cleanup, dead code removal, duplicate elimination, and architectural improvements with a focus on safety."
 args_description = "Context or Source Code"
-version = "0.6.1"
+version = "0.6.3"
 last_updated = "2026-03-27"
 tags = ["engineering"]
 

@@ -1,6 +1,6 @@
 description = "Expert market intelligence analyst specializing in identifying emerging trends, competitive analysis, and opportunity assessment."
 args_description = "Expert market intelligence analyst specializing in identifying emerging trends, competitive analysis, and opportunity assessment."
-version = "0.6.1"
+version = "0.6.3"
 last_updated = "2026-03-27"
 tags = ["management"]
 prompt = '''
