@@ -1,7 +1,7 @@
 description = "Background agent that analyzes session observations to detect patterns and create instincts. Uses Haiku for cost-efficiency. v2.1 adds project-sco."
 args_description = "Context or Source Code"
-version = "0.5.8"
-last_updated = "2026-03-22"
+version = "0.6.0"
+last_updated = "2026-03-27"
 tags = ["ai-agents"]
 prompt = '''
 

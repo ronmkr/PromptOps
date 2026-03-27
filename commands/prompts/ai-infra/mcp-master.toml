@@ -1,7 +1,7 @@
 description = "Unified MCP Master for designing, building, and deploying Model Context Protocol servers. Covers SDK patterns, tool design, and transport."
 args_description = "Context or Source Code"
-version = "0.5.8"
-last_updated = "2026-03-23"
+version = "0.6.0"
+last_updated = "2026-03-27"
 tags = ["ai-infra"]
 prompt = '''
 

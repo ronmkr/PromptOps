@@ -1,7 +1,7 @@
 description = "JetBrains Exposed ORM patterns including DSL queries, DAO pattern, transactions, HikariCP connection pooling, Flyway migrations, and repository pa."
 args_description = "Context or Source Code"
-version = "0.5.8"
-last_updated = "2026-03-22"
+version = "0.6.0"
+last_updated = "2026-03-27"
 tags = ["kotlin"]
 prompt = '''
 

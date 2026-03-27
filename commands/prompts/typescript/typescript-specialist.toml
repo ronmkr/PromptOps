@@ -1,7 +1,7 @@
 description = "Expert TypeScript specialist providing guidance on coding style, hooks, patterns, security, and testing for high-quality TS/JS development."
 args_description = "Context or Source Code"
-version = "0.5.8"
-last_updated = "2026-03-22"
+version = "0.6.0"
+last_updated = "2026-03-27"
 tags = ["typescript"]
 prompt = '''
 

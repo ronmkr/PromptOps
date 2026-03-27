@@ -1,7 +1,7 @@
 description = "Go build and compilation error resolution specialist. Fixes build errors, vet issues, and linter warnings with minimal, surgical changes."
 args_description = "Context or Source Code"
-version = "0.5.8"
-last_updated = "2026-03-22"
+version = "0.6.0"
+last_updated = "2026-03-27"
 tags = ["go"]
 prompt = '''
 

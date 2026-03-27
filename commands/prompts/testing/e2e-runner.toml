@@ -1,7 +1,7 @@
 description = "End-to-end testing specialist using Vercel Agent Browser and Playwright for creating and maintaining reliable browser-based test suites."
 args_description = "Context or Source Code"
-version = "0.5.8"
-last_updated = "2026-03-22"
+version = "0.6.0"
+last_updated = "2026-03-27"
 tags = ["testing"]
 prompt = '''
 

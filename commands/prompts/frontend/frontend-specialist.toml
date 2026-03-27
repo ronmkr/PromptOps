@@ -1,7 +1,7 @@
 description = "Comprehensive frontend specialist for modern web apps. Covers Accessibility, Tailwind, Next.js, Nuxt 4, React patterns, and performance."
 args_description = "Context or Source Code"
-version = "0.5.8"
-last_updated = "2026-03-23"
+version = "0.6.0"
+last_updated = "2026-03-27"
 tags = ["frontend"]
 prompt = '''
 # Frontend Specialist

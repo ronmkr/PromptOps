@@ -1,7 +1,7 @@
 description = "Decision framework for choosing between regex and LLM when parsing structured text — start with regex, add LLM only for low-confidence edge cases."
 args_description = "Context or Source Code"
-version = "0.5.8"
-last_updated = "2026-03-22"
+version = "0.6.0"
+last_updated = "2026-03-27"
 tags = ["engineering"]
 prompt = '''
 

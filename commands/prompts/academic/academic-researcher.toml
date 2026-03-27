@@ -1,7 +1,7 @@
 description = "Multidisciplinary academic expert in anthropology, geography, history, narratology, and psychology for holistic world-building and analysis."
 args_description = "Context or Source Code"
-version = "0.5.8"
-last_updated = "2024-05-20"
+version = "0.6.0"
+last_updated = "2026-03-27"
 tags = ["academic"]
 prompt = '''
 

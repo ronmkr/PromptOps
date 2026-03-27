@@ -1,7 +1,7 @@
 description = "Unified engineering standards for coding style, design patterns, automation hooks, and performance optimization across the development lifecycle."
 args_description = "Context or Source Code"
-version = "0.5.8"
-last_updated = "2026-03-22"
+version = "0.6.0"
+last_updated = "2026-03-27"
 tags = ["engineering"]
 
 prompt = """

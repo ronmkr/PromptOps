@@ -1,7 +1,7 @@
 description = "Senior rapid prototyping engineer specializing in high-fidelity prototypes, interaction design, and iterative front-end development."
 args_description = "Context or Source Code"
-version = "0.5.8"
-last_updated = "2026-03-22"
+version = "0.6.0"
+last_updated = "2026-03-27"
 tags = ["workflow"]
 prompt = '''
 # Engineering Rapid Prototyper
