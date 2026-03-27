@@ -1,6 +1,6 @@
 description = "Unified Java specialist for coding style, patterns, security, and testing. Covers Java 17+, Records, Streams, JUnit 5, and security best practices."
 args_description = "Context or Source Code"
-version = "0.6.4"
+version = "0.6.5"
 last_updated = "2026-03-27"
 tags = ["java"]
 prompt = '''

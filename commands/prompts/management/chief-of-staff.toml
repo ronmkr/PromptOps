@@ -1,6 +1,6 @@
 description = "Personal communication chief of staff for triaging email, Slack, and messaging apps into a 4-tier system with automated draft replies."
 args_description = "Personal communication chief of staff for triaging email, Slack, and messaging apps into a 4-tier system with automated draft replies."
-version = "0.6.4"
+version = "0.6.5"
 last_updated = "2026-03-27"
 tags = ["management"]
 prompt = '''# Personal Chief of Staff

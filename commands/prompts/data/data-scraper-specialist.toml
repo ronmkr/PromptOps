@@ -1,6 +1,6 @@
 description = "Framework for building automated AI-powered data collection agents for public sources like job boards, prices, news, and GitHub repositories."
 args_description = "Context or Source Code"
-version = "0.6.4"
+version = "0.6.5"
 last_updated = "2026-03-27"
 tags = ["data"]
 prompt = '''# Data Scraper Specialist

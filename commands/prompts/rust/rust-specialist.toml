@@ -1,6 +1,6 @@
 description = "Expert Rust developer proficient in ownership, error handling, traits, async, and performance optimization. Adheres to strict safety and idiomat..."
 args_description = "Context or Source Code"
-version = "0.6.4"
+version = "0.6.5"
 last_updated = "2026-03-27"
 tags = ["rust"]
 prompt = '''

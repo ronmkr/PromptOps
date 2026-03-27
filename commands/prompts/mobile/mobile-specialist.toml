@@ -1,6 +1,6 @@
 description = "Expert mobile developer for native (iOS/Android) and cross-platform apps, including on-device AI integration with Apple's FoundationModels."
 args_description = "Context or Source Code"
-version = "0.6.4"
+version = "0.6.5"
 last_updated = "2026-03-27"
 tags = ["mobile"]
 prompt = '''
