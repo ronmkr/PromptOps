@@ -4,7 +4,7 @@ This directory contains the prompt templates and command definitions used by the
 
 ## Directory Structure
 
-- `prompts/`: Hierarchical directory containing all 437+ prompt templates in TOML format.
+- `prompts/`: Hierarchical directory containing prompt templates in TOML format.
   - `ai/`: Agent orchestration and LLM patterns.
   - `architecture/`: System design and scalable patterns.
   - `database/`: Schema design and query optimization.

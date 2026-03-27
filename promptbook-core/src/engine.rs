@@ -85,7 +85,12 @@ impl TemplateEngine {
                 .unwrap_or_default(),
             sensitive: data.get("sensitive").and_then(|v| v.as_bool()).unwrap_or(false),
             version_id,
-            path: path.to_str().unwrap_or("").to_string(),
+            path: env::current_dir()
+                .ok()
+                .and_then(|cwd| path.strip_prefix(&cwd).ok())
+                .and_then(|p| p.to_str())
+                .map(|s| s.to_string())
+                .unwrap_or_else(|| path.to_str().unwrap_or("").to_string()),
             category,
         };
         Ok((metadata, data))

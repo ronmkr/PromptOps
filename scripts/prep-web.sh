@@ -1,4 +1,6 @@
 #!/bin/bash
-mkdir -p web/public
-cp docs/catalog.json web/public/catalog.json
+# Get the project root directory
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+mkdir -p "$ROOT_DIR/web/public"
+cp "$ROOT_DIR/docs/catalog.json" "$ROOT_DIR/web/public/catalog.json"
 echo "✅ catalog.json copied to web/public/"

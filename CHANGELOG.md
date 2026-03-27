@@ -16,11 +16,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.0] - 2026-03-21
 ### Added
-- Expanded library with 21+ new high-value prompt templates.
+- Expanded library with new high-value prompt templates.
 - Added support for universal AI CLI tools (Claude Code, Aider, etc.).
 - Created specialized categories: DevOps, Security, Database, Frontend, Agile.
 - Added `/prompts:prompt-versioning` tool.
-- Consistent metadata and formatting across all 54 prompts.
+- Consistent metadata and formatting across all prompts.
 ### Changed
 - Reorganized directory structure for better tool compatibility.
 - Fixed TOML syntax and escape character issues.

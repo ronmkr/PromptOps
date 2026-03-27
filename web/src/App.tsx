@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react'
 import Fuse from 'fuse.js'
-import { Search, Github, Terminal, Copy, Check, Filter, ExternalLink, X } from 'lucide-react'
+import { Search, Github, Terminal, Copy, Check, Filter, X } from 'lucide-react'
 import './App.css'
 
 interface PromptMetadata {
@@ -60,7 +60,7 @@ function App() {
   }, [fuse, prompts, searchQuery, selectedCategory])
 
   const handleCopy = (text: string) => {
-    navigator.clipboard.write_with_text(text)
+    navigator.clipboard.writeText(text)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -92,7 +92,7 @@ function App() {
 
       <main className="container">
         <section className="hero">
-          <h2>150+ Expert Prompt Templates</h2>
+          <h2>Expert Prompt Templates</h2>
           <p>Organized, versioned, and ready to use for developers, architects, and data engineers.</p>
           
           <div className="search-container">
@@ -196,7 +196,7 @@ function App() {
 
               <div className="modal-actions">
                 <a 
-                  href={`https://github.com/ronmkr/PromptBook/blob/main/commands/prompts/${selectedPrompt.category}/${selectedPrompt.name}.toml`}
+                  href={`https://github.com/ronmkr/PromptBook/blob/main/${selectedPrompt.path}`}
                   target="_blank" 
                   rel="noreferrer"
                   className="btn-github"
@@ -211,7 +211,7 @@ function App() {
 
       <footer className="footer">
         <div className="container">
-          <p>© 2024 PromptBook • MIT License</p>
+          <p>© 2026 PromptBook • MIT License</p>
         </div>
       </footer>
     </div>
