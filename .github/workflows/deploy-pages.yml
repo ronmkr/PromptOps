@@ -5,14 +5,15 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# Default permissions for the entire workflow - set to none for maximum security
-permissions: {}
+# Permissions for the GITHUB_TOKEN
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read # Required for checkout
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -66,9 +67,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    permissions:
-      pages: write      # Required for deploying to Pages
-      id-token: write   # Required for OIDC authentication
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
