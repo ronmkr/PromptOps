@@ -28,15 +28,16 @@ jobs:
           toolchain: ${{ matrix.rust }}
           components: clippy, rustfmt
 
-      - name: Install cargo-make
-        uses: davidB/rust-cargo-make@v1
-
       - name: Cache Cargo Dependencies
         uses: Swatinem/rust-cache@v2
         with:
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          sccache: "true"
+
+      - name: Install cargo-make
+        uses: taiki-e/install-action@cargo-make
 
       - name: Run CI Flow
         run: cargo make --no-workspace ci-flow
         env:
           CARGO_MAKE_RUN_WORKSPACE: false
+          SCCACHE_GHA_ENABLED: "true"
