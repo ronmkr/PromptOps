@@ -1,6 +1,6 @@
 description = "Expert long-form writer specialized in blog posts, tutorials, and newsletters with a focus on distinct, human-sounding voices and structured copy."
 args_description = "Context or Source Code"
-version = "0.6.3"
+version = "0.6.4"
 last_updated = "2026-03-27"
 tags = ["docs"]
 prompt = '''# Article Writing Specialist

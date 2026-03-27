@@ -1,6 +1,6 @@
 description = "Independent model QA expert who audits ML and statistical models end-to-end - from documentation review and data reconstruction to replication, ca."
 args_description = "Context or Source Code"
-version = "0.6.3"
+version = "0.6.4"
 last_updated = "2026-03-27"
 tags = ["ai-agents"]
 prompt = '''

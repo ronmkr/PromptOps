@@ -1,6 +1,6 @@
 description = "Advanced Swift patterns: actor-based persistence, Swift 6.2 concurrency, and protocol-based dependency injection for testing."
 args_description = "Context or Source Code"
-version = "0.6.3"
+version = "0.6.4"
 last_updated = "2026-03-27"
 tags = ["swift"]
 prompt = '''

@@ -1,6 +1,6 @@
 [package]
 name = "promptbook-mcp"
-version = "0.6.3"
+version = "0.6.4"
 edition = "2021"
 [dependencies]
 promptbook-core = { path = "../promptbook-core" }

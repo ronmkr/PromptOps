@@ -1,6 +1,6 @@
 description = "Operate long-lived agent workloads with observability, security boundaries, and lifecycle management."
 args_description = "Context or Source Code"
-version = "0.6.3"
+version = "0.6.4"
 last_updated = "2026-03-27"
 tags = ["ai-agents"]
 prompt = '''
