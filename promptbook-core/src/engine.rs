@@ -535,4 +535,40 @@ mod tests {
         let result = TemplateEngine::hydrate(template, &vars, false);
         assert_eq!(result, "Result: Hello Alice");
     }
+
+    #[test]
+    fn test_mask_pii_complex() {
+        let text = "Emails: user.one+extra@domain.co.uk, test@sub.domain.com. Phones: +1 (555) 123-4567, 0044 20 7946 0000";
+        let masked = TemplateEngine::mask_pii(text);
+        assert!(!masked.contains("user.one"));
+        assert!(!masked.contains("test@sub.domain.com"));
+        assert!(!masked.contains("123-4567"));
+        assert_eq!(masked.matches("[EMAIL]").count(), 2);
+        assert_eq!(masked.matches("[PHONE]").count(), 2);
+    }
+
+    #[test]
+    fn test_hydrate_shell_error() {
+        let vars = HashMap::new();
+        let template = "Error: {{$(nonexistent_command_pb_test)}}";
+        let result = TemplateEngine::hydrate(template, &vars, false);
+        assert!(result.contains("[Error:"));
+    }
+
+    #[test]
+    fn test_hydrate_malformed_conditional() {
+        let vars = HashMap::new();
+        let template = "<if lang=\"rust\">Missing end tag";
+        let result = TemplateEngine::hydrate(template, &vars, false);
+        assert_eq!(result, "<if lang=\"rust\">Missing end tag");
+    }
+
+    #[test]
+    fn test_hydrate_empty_var() {
+        let mut vars = HashMap::new();
+        vars.insert("empty".to_string(), "".to_string());
+        let template = "Start<if empty>Hidden</if>End";
+        let result = TemplateEngine::hydrate(template, &vars, false);
+        assert_eq!(result, "StartEnd");
+    }
 }

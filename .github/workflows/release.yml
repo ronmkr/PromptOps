@@ -1,12 +1,9 @@
 name: Release
-
 on:
   push:
     branches: [ main ]
-
 permissions:
   contents: write
-
 jobs:
   prepare:
     name: Prepare Release
@@ -20,7 +17,6 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GH_PAT }}
-
       - name: Calculate Next Tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.1
@@ -28,11 +24,9 @@ jobs:
           github_token: ${{ secrets.GH_PAT }}
           tag_prefix: ""
           dry_run: true
-
       - name: Set up Rust
         if: steps.tag_version.outputs.new_tag != ''
         uses: dtolnay/rust-toolchain@stable
-
       - name: Sync Versions and Commit
         if: steps.tag_version.outputs.new_tag != ''
         run: |
@@ -44,7 +38,6 @@ jobs:
           git push origin main
           git tag ${{ steps.tag_version.outputs.new_tag }}
           git push origin ${{ steps.tag_version.outputs.new_tag }}
-
   release:
     name: Build & Release - ${{ matrix.os }}
     needs: prepare
@@ -58,42 +51,37 @@ jobs:
             suffix: linux-amd64
           - os: macos-latest
             suffix: macos-arm64
-          - os: windows-latest
-            suffix: windows-amd64
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
           ref: ${{ needs.prepare.outputs.new_tag }}
           token: ${{ secrets.GH_PAT }}
-
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
-
       - name: Install cargo-make
         uses: davidB/rust-cargo-make@v1
-
       - name: Cache Cargo Dependencies
         uses: Swatinem/rust-cache@v2
         with:
           key: ${{ runner.os }}-cargo-release-${{ hashFiles('**/Cargo.lock') }}
 
+      - name: Security Scan
+        run: python3 scripts/security-scan.py
+
       - name: Run CI Flow
         run: cargo make --no-workspace ci-flow
         env:
           CARGO_MAKE_RUN_WORKSPACE: false
-
       - name: Build Release Binaries
         run: cargo make --no-workspace release-binary
         env:
           CARGO_MAKE_RUN_WORKSPACE: false
-
       - name: Prepare Assets for Upload
         shell: bash
         run: |
           mkdir -p upload
           SUFFIX="${{ matrix.suffix }}"
-          
           # Rename binaries with suffix
           for f in dist/pop*; do
             ext="${f##*.}"
@@ -103,7 +91,6 @@ jobs:
               cp "$f" "upload/pop-$SUFFIX"
             fi
           done
-          
           for f in dist/promptbook-tui*; do
             ext="${f##*.}"
             if [ "$ext" = "exe" ]; then
@@ -112,7 +99,6 @@ jobs:
               cp "$f" "upload/promptbook-tui-$SUFFIX"
             fi
           done
-
           for f in dist/promptbook-mcp*; do
             ext="${f##*.}"
             if [ "$ext" = "exe" ]; then
@@ -121,9 +107,7 @@ jobs:
               cp "$f" "upload/promptbook-mcp-$SUFFIX"
             fi
           done
-          
           cp promptbook-release.tar.gz "upload/promptbook-release-$SUFFIX.tar.gz"
-
       - name: Create/Update GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -135,7 +119,6 @@ jobs:
           draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-
   publish:
     name: Publish Release
     needs: [prepare, release]
