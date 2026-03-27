@@ -83,6 +83,11 @@ enum Commands {
     Validate,
     /// Synchronize documentation (CATALOG.md)
     SyncDocs,
+    /// Synchronize all versions across the project
+    SyncVersions {
+        /// New version string (e.g., 1.0.0)
+        version: String,
+    },
     /// Run automated evaluations using golden datasets
     Evaluate {
         /// Specific prompt to evaluate
@@ -211,6 +216,7 @@ fn main() -> Result<()> {
         Commands::Create => wizards::create_wizard()?,
         Commands::Validate => commands::dev::validate_prompts()?,
         Commands::SyncDocs => commands::dev::sync_docs()?,
+        Commands::SyncVersions { version } => commands::dev::sync_versions(version)?,
         Commands::Evaluate { prompt } => commands::dev::run_evaluation(prompt)?,
         Commands::Completion { shell } => {
             let mut cmd = Cli::command();

@@ -226,6 +226,71 @@ pub fn run_evaluation(prompt_name: Option<String>) -> Result<()> {
 
 #[allow(dead_code)]
 pub fn sync_versions(new_version: String) -> Result<()> {
+    let new_version = new_version.trim_start_matches('v').to_string();
     println!("Syncing all versions to: {}", new_version);
+    let today = chrono::Local::now().format("%Y-%m-%d").to_string();
+
+    // 1. Update Cargo.tomls
+    let cargo_tomls = vec![
+        "promptbook-core/Cargo.toml",
+        "promptbook-cli/Cargo.toml",
+        "promptbook-tui/Cargo.toml",
+        "promptbook-mcp/Cargo.toml",
+    ];
+
+    for path in cargo_tomls {
+        if Path::new(path).exists() {
+            let content = fs::read_to_string(path)?;
+            let mut lines: Vec<String> = content.lines().map(|s| s.to_string()).collect();
+            let mut in_package = false;
+            let mut updated = false;
+            for line in &mut lines {
+                if line.trim() == "[package]" {
+                    in_package = true;
+                } else if line.trim().starts_with('[') {
+                    in_package = false;
+                }
+                if in_package && line.trim().starts_with("version =") {
+                    *line = format!("version = \"{}\"", new_version);
+                    updated = true;
+                    break;
+                }
+            }
+            if updated {
+                fs::write(path, lines.join("\n") + "\n")?;
+                println!("  ✅ Updated {}", path);
+            }
+        }
+    }
+
+    // 2. Update prompt templates
+    let prompts_dir = get_prompts_dir();
+    let mut template_count = 0;
+    for entry in walkdir::WalkDir::new(prompts_dir) {
+        let entry = entry?;
+        if entry.path().extension().is_some_and(|ext| ext == "toml") {
+            let content = fs::read_to_string(entry.path())?;
+            let mut lines: Vec<String> = content.lines().map(|s| s.to_string()).collect();
+            let mut updated_version = false;
+            let mut updated_date = false;
+            for line in &mut lines {
+                if line.trim().starts_with("version =") {
+                    *line = format!("version = \"{}\"", new_version);
+                    updated_version = true;
+                }
+                if line.trim().starts_with("last_updated =") {
+                    *line = format!("last_updated = \"{}\"", today);
+                    updated_date = true;
+                }
+                if updated_version && updated_date {
+                    break;
+                }
+            }
+            fs::write(entry.path(), lines.join("\n") + "\n")?;
+            template_count += 1;
+        }
+    }
+    println!("  ✅ Updated {} prompt templates", template_count);
+
     Ok(())
 }

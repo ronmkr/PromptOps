@@ -8,10 +8,47 @@ permissions:
   contents: write
 
 jobs:
-  release:
-    name: Release - ${{ matrix.os }}
-    # Prevent the action from running on commits pushed BY the action itself
+  prepare:
+    name: Prepare Release
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    outputs:
+      new_tag: ${{ steps.tag_version.outputs.new_tag }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Calculate Next Tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GH_PAT }}
+          tag_prefix: ""
+          dry_run: true
+
+      - name: Set up Rust
+        if: steps.tag_version.outputs.new_tag != ''
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Sync Versions and Commit
+        if: steps.tag_version.outputs.new_tag != ''
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          cargo run --bin pop -- sync-versions ${{ steps.tag_version.outputs.new_tag }}
+          git add .
+          git commit -m "chore: bump version to ${{ steps.tag_version.outputs.new_tag }} [skip ci]" || echo "No changes to commit"
+          git push origin main
+          git tag ${{ steps.tag_version.outputs.new_tag }}
+          git push origin ${{ steps.tag_version.outputs.new_tag }}
+
+  release:
+    name: Build & Release - ${{ matrix.os }}
+    needs: prepare
+    if: needs.prepare.outputs.new_tag != ''
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -21,7 +58,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          ref: ${{ needs.prepare.outputs.new_tag }}
           token: ${{ secrets.GH_PAT }}
 
       - name: Set up Rust
@@ -40,60 +77,22 @@ jobs:
         env:
           CARGO_MAKE_RUN_WORKSPACE: false
 
-      - name: Calculate Next Tag (Ubuntu Only)
-        if: matrix.os == 'ubuntu-latest'
-        id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
-        with:
-          github_token: ${{ secrets.GH_PAT }}
-          tag_prefix: ""
-          dry_run: true
-
-      - name: Sync Versions and Commit (Ubuntu Only)
-        if: matrix.os == 'ubuntu-latest' && steps.tag_version.outputs.new_tag != ''
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          cargo run --bin pop -- sync-versions ${{ steps.tag_version.outputs.new_tag }}
-          git add .
-          git commit -m "chore: bump version to ${{ steps.tag_version.outputs.new_tag }} [skip ci]" || echo "No changes to commit"
-          git push origin main
-
-      - name: Create Git Tag (Ubuntu Only)
-        if: matrix.os == 'ubuntu-latest' && steps.tag_version.outputs.new_tag != ''
-        run: |
-          git tag ${{ steps.tag_version.outputs.new_tag }}
-          git push origin ${{ steps.tag_version.outputs.new_tag }}
-
       - name: Build Release Binaries
         run: cargo make --no-workspace release-binary
         env:
           CARGO_MAKE_RUN_WORKSPACE: false
 
-      - name: Create GitHub Release
+      - name: Create/Update GitHub Release
         uses: softprops/action-gh-release@v2
-        if: matrix.os == 'ubuntu-latest' && steps.tag_version.outputs.new_tag != ''
         with:
-          tag_name: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
+          tag_name: ${{ needs.prepare.outputs.new_tag }}
+          name: Release ${{ needs.prepare.outputs.new_tag }}
           files: |
-            dist/pop
-            dist/promptbook-tui
-            dist/promptbook-mcp
+            dist/pop*
+            dist/promptbook-tui*
+            dist/promptbook-mcp*
             promptbook-release.tar.gz
           generate_release_notes: true
           make_latest: true
-          fail_on_unmatched_files: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-
-      - name: Upload Artifacts (Windows/MacOS)
-        uses: softprops/action-gh-release@v2
-        if: matrix.os != 'ubuntu-latest'
-        with:
-          # This assumes the tag already exists (created by Ubuntu job)
-          tag_name: ${{ steps.tag_version.outputs.new_tag || 'latest' }}
-          files: |
-            promptbook-release.tar.gz
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}

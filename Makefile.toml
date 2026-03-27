@@ -81,10 +81,11 @@ dependencies = ["build"]
 script = [
     "rm -rf dist",
     "mkdir -p dist",
-    "cp target/release/pop dist/",
-    "cp target/release/promptbook-tui dist/",
-    "cp target/release/promptbook-mcp dist/",
-    "tar -czvf promptbook-release.tar.gz -C dist pop promptbook-tui promptbook-mcp",
+    "cp target/release/pop* dist/ 2>/dev/null || true",
+    "cp target/release/promptbook-tui* dist/ 2>/dev/null || true",
+    "cp target/release/promptbook-mcp* dist/ 2>/dev/null || true",
+    "rm -f dist/*.d",
+    "tar -czvf promptbook-release.tar.gz -C dist .",
     "echo \"Release binaries packaged in promptbook-release.tar.gz\"",
 ]
 
