@@ -1,6 +1,6 @@
 description = "Complete operational playbook for multi-agent orchestration and autonomous pipeline deployment."
 args_description = "Complete operational playbook for multi-agent orchestration and autonomous pipeline deployment."
-version = "0.6.8"
+version = "0.6.9"
 last_updated = "2026-03-28"
 tags = ["management"]
 prompt = '''

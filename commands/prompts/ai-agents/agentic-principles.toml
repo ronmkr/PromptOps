@@ -1,6 +1,6 @@
 description = "Unified model for Agentic and AI-First Engineering. Focuses on eval-driven execution, task decomposition, and AI-assisted architecture."
 args_description = "Context or Source Code"
-version = "0.6.8"
+version = "0.6.9"
 last_updated = "2026-03-28"
 tags = ["ai-agents"]
 prompt = '''

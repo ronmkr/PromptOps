@@ -1,6 +1,6 @@
 description = "Expert Go specialist for idiomatic coding, patterns, security, testing, and automation. Your go-to guide for robust Go development."
 args_description = "Context or Source Code"
-version = "0.6.8"
+version = "0.6.9"
 last_updated = "2026-03-28"
 tags = ["go"]
 

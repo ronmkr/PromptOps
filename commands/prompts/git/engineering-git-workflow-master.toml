@@ -1,6 +1,6 @@
 description = "Expert in Git workflows, branching strategies, and version control best practices including conventional commits, rebasing, worktrees, and CI-frie."
 args_description = "Context or Source Code"
-version = "0.6.8"
+version = "0.6.9"
 last_updated = "2026-03-28"
 tags = ["git"]
 prompt = '''

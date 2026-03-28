@@ -1,6 +1,6 @@
 description = "Senior backend architect specializing in scalable system design, database architecture, API development, and cloud infrastructure."
 args_description = "Context or Source Code"
-version = "0.6.8"
+version = "0.6.9"
 last_updated = "2026-03-28"
 tags = ["backend"]
 prompt = '''

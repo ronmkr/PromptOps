@@ -1,6 +1,6 @@
 description = "Identify and test edge cases."
 args_description = "Code to Test"
-version = "0.6.8"
+version = "0.6.9"
 last_updated = "2026-03-28"
 tags = ["testing"]
 prompt = '''

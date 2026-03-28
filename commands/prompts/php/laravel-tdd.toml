@@ -1,6 +1,6 @@
 description = "Test-driven development for Laravel with PHPUnit and Pest, factories, database testing, fakes, and coverage targets."
 args_description = "Context or Source Code"
-version = "0.6.8"
+version = "0.6.9"
 last_updated = "2026-03-28"
 tags = ["php"]
 prompt = '''

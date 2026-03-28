@@ -1,6 +1,6 @@
 description = "Unified Spring Boot specialist for architecture, security, TDD, and verification. Covers REST APIs, Spring Security, and production verification."
 args_description = "Context or Source Code"
-version = "0.6.8"
+version = "0.6.9"
 last_updated = "2026-03-28"
 tags = ["java"]
 prompt = '''

@@ -1,6 +1,6 @@
 description = "Comprehensive Python specialist for coding style, patterns, testing, security, and automation hooks following PEP 8 and modern best practices."
 args_description = "Context or Source Code"
-version = "0.6.8"
+version = "0.6.9"
 last_updated = "2026-03-28"
 tags = ["python"]
 prompt = '''
