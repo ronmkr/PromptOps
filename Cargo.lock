@@ -2225,7 +2225,7 @@ dependencies = [
 
 [[package]]
 name = "promptbook-cli"
-version = "0.6.5"
+version = "0.6.6"
 dependencies = [
  "anyhow",
  "atty",
@@ -2244,7 +2244,7 @@ dependencies = [
 
 [[package]]
 name = "promptbook-core"
-version = "0.6.5"
+version = "0.6.6"
 dependencies = [
  "anyhow",
  "arboard",
@@ -2263,7 +2263,7 @@ dependencies = [
 
 [[package]]
 name = "promptbook-mcp"
-version = "0.6.5"
+version = "0.6.6"
 dependencies = [
  "anyhow",
  "promptbook-core",
@@ -2275,7 +2275,7 @@ dependencies = [
 
 [[package]]
 name = "promptbook-tui"
-version = "0.6.5"
+version = "0.6.6"
 dependencies = [
  "anyhow",
  "arboard",

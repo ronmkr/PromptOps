@@ -1,21 +1,25 @@
 import { useState, useEffect, useMemo } from 'react'
 import Fuse from 'fuse.js'
-import { Search, Github, Terminal, Copy, Check, Filter, X } from 'lucide-react'
+import { Search, Github, Terminal, Copy, Check, Filter, X, AlertCircle } from 'lucide-react'
+import { z } from 'zod'
 import './App.css'
 
-interface PromptMetadata {
-  name: string;
-  display_name: string;
-  description: string;
-  args_description: string;
-  version: string;
-  last_updated: string;
-  tags: string[];
-  sensitive: boolean;
-  category: string;
-  path: string;
-  prompt: string;
-}
+// Define schema for prompt metadata validation
+const PromptMetadataSchema = z.object({
+  name: z.string(),
+  display_name: z.string(),
+  description: z.string(),
+  args_description: z.string(),
+  version: z.string(),
+  last_updated: z.string(),
+  tags: z.array(z.string()),
+  sensitive: z.boolean(),
+  category: z.string().nullable().transform(val => val ?? 'general'),
+  path: z.string(),
+  prompt: z.string().optional().default(''),
+})
+
+type PromptMetadata = z.infer<typeof PromptMetadataSchema>
 
 function App() {
   const [prompts, setPrompts] = useState<PromptMetadata[]>([])
@@ -25,18 +29,15 @@ function App() {
   const [promptArgs, setPromptArgs] = useState('')
   const [copied, setCopied] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   const hydratePrompt = (template: string, args: string) => {
     if (!template) return ''
-    // Simple hydration for args
     let hydrated = template.replace(/\{\{\s*args\s*\}\}/g, args)
     hydrated = hydrated.replace(/\{\{\s*code\s*\}\}/g, args)
     hydrated = hydrated.replace(/\{\{\s*file\s*\}\}/g, args)
-    
-    // Clean up other placeholders if they aren't provided
     hydrated = hydrated.replace(/\{\{\s*language\s*\}\}/g, 'auto-detected')
     hydrated = hydrated.replace(/\{\{\s*context\s*\}\}/g, '')
-    
     return hydrated.trim()
   }
 
@@ -47,22 +48,29 @@ function App() {
   }
 
   useEffect(() => {
-    // Clear args when selected prompt changes
     setPromptArgs('')
   }, [selectedPrompt])
 
   useEffect(() => {
-    // In dev mode, public files are served at the root, but in prod they are under BASE_URL
     const fetchPath = import.meta.env.DEV ? '/catalog.json' : `${import.meta.env.BASE_URL}catalog.json`
+    
     fetch(fetchPath)
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to load catalog: ${res.statusText}`)
+        return res.json()
+      })
       .then(data => {
-        setPrompts(data)
-        setLoading(true) // We'll set it to false after a small delay for smoother transition
-        setTimeout(() => setLoading(false), 500)
+        // Validate data structure with Zod
+        const result = z.array(PromptMetadataSchema).safeParse(data)
+        if (!result.success) {
+          console.error('Validation error:', result.error)
+          throw new Error('Catalog data format is invalid')
+        }
+        setPrompts(result.data)
+        setLoading(false)
       })
       .catch(err => {
-        console.error('Error fetching catalog:', err)
+        setError(err instanceof Error ? err.message : 'An unknown error occurred')
         setLoading(false)
       })
   }, [])
@@ -93,6 +101,18 @@ function App() {
       <div className="loading-container">
         <Terminal className="animate-pulse" size={48} />
         <p>Loading PromptBook...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="loading-container error">
+        <AlertCircle size={48} color="#f85149" />
+        <p>{error}</p>
+        <button className="btn-github" onClick={() => window.location.reload()}>
+          Retry
+        </button>
       </div>
     )
   }

@@ -407,6 +407,15 @@ nav a:hover {
   color: var(--accent-color);
 }
 
+.loading-container.error {
+  color: #f85149;
+}
+
+.loading-container.error p {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+}
+
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
