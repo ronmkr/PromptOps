@@ -1,6 +1,6 @@
 description = "X/Twitter API integration for tweets, threads, timelines, search, and analytics."
 args_description = "Context or Source Code"
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["integrations"]
 prompt = '''

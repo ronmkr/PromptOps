@@ -1,6 +1,6 @@
 description = "Comprehensive project management lead specializing in agile, Jira/Git workflows, experimentation, operations, and portfolio strategy."
 args_description = "Project specifications, sprint data, Jira IDs, or operational goals"
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["management"]
 prompt = '''

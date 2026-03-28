@@ -1,6 +1,6 @@
 description = "Example project-specific skill template based on a real production application."
 args_description = "Example project-specific skill template based on a real production application."
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["management"]
 prompt = '''

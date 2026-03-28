@@ -1,6 +1,6 @@
 description = "Expert Python code reviewer specializing in PEP 8 compliance, Pythonic idioms, type hints, security, and performance for all Python code changes."
 args_description = "Context or Source Code"
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["python"]
 prompt = '''

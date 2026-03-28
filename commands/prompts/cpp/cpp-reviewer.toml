@@ -1,6 +1,6 @@
 description = "Senior C++ code reviewer focused on modern idioms, memory safety, concurrency, and performance to ensure high-quality and secure codebases."
 args_description = "Context or Source Code"
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["cpp"]
 prompt = '''

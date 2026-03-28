@@ -1,6 +1,6 @@
 description = "Master orchestrator for the full development lifecycle, from planning and strategy to handoffs and operations. Manages the NEXUS pipeline."
 args_description = "Project Context or Feature Spec"
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["workflow"]
 

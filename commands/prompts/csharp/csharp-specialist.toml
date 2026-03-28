@@ -1,6 +1,6 @@
 description = "Unified C# specialist for coding style, architectural patterns, security, and testing. Covers .NET conventions, async, xUnit, and security."
 args_description = "Context or Source Code"
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["csharp"]
 prompt = '''

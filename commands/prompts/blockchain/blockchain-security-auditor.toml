@@ -1,6 +1,6 @@
 description = "Expert smart contract security auditor specializing in vulnerability detection, formal verification, and exploit analysis."
 args_description = "Context or Source Code"
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["blockchain"]
 prompt = '''

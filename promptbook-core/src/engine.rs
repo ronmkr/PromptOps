@@ -96,6 +96,15 @@ impl TemplateEngine {
                 .get("prompt")
                 .and_then(|v| v.as_str())
                 .map(|s| s.to_string()),
+            concepts: data
+                .get("concepts")
+                .and_then(|v| v.as_array())
+                .map(|arr| {
+                    arr.iter()
+                        .filter_map(|v| v.as_str().map(|s| s.to_string()))
+                        .collect()
+                })
+                .unwrap_or_default(),
         };
         Ok((metadata, data))
     }

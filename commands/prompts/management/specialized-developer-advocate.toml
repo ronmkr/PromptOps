@@ -1,6 +1,6 @@
 description = "Expert developer advocate specializing in community building, technical content creation, and optimizing developer experience (DX)."
 args_description = "Expert developer advocate specializing in community building, technical content creation, and optimizing developer experience (DX)."
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["management"]
 prompt = '''

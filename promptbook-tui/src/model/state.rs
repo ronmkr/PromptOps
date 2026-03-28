@@ -126,22 +126,20 @@ impl AppState {
 
     pub fn update_filter(&mut self) {
         if !self.search_query.is_empty() {
-            let query = self.search_query.to_lowercase();
+            let metadata_list: Vec<_> = self.all_prompts.iter().map(|p| p.metadata.clone()).collect();
+            let matched_metadata = promptbook_core::SearchEngine::hybrid_search(&metadata_list, &self.search_query, None);
+            
+            let matched_names: std::collections::HashSet<String> = matched_metadata.into_iter().map(|m| m.name).collect();
+            
             self.filter_groups = self
                 .groups
                 .iter()
-                .filter(|g| {
-                    g.name.to_lowercase().contains(&query)
-                        || g.versions.iter().any(|v| {
-                            v.metadata.description.to_lowercase().contains(&query)
-                                || v.metadata
-                                    .tags
-                                    .iter()
-                                    .any(|t: &String| t.to_lowercase().contains(&query))
-                        })
-                })
+                .filter(|g| matched_names.contains(&g.name))
                 .cloned()
                 .collect();
+            
+            // Re-sort filter_groups based on original matched order if possible, 
+            // but for now keeping it simple.
         } else if self.categories.is_empty() {
             self.filter_groups = Vec::new();
         } else {

@@ -1,6 +1,6 @@
 description = "Expert in collecting, analyzing, and synthesizing user feedback from multiple channels to extract actionable product insights."
 args_description = "Expert in collecting, analyzing, and synthesizing user feedback from multiple channels to extract actionable product insights."
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["management"]
 prompt = '''

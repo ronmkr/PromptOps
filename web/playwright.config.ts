@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:5173/PromptBook/',
+    baseURL: 'http://localhost:5188/PromptBook/',
     trace: 'on-first-retry',
   },
   projects: [
@@ -24,8 +24,8 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:5173/PromptBook/',
+    command: 'npm run dev -- --port 5188',
+    url: 'http://localhost:5188/PromptBook/',
     reuseExistingServer: !process.env.CI,
   },
 });

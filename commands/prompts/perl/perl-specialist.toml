@@ -1,6 +1,6 @@
 description = "Comprehensive Perl specialist for modern Perl 5.36+, including coding style, patterns, security, testing, and architecture."
 args_description = "Context or Source Code"
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["perl"]
 prompt = '''

@@ -1,6 +1,6 @@
 description = "Unified PHP specialist for coding style, architecture, security, and testing. Covers PSR-12, DTOs, PHPUnit/Pest, and security best practices."
 args_description = "Context or Source Code"
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["php"]
 prompt = '''

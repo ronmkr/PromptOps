@@ -1,6 +1,6 @@
 description = "Expert security architect specializing in threat modeling, secure code review, and defense-in-depth across the entire application stack."
 args_description = "Context or Source Code"
-version = "0.6.6"
+version = "0.6.8"
 last_updated = "2026-03-28"
 tags = ["security"]
 prompt = '''

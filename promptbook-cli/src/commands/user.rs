@@ -1,7 +1,8 @@
 use anyhow::{Context, Result};
 use colored::*;
 use promptbook_core::{
-    colors, copy_to_clipboard, get_prompts_dir, LLMProvider, SessionManager, TemplateEngine, Vault,
+    colors, copy_to_clipboard, get_prompts_dir, LLMProvider, SearchEngine, SessionManager,
+    TemplateEngine, Vault,
 };
 use std::collections::HashMap;
 use std::io::{self, Read};
@@ -59,34 +60,14 @@ pub fn search_prompts(term: String, tag: Option<String>) -> Result<()> {
     let prompts_dir = get_prompts_dir();
     let engine = TemplateEngine::new(&prompts_dir.to_string_lossy());
     let prompts = engine.get_all_prompts();
-    let term_lower = term.to_lowercase();
-
-    let mut results = Vec::new();
-    for p in prompts {
-        if p.name.to_lowercase().contains(&term_lower)
-            || p.description.to_lowercase().contains(&term_lower)
-            || p.tags
-                .iter()
-                .any(|t| t.to_lowercase().contains(&term_lower))
-        {
-            if let Some(ref t) = tag {
-                if !p
-                    .tags
-                    .iter()
-                    .any(|tag| tag.to_lowercase() == t.to_lowercase())
-                {
-                    continue;
-                }
-            }
-            results.push(p);
-        }
-    }
+    
+    let results = SearchEngine::hybrid_search(&prompts, &term, tag.as_deref());
 
     if results.is_empty() {
         println!("No prompts found matching '{}'.", term);
     } else {
         // Just use list logic for simplicity
-        let mut grouped: HashMap<String, Vec<_>> = HashMap::new();
+        let mut grouped: HashMap<String, Vec<promptbook_core::PromptMetadata>> = HashMap::new();
         for p in results {
             let name = p.name.clone();
             grouped.entry(name).or_default().push(p);
