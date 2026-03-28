@@ -14,6 +14,7 @@ pub struct PromptMetadata {
     pub version_id: Option<String>,
     pub path: String,
     pub category: Option<String>,
+    pub prompt: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

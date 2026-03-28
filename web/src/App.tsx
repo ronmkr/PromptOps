@@ -14,6 +14,7 @@ interface PromptMetadata {
   sensitive: boolean;
   category: string;
   path: string;
+  prompt: string;
 }
 
 function App() {
@@ -25,13 +26,35 @@ function App() {
   const [copied, setCopied] = useState(false)
   const [loading, setLoading] = useState(true)
 
+  const hydratePrompt = (template: string, args: string) => {
+    if (!template) return ''
+    // Simple hydration for args
+    let hydrated = template.replace(/\{\{\s*args\s*\}\}/g, args)
+    hydrated = hydrated.replace(/\{\{\s*code\s*\}\}/g, args)
+    hydrated = hydrated.replace(/\{\{\s*file\s*\}\}/g, args)
+    
+    // Clean up other placeholders if they aren't provided
+    hydrated = hydrated.replace(/\{\{\s*language\s*\}\}/g, 'auto-detected')
+    hydrated = hydrated.replace(/\{\{\s*context\s*\}\}/g, '')
+    
+    return hydrated.trim()
+  }
+
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
   useEffect(() => {
     // Clear args when selected prompt changes
     setPromptArgs('')
   }, [selectedPrompt])
 
   useEffect(() => {
-    fetch('./catalog.json')
+    // In dev mode, public files are served at the root, but in prod they are under BASE_URL
+    const fetchPath = import.meta.env.DEV ? '/catalog.json' : `${import.meta.env.BASE_URL}catalog.json`
+    fetch(fetchPath)
       .then(res => res.json())
       .then(data => {
         setPrompts(data)
@@ -64,12 +87,6 @@ function App() {
     }
     return result
   }, [fuse, prompts, searchQuery, selectedCategory])
-
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
 
   if (loading) {
     return (
@@ -185,7 +202,7 @@ function App() {
                 <h4>{selectedPrompt.args_description || 'Arguments'}</h4>
                 <textarea 
                   className="args-input"
-                  placeholder={`Enter ${selectedPrompt.args_description.toLowerCase()}...`}
+                  placeholder={`Enter ${selectedPrompt.args_description?.toLowerCase() || 'arguments'}...`}
                   value={promptArgs}
                   onChange={(e) => setPromptArgs(e.target.value)}
                   rows={3}
@@ -193,13 +210,15 @@ function App() {
               </section>
 
               <section>
-                <h4>Usage</h4>
-                <div className="code-block">
-                  <code>
-                    pop use {selectedPrompt.name}
-                    {promptArgs && ` --args "${promptArgs.replace(/"/g, '\\"')}"`}
-                  </code>
-                  <button onClick={() => handleCopy(`pop use ${selectedPrompt.name}${promptArgs ? ` --args "${promptArgs.replace(/"/g, '\\"')}"` : ''}`)}>
+                <h4>Prompt Preview</h4>
+                <div className="code-block prompt-preview">
+                  <pre>
+                    {hydratePrompt(selectedPrompt.prompt, promptArgs)}
+                  </pre>
+                  <button 
+                    className="copy-full-btn"
+                    onClick={() => handleCopy(hydratePrompt(selectedPrompt.prompt, promptArgs))}
+                  >
                     {copied ? <Check size={16} /> : <Copy size={16} />}
                   </button>
                 </div>

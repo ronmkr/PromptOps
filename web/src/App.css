@@ -342,6 +342,28 @@ nav a:hover {
   border-color: var(--accent-color);
 }
 
+.prompt-preview {
+  max-height: 250px;
+  overflow-y: auto;
+  position: relative;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+}
+
+.prompt-preview pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding-right: 2rem;
+}
+
+.prompt-preview button {
+  position: sticky;
+  top: 0;
+}
+
 .modal-actions {
   margin-top: 3rem;
   display: flex;

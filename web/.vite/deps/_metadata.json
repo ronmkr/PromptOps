@@ -1,8 +1,44 @@
 {
-  "hash": "4d35c772",
+  "hash": "ed883b56",
   "configHash": "42c66de1",
-  "lockfileHash": "5046c9f3",
-  "browserHash": "09d3e536",
-  "optimized": {},
-  "chunks": {}
+  "lockfileHash": "64d0aa34",
+  "browserHash": "1f50e61e",
+  "optimized": {
+    "fuse.js": {
+      "src": "../../node_modules/fuse.js/dist/fuse.mjs",
+      "file": "fuse__js.js",
+      "fileHash": "a8ee9279",
+      "needsInterop": false
+    },
+    "lucide-react": {
+      "src": "../../node_modules/lucide-react/dist/esm/lucide-react.js",
+      "file": "lucide-react.js",
+      "fileHash": "174d46c2",
+      "needsInterop": false
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "683bc460",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "66ef762d",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "8e14fe21",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "react-Dn7JnrGJ": {
+      "file": "react-Dn7JnrGJ.js",
+      "isDynamicEntry": false
+    }
+  }
 }
