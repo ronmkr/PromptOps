@@ -20,6 +20,7 @@ mod tests {
                 version_id: None,
                 path: "".to_string(),
                 category: None,
+                prompt: Some("hello {{args}}".to_string()),
             },
             prompt: "hello {{args}}".to_string(),
             system_prompt: "".to_string(),

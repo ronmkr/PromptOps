@@ -92,6 +92,10 @@ impl TemplateEngine {
                 .map(|s| s.to_string())
                 .unwrap_or_else(|| path.to_str().unwrap_or("").to_string()),
             category,
+            prompt: data
+                .get("prompt")
+                .and_then(|v| v.as_str())
+                .map(|s| s.to_string()),
         };
         Ok((metadata, data))
     }
