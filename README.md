@@ -6,8 +6,6 @@
 
 **Promptbook is a structured library of expert prompt templates for AI CLI tools — organized, versioned, and ready to use.**
 
-## 🌐 Web Explorer (Recommended)
-
 Browse, search, and hydrate prompts directly in your browser without any installation:
 **[https://ronmkr.github.io/PromptBook/](https://ronmkr.github.io/PromptBook/)**
 
