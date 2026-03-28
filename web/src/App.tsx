@@ -18,6 +18,7 @@ const PromptMetadataSchema = z.object({
   category: z.string().nullable().transform(val => val ?? 'general'),
   path: z.string(),
   prompt: z.string().optional().default(''),
+  concepts: z.array(z.string()).optional().default([]),
 })
 
 type PromptMetadata = z.infer<typeof PromptMetadataSchema>
@@ -32,7 +33,12 @@ interface ApiResponse<T> {
 
 function usePromptSearch(prompts: PromptMetadata[], searchQuery: string, selectedCategory: string | null) {
   const fuse = useMemo(() => new Fuse(prompts, {
-    keys: ['name', 'description', 'tags', 'category'],
+    keys: [
+      { name: 'name', weight: 0.5 },
+      { name: 'description', weight: 0.2 },
+      { name: 'tags', weight: 0.1 },
+      { name: 'concepts', weight: 0.2 }
+    ],
     threshold: 0.3
   }), [prompts])
 
@@ -84,7 +90,8 @@ function App() {
 
   useEffect(() => {
     const loadCatalog = async () => {
-      const fetchPath = import.meta.env.DEV ? '/catalog.json' : `${import.meta.env.BASE_URL}catalog.json`
+      // Use relative path to work in both dev and prod regardless of base URL
+      const fetchPath = 'catalog.json'
       
       try {
         const res = await fetch(fetchPath)

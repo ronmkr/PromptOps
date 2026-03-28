@@ -2,7 +2,8 @@ description = "Expert refactoring specialist for code cleanup, dead code removal
 args_description = "Context or Source Code"
 version = "0.6.8"
 last_updated = "2026-03-28"
-tags = ["engineering"]
+tags = ["engineering", "refactoring", "clean-code"]
+concepts = ["clean code", "technical debt", "code smell", "dry", "solid"]
 
 prompt = """
 # Refactor Specialist
