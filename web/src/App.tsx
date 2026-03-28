@@ -1,83 +1,42 @@
 import { useState, useEffect, useMemo } from 'react'
 import Fuse from 'fuse.js'
-import { Search, Github, Terminal, Copy, Check, Filter, X } from 'lucide-react'
+import { Search, Github, Terminal, Copy, Check, Filter, X, AlertCircle } from 'lucide-react'
+import { z } from 'zod'
 import './App.css'
 
-interface PromptMetadata {
-  name: string;
-  display_name: string;
-  description: string;
-  args_description: string;
-  version: string;
-  last_updated: string;
-  tags: string[];
-  sensitive: boolean;
-  category: string;
-  path: string;
-  prompt: string;
+// --- Types & Schemas ---
+
+const PromptMetadataSchema = z.object({
+  name: z.string(),
+  display_name: z.string(),
+  description: z.string(),
+  args_description: z.string(),
+  version: z.string(),
+  last_updated: z.string(),
+  tags: z.array(z.string()),
+  sensitive: z.boolean(),
+  category: z.string().nullable().transform(val => val ?? 'general'),
+  path: z.string(),
+  prompt: z.string().optional().default(''),
+})
+
+type PromptMetadata = z.infer<typeof PromptMetadataSchema>
+
+interface ApiResponse<T> {
+  success: boolean
+  data?: T
+  error?: string
 }
 
-function App() {
-  const [prompts, setPrompts] = useState<PromptMetadata[]>([])
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
-  const [selectedPrompt, setSelectedPrompt] = useState<PromptMetadata | null>(null)
-  const [promptArgs, setPromptArgs] = useState('')
-  const [copied, setCopied] = useState(false)
-  const [loading, setLoading] = useState(true)
+// --- Custom Hooks ---
 
-  const hydratePrompt = (template: string, args: string) => {
-    if (!template) return ''
-    // Simple hydration for args
-    let hydrated = template.replace(/\{\{\s*args\s*\}\}/g, args)
-    hydrated = hydrated.replace(/\{\{\s*code\s*\}\}/g, args)
-    hydrated = hydrated.replace(/\{\{\s*file\s*\}\}/g, args)
-    
-    // Clean up other placeholders if they aren't provided
-    hydrated = hydrated.replace(/\{\{\s*language\s*\}\}/g, 'auto-detected')
-    hydrated = hydrated.replace(/\{\{\s*context\s*\}\}/g, '')
-    
-    return hydrated.trim()
-  }
-
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
-  }
-
-  useEffect(() => {
-    // Clear args when selected prompt changes
-    setPromptArgs('')
-  }, [selectedPrompt])
-
-  useEffect(() => {
-    // In dev mode, public files are served at the root, but in prod they are under BASE_URL
-    const fetchPath = import.meta.env.DEV ? '/catalog.json' : `${import.meta.env.BASE_URL}catalog.json`
-    fetch(fetchPath)
-      .then(res => res.json())
-      .then(data => {
-        setPrompts(data)
-        setLoading(true) // We'll set it to false after a small delay for smoother transition
-        setTimeout(() => setLoading(false), 500)
-      })
-      .catch(err => {
-        console.error('Error fetching catalog:', err)
-        setLoading(false)
-      })
-  }, [])
-
-  const categories = useMemo(() => {
-    const cats = new Set(prompts.map(p => p.category))
-    return Array.from(cats).sort()
-  }, [prompts])
-
+function usePromptSearch(prompts: PromptMetadata[], searchQuery: string, selectedCategory: string | null) {
   const fuse = useMemo(() => new Fuse(prompts, {
     keys: ['name', 'description', 'tags', 'category'],
     threshold: 0.3
   }), [prompts])
 
-  const filteredPrompts = useMemo(() => {
+  return useMemo(() => {
     let result = searchQuery 
       ? fuse.search(searchQuery).map(r => r.item)
       : prompts
@@ -87,12 +46,97 @@ function App() {
     }
     return result
   }, [fuse, prompts, searchQuery, selectedCategory])
+}
+
+// --- Main Component ---
+
+function App() {
+  const [prompts, setPrompts] = useState<PromptMetadata[]>([])
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedPrompt, setSelectedPrompt] = useState<PromptMetadata | null>(null)
+  const [promptArgs, setPromptArgs] = useState('')
+  const [copied, setCopied] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const filteredPrompts = usePromptSearch(prompts, searchQuery, selectedCategory)
+
+  const hydratePrompt = (template: string, args: string): string => {
+    if (!template) return ''
+    let hydrated = template.replace(/\{\{\s*args\s*\}\}/g, args)
+    hydrated = hydrated.replace(/\{\{\s*code\s*\}\}/g, args)
+    hydrated = hydrated.replace(/\{\{\s*file\s*\}\}/g, args)
+    hydrated = hydrated.replace(/\{\{\s*language\s*\}\}/g, 'auto-detected')
+    hydrated = hydrated.replace(/\{\{\s*context\s*\}\}/g, '')
+    return hydrated.trim()
+  }
+
+  const handleCopy = (text: string): void => {
+    void navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  useEffect(() => {
+    setPromptArgs('')
+  }, [selectedPrompt])
+
+  useEffect(() => {
+    const loadCatalog = async () => {
+      const fetchPath = import.meta.env.DEV ? '/catalog.json' : `${import.meta.env.BASE_URL}catalog.json`
+      
+      try {
+        const res = await fetch(fetchPath)
+        if (!res.ok) {
+          throw new Error(`Failed to load catalog: ${res.statusText}`)
+        }
+        
+        const data: unknown = await res.json()
+        const result = z.array(PromptMetadataSchema).safeParse(data)
+        
+        const response: ApiResponse<PromptMetadata[]> = result.success 
+          ? { success: true, data: result.data }
+          : { success: false, error: 'Catalog data format is invalid' }
+
+        if (response.success && response.data) {
+          setPrompts(response.data)
+        } else {
+          setError(response.error ?? 'Unknown error')
+        }
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'An unknown error occurred'
+        setError(message)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    void loadCatalog()
+  }, [])
+
+  const categories = useMemo(() => {
+    const cats = new Set(prompts.map(p => p.category))
+    return Array.from(cats).sort()
+  }, [prompts])
 
   if (loading) {
     return (
       <div className="loading-container">
         <Terminal className="animate-pulse" size={48} />
         <p>Loading PromptBook...</p>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="loading-container error">
+        <AlertCircle size={48} color="#f85149" />
+        <p>{error}</p>
+        <button className="btn-github" onClick={() => window.location.reload()}>
+          Retry
+        </button>
       </div>
     )
   }
@@ -115,7 +159,7 @@ function App() {
 
       <main className="container">
         <section className="hero">
-          <h2>Expert Prompt Templates</h2>
+          <h2>Prompt Templates</h2>
           <p>Organized, versioned, and ready to use for developers, architects, and data engineers.</p>
           
           <div className="search-container">

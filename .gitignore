@@ -17,14 +17,17 @@ dist/
 .mypy_cache/
 .coverage
 htmlcov/
+
 # Rust
 target/
 **/target/
 Cargo.lock.bak
 **/*.rs.bk
+
 # Release Artifacts
 dist/
 *.tar.gz
+
 # IDEs / Editors
 .vscode/
 .idea/
@@ -32,23 +35,32 @@ dist/
 *.swo
 *~
 .DS_Store
+
 # Logs
 *.log
 logs/
+
 # Temporary files
 tmp/
 temp/
 *.tmp
 scripts/tmp_*
 .test_venv/
+
 # Project Specific
 .gemini/
 .env
 .promptbook/
 gha-creds-*.json
+
 # Web / Docs
 docs/catalog.json
-web/node_modules/
+web/public/catalog.json
+node_modules/
+**/node_modules/
 web/dist/
-web/.vite
+web/.vite/
+web/.tmp/
+web/playwright-report/
+web/test-results/
 web/package-lock.json

@@ -7,6 +7,7 @@
     "dev": "npm run prep && vite",
     "build": "npm run prep && tsc -b && vite build",
     "lint": "eslint .",
+    "test:e2e": "playwright test",
     "preview": "vite preview",
     "prep": "../scripts/prep-web.sh"
   },
@@ -14,10 +15,12 @@
     "fuse.js": "^7.1.0",
     "lucide-react": "^0.470.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@playwright/test": "^1.58.2",
     "@types/node": "^24.12.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
