@@ -4,7 +4,8 @@ import { Search, Github, Terminal, Copy, Check, Filter, X, AlertCircle } from 'l
 import { z } from 'zod'
 import './App.css'
 
-// Define schema for prompt metadata validation
+// --- Types & Schemas ---
+
 const PromptMetadataSchema = z.object({
   name: z.string(),
   display_name: z.string(),
@@ -21,6 +22,34 @@ const PromptMetadataSchema = z.object({
 
 type PromptMetadata = z.infer<typeof PromptMetadataSchema>
 
+interface ApiResponse<T> {
+  success: boolean
+  data?: T
+  error?: string
+}
+
+// --- Custom Hooks ---
+
+function usePromptSearch(prompts: PromptMetadata[], searchQuery: string, selectedCategory: string | null) {
+  const fuse = useMemo(() => new Fuse(prompts, {
+    keys: ['name', 'description', 'tags', 'category'],
+    threshold: 0.3
+  }), [prompts])
+
+  return useMemo(() => {
+    let result = searchQuery 
+      ? fuse.search(searchQuery).map(r => r.item)
+      : prompts
+
+    if (selectedCategory) {
+      result = result.filter(p => p.category === selectedCategory)
+    }
+    return result
+  }, [fuse, prompts, searchQuery, selectedCategory])
+}
+
+// --- Main Component ---
+
 function App() {
   const [prompts, setPrompts] = useState<PromptMetadata[]>([])
   const [searchQuery, setSearchQuery] = useState('')
@@ -31,7 +60,9 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const hydratePrompt = (template: string, args: string) => {
+  const filteredPrompts = usePromptSearch(prompts, searchQuery, selectedCategory)
+
+  const hydratePrompt = (template: string, args: string): string => {
     if (!template) return ''
     let hydrated = template.replace(/\{\{\s*args\s*\}\}/g, args)
     hydrated = hydrated.replace(/\{\{\s*code\s*\}\}/g, args)
@@ -41,8 +72,8 @@ function App() {
     return hydrated.trim()
   }
 
-  const handleCopy = (text: string) => {
-    navigator.clipboard.writeText(text)
+  const handleCopy = (text: string): void => {
+    void navigator.clipboard.writeText(text)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -52,49 +83,42 @@ function App() {
   }, [selectedPrompt])
 
   useEffect(() => {
-    const fetchPath = import.meta.env.DEV ? '/catalog.json' : `${import.meta.env.BASE_URL}catalog.json`
-    
-    fetch(fetchPath)
-      .then(res => {
-        if (!res.ok) throw new Error(`Failed to load catalog: ${res.statusText}`)
-        return res.json()
-      })
-      .then(data => {
-        // Validate data structure with Zod
-        const result = z.array(PromptMetadataSchema).safeParse(data)
-        if (!result.success) {
-          console.error('Validation error:', result.error)
-          throw new Error('Catalog data format is invalid')
+    const loadCatalog = async () => {
+      const fetchPath = import.meta.env.DEV ? '/catalog.json' : `${import.meta.env.BASE_URL}catalog.json`
+      
+      try {
+        const res = await fetch(fetchPath)
+        if (!res.ok) {
+          throw new Error(`Failed to load catalog: ${res.statusText}`)
         }
-        setPrompts(result.data)
+        
+        const data: unknown = await res.json()
+        const result = z.array(PromptMetadataSchema).safeParse(data)
+        
+        const response: ApiResponse<PromptMetadata[]> = result.success 
+          ? { success: true, data: result.data }
+          : { success: false, error: 'Catalog data format is invalid' }
+
+        if (response.success && response.data) {
+          setPrompts(response.data)
+        } else {
+          setError(response.error ?? 'Unknown error')
+        }
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'An unknown error occurred'
+        setError(message)
+      } finally {
         setLoading(false)
-      })
-      .catch(err => {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred')
-        setLoading(false)
-      })
+      }
+    }
+
+    void loadCatalog()
   }, [])
 
   const categories = useMemo(() => {
     const cats = new Set(prompts.map(p => p.category))
     return Array.from(cats).sort()
   }, [prompts])
-
-  const fuse = useMemo(() => new Fuse(prompts, {
-    keys: ['name', 'description', 'tags', 'category'],
-    threshold: 0.3
-  }), [prompts])
-
-  const filteredPrompts = useMemo(() => {
-    let result = searchQuery 
-      ? fuse.search(searchQuery).map(r => r.item)
-      : prompts
-
-    if (selectedCategory) {
-      result = result.filter(p => p.category === selectedCategory)
-    }
-    return result
-  }, [fuse, prompts, searchQuery, selectedCategory])
 
   if (loading) {
     return (
