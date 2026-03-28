@@ -31,10 +31,13 @@ impl TemplateEngine {
             .map(|s| s.to_string());
 
         let filename = path.file_stem().and_then(|s| s.to_str()).unwrap_or("");
-        let mut name = filename.to_string();
+        let content = fs::read_to_string(path)?;
+        let data = toml::from_str::<toml::Value>(&content)?;
+
+        let mut name = data.get("name").and_then(|v| v.as_str()).map(|s| s.to_string()).unwrap_or(filename.to_string());
         let mut version_id = None;
 
-        if name.contains('.') {
+        if name == filename && filename.contains('.') {
             let parts: Vec<&str> = filename.split('.').collect();
             if let Some(n) = parts.first() {
                 name = n.to_string();
@@ -43,9 +46,6 @@ impl TemplateEngine {
                 version_id = Some(v.to_string());
             }
         }
-
-        let content = fs::read_to_string(path)?;
-        let data = toml::from_str::<toml::Value>(&content)?;
 
         let metadata = PromptMetadata {
             name: name.clone(),
@@ -110,7 +110,7 @@ impl TemplateEngine {
     }
 
     /// Loads a full prompt from a specific file path.
-    fn load_prompt_from_path(&self, path: &Path) -> Result<Prompt> {
+    pub fn load_prompt_from_path(&self, path: &Path) -> Result<Prompt> {
         let (metadata, data) = self.parse_metadata(path)?;
 
         let prompt_text = data

@@ -12,13 +12,15 @@ pub fn validate_prompts() -> Result<()> {
 
     println!("Validating {} prompts...", prompts.len());
     let mut errors = 0;
+    let mut seen_pairs = std::collections::HashSet::new();
 
     // Semantic Checks: Pre-compile regexes outside the loop
     let open_tag = regex::Regex::new(r"\{\{[^}]*($|\{)")?;
     let open_block = regex::Regex::new(r"\{%[^%]*($|\{)")?;
 
     for p_meta in prompts {
-        let p = match engine.load_prompt(&p_meta.name, p_meta.version_id.as_deref()) {
+        // 1. Uniqueness Check (Internal metadata name + version_id)
+        let p = match engine.load_prompt_from_path(Path::new(&p_meta.path)) {
             Ok(p) => p,
             Err(e) => {
                 println!("  ❌ {}: Failed to load prompt content: {}", p_meta.name.red(), e);
@@ -27,7 +29,19 @@ pub fn validate_prompts() -> Result<()> {
             }
         };
 
-        // 1. Metadata Checks
+        let pair = (p.metadata.name.clone(), p.metadata.version_id.clone());
+        if !seen_pairs.insert(pair.clone()) {
+            let version_str = pair.1.unwrap_or_else(|| "default".to_string());
+            println!(
+                "  ❌ {}: Duplicate internal name and version ID found (version: {}) in file: {}",
+                p.metadata.name.red(),
+                version_str.yellow(),
+                p_meta.path.cyan()
+            );
+            errors += 1;
+        }
+
+        // 2. Metadata Checks
         if p.metadata.description.is_empty() {
             println!("  ❌ {}: Missing description", p.metadata.name.red());
             errors += 1;
